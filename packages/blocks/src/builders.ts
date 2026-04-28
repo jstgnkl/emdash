@@ -13,8 +13,11 @@ import type {
 	ContextBlock,
 	DateInputElement,
 	RadioElement,
+	RepeaterElement,
+	RepeaterSubField,
 	DividerBlock,
 	Element,
+	EmptyBlock,
 	FieldsBlock,
 	FormBlock,
 	FormField,
@@ -325,6 +328,29 @@ function radio(
 	};
 }
 
+function repeater(
+	actionId: string,
+	label: string,
+	fields: RepeaterSubField[],
+	opts?: {
+		itemLabel?: string;
+		minItems?: number;
+		maxItems?: number;
+		initialValue?: Array<Record<string, unknown>>;
+	},
+): RepeaterElement {
+	return {
+		type: "repeater",
+		action_id: actionId,
+		label,
+		fields,
+		...(opts?.itemLabel !== undefined && { item_label: opts.itemLabel }),
+		...(opts?.minItems !== undefined && { min_items: opts.minItems }),
+		...(opts?.maxItems !== undefined && { max_items: opts.maxItems }),
+		...(opts?.initialValue !== undefined && { initial_value: opts.initialValue }),
+	};
+}
+
 function timeseriesChart(opts: {
 	blockId?: string;
 	series: ChartSeries[];
@@ -397,6 +423,25 @@ function codeBlock(opts: {
 	};
 }
 
+function empty(opts: {
+	blockId?: string;
+	title: string;
+	description?: string;
+	commandLine?: string;
+	size?: "sm" | "base" | "lg";
+	actions?: Element[];
+}): EmptyBlock {
+	return {
+		type: "empty",
+		title: opts.title,
+		...(opts.description !== undefined && { description: opts.description }),
+		...(opts.commandLine !== undefined && { command_line: opts.commandLine }),
+		...(opts.size !== undefined && { size: opts.size }),
+		...(opts.actions !== undefined && { actions: opts.actions }),
+		...(opts.blockId !== undefined && { block_id: opts.blockId }),
+	};
+}
+
 // ── Exports ──────────────────────────────────────────────────────────────────
 
 export const blocks = {
@@ -416,6 +461,7 @@ export const blocks = {
 	banner: bannerBlock,
 	meter,
 	code: codeBlock,
+	empty,
 };
 
 export const elements = {
@@ -429,4 +475,5 @@ export const elements = {
 	combobox,
 	dateInput,
 	radio,
+	repeater,
 };
