@@ -36,6 +36,7 @@ import type {
 	TranslationSummary,
 } from "../lib/api";
 import { getPreviewUrl, getDraftStatus } from "../lib/api";
+import { fromDatetimeLocalInputValue, toDatetimeLocalInputValue } from "../lib/datetime-local.js";
 import { usePluginAdmins } from "../lib/plugin-context.js";
 import { contentUrl } from "../lib/url.js";
 import { cn, slugify } from "../lib/utils";
@@ -522,10 +523,17 @@ export function ContentEditor({
 				isDistractionFree && "fixed inset-0 z-50 bg-kumo-base p-8 overflow-auto",
 			)}
 		>
-			{/* Header - show on hover in distraction-free mode */}
+			{/* Header - sticky to keep Save / Publish in view while users scroll
+			    long forms. Becomes a hover-revealed overlay in distraction-free
+			    mode. Negative margins cancel <main>'s p-6 so the header bg
+			    spans edge-to-edge of the scroll container.
+			    See packages/admin/src/components/EditorHeader.tsx for the
+			    standalone sticky-header pattern used by other editor pages. */}
 			<div
 				className={cn(
 					"flex flex-wrap items-center justify-between gap-y-2",
+					!isDistractionFree &&
+						"sticky top-0 z-30 -mx-6 -mt-6 px-6 pt-6 pb-3 mb-3 border-b border-kumo-line bg-kumo-base/95 supports-[backdrop-filter]:bg-kumo-base/80 backdrop-blur",
 					isDistractionFree &&
 						"opacity-0 hover:opacity-100 transition-opacity duration-200 fixed top-0 start-0 end-0 bg-kumo-base/95 backdrop-blur p-4 z-10",
 				)}
@@ -1264,8 +1272,8 @@ function FieldRenderer({
 					label={label}
 					id={id}
 					type="datetime-local"
-					value={typeof value === "string" ? value : ""}
-					onChange={(e) => handleChange(e.target.value)}
+					value={toDatetimeLocalInputValue(value)}
+					onChange={(e) => handleChange(fromDatetimeLocalInputValue(e.target.value))}
 					required={field.required}
 				/>
 			);
