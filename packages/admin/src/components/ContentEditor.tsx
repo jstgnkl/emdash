@@ -10,7 +10,6 @@ import {
 	Loader,
 	Select,
 	Switch,
-	buttonVariants,
 } from "@cloudflare/kumo";
 import { useLingui } from "@lingui/react/macro";
 import {
@@ -48,6 +47,7 @@ import { BlockKitFieldWidget } from "./BlockKitFieldWidget.js";
 import { DocumentOutline } from "./editor/DocumentOutline";
 import { PluginFieldErrorBoundary } from "./PluginFieldErrorBoundary.js";
 import { RepeaterField } from "./RepeaterField.js";
+import { RouterLinkButton } from "./RouterLinkButton.js";
 
 /** Autosave debounce delay in milliseconds */
 const AUTOSAVE_DELAY = 2000;
@@ -75,7 +75,6 @@ import {
 } from "./PortableTextEditor";
 import { RevisionHistory } from "./RevisionHistory";
 import { SaveButton } from "./SaveButton";
-import { SeoImageField } from "./SeoImageField";
 import { SeoPanel } from "./SeoPanel";
 import { TaxonomySidebar } from "./TaxonomySidebar";
 import { TranslationsPanel } from "./TranslationsPanel.js";
@@ -84,6 +83,7 @@ import { TranslationsPanel } from "./TranslationsPanel.js";
 const ROLE_EDITOR = 40;
 
 export interface FieldDescriptor {
+	id?: string;
 	kind: string;
 	label?: string;
 	required?: boolean;
@@ -561,32 +561,29 @@ export function ContentEditor({
 				isDistractionFree && "fixed inset-0 z-50 bg-kumo-base p-8 overflow-auto",
 			)}
 		>
-			{/* Header - sticky to keep Save / Publish in view while users scroll
-			    long forms. Becomes a hover-revealed overlay in distraction-free
-			    mode. Negative margins cancel <main>'s p-6 so the header bg
-			    spans edge-to-edge of the scroll container.
-			    See packages/admin/src/components/EditorHeader.tsx for the
-			    standalone sticky-header pattern used by other editor pages. */}
+			{/* Header. In distraction-free mode this becomes a hover-revealed
+			    overlay so the chrome stays out of the way while writing. In
+			    normal mode it's a regular block; the form also renders a
+			    Save button at the bottom so save is reachable without
+			    scrolling back up. */}
 			<div
 				className={cn(
 					"flex flex-wrap items-center justify-between gap-y-2",
-					!isDistractionFree &&
-						"sticky top-0 z-30 -mx-6 -mt-6 px-6 pt-6 pb-3 mb-3 border-b border-kumo-line bg-kumo-base/95 supports-[backdrop-filter]:bg-kumo-base/80 backdrop-blur",
 					isDistractionFree &&
 						"opacity-0 hover:opacity-100 transition-opacity duration-200 fixed top-0 start-0 end-0 bg-kumo-base/95 backdrop-blur p-4 z-10",
 				)}
 			>
 				<div className="flex items-center space-x-4">
 					{!isDistractionFree && (
-						<Link
+						<RouterLinkButton
 							to="/content/$collection"
 							params={{ collection }}
 							search={{ locale: undefined }}
 							aria-label={t`Back to ${collectionLabel} list`}
-							className={buttonVariants({ variant: "ghost", shape: "square" })}
-						>
-							<ArrowPrev className="h-5 w-5" aria-hidden="true" />
-						</Link>
+							variant="ghost"
+							shape="square"
+							icon={<ArrowPrev />}
+						/>
 					)}
 					{isDistractionFree && (
 						<Button
@@ -769,29 +766,19 @@ export function ContentEditor({
 										manifest={manifest}
 									/>
 								);
-								if (
-									name === "featured_image" &&
-									field.kind === "image" &&
-									hasSeo &&
-									!isNew &&
-									onSeoChange
-								) {
-									return (
-										<div
-											key={`${fieldKey}-with-seo`}
-											className="grid grid-cols-1 gap-6 md:grid-cols-2"
-										>
-											<div>{fieldEl}</div>
-											<div>
-												<SeoImageField seo={item?.seo} onChange={onSeoChange} />
-											</div>
-										</div>
-									);
-								}
 								return fieldEl;
 							})}
 						</div>
 					</div>
+
+					{/* Save action at the bottom of the main column so users hit it
+					    naturally when they finish editing, without needing to scroll
+					    past the entire sidebar. */}
+					{!isDistractionFree && (
+						<div className="flex justify-end">
+							<SaveButton type="submit" isDirty={isDirty} isSaving={isSaving || false} />
+						</div>
+					)}
 				</div>
 
 				{/* Sidebar - hidden in distraction-free mode */}
@@ -1306,6 +1293,12 @@ function FieldRenderer({
 					value={imageValue}
 					onChange={handleChange}
 					required={field.required}
+					allowedMimeTypes={
+						Array.isArray(field.validation?.allowedMimeTypes)
+							? (field.validation.allowedMimeTypes as string[])
+							: undefined
+					}
+					fieldId={field.id}
 				/>
 			);
 		}
@@ -1324,6 +1317,12 @@ function FieldRenderer({
 					value={fileValue}
 					onChange={handleChange}
 					required={field.required}
+					allowedMimeTypes={
+						Array.isArray(field.validation?.allowedMimeTypes)
+							? (field.validation.allowedMimeTypes as string[])
+							: undefined
+					}
+					fieldId={field.id}
 				/>
 			);
 		}
@@ -1559,6 +1558,8 @@ interface ImageFieldRendererProps {
 	value: ImageFieldValue | string | undefined;
 	onChange: (value: ImageFieldValue | null) => void;
 	required?: boolean;
+	allowedMimeTypes?: string[];
+	fieldId?: string;
 }
 
 function ImageFieldRenderer({
@@ -1568,6 +1569,8 @@ function ImageFieldRenderer({
 	value,
 	onChange,
 	required,
+	allowedMimeTypes,
+	fieldId,
 }: ImageFieldRendererProps) {
 	const { t } = useLingui();
 	const [pickerOpen, setPickerOpen] = React.useState(false);
@@ -1641,7 +1644,10 @@ function ImageFieldRenderer({
 				open={pickerOpen}
 				onOpenChange={setPickerOpen}
 				onSelect={handleSelect}
-				mimeTypeFilter="image/"
+				mimeTypeFilters={
+					allowedMimeTypes && allowedMimeTypes.length > 0 ? allowedMimeTypes : ["image/"]
+				}
+				fieldId={fieldId}
 				title={t`Select ${label}`}
 			/>
 			{description && <p className="text-xs text-kumo-subtle mt-1">{description}</p>}
@@ -1675,6 +1681,8 @@ interface FileFieldRendererProps {
 	value: FileFieldValue | undefined;
 	onChange: (value: FileFieldValue | null) => void;
 	required?: boolean;
+	allowedMimeTypes?: string[];
+	fieldId?: string;
 }
 
 /**
@@ -1683,7 +1691,15 @@ interface FileFieldRendererProps {
  * Like ImageFieldRenderer but for arbitrary file types. Shows a mime-type-appropriate
  * icon, filename, and size instead of an image preview.
  */
-function FileFieldRenderer({ id, label, value, onChange, required }: FileFieldRendererProps) {
+function FileFieldRenderer({
+	id,
+	label,
+	value,
+	onChange,
+	required,
+	allowedMimeTypes,
+	fieldId,
+}: FileFieldRendererProps) {
 	const { t } = useLingui();
 	const [pickerOpen, setPickerOpen] = React.useState(false);
 
@@ -1802,7 +1818,8 @@ function FileFieldRenderer({ id, label, value, onChange, required }: FileFieldRe
 				open={pickerOpen}
 				onOpenChange={setPickerOpen}
 				onSelect={handleSelect}
-				mimeTypeFilter=""
+				mimeTypeFilters={allowedMimeTypes ?? []}
+				fieldId={fieldId}
 				hideUrlInput
 				mediaKind="file"
 				title={t`Select ${label}`}
@@ -1890,18 +1907,16 @@ function BylineCreditsEditor({
 	return (
 		<div className="space-y-3">
 			<div className="flex gap-2">
-				<select
+				<Select
 					value={selectedBylineId}
-					onChange={(e) => setSelectedBylineId(e.target.value)}
-					className="w-full rounded border bg-kumo-base px-3 py-2 text-sm"
-				>
-					<option value="">{t`Select byline...`}</option>
-					{availableToAdd.map((b) => (
-						<option key={b.id} value={b.id}>
-							{b.displayName}
-						</option>
-					))}
-				</select>
+					onValueChange={(v) => setSelectedBylineId(v ?? "")}
+					items={{
+						"": t`Select byline...`,
+						...Object.fromEntries(availableToAdd.map((b) => [b.id, b.displayName])),
+					}}
+					aria-label={t`Select byline`}
+					className="w-full"
+				/>
 				<Button
 					type="button"
 					variant="secondary"

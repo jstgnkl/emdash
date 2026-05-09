@@ -1,4 +1,4 @@
-import { Badge, Button, Input, InputArea, Label, Select, buttonVariants } from "@cloudflare/kumo";
+import { Badge, Button, Checkbox, Input, InputArea, Label, Select, Switch } from "@cloudflare/kumo";
 import {
 	DndContext,
 	closestCenter,
@@ -20,7 +20,7 @@ import type { MessageDescriptor } from "@lingui/core";
 import { msg, plural } from "@lingui/core/macro";
 import { Trans, useLingui } from "@lingui/react/macro";
 import { Plus, DotsSixVertical, Pencil, Trash, Database, FileText } from "@phosphor-icons/react";
-import { Link, useNavigate } from "@tanstack/react-router";
+import { useNavigate } from "@tanstack/react-router";
 import * as React from "react";
 
 import type {
@@ -35,6 +35,7 @@ import { ArrowPrev } from "./ArrowIcons.js";
 import { ConfirmDialog } from "./ConfirmDialog";
 import { EditorHeader } from "./EditorHeader";
 import { FieldEditor } from "./FieldEditor";
+import { RouterLinkButton } from "./RouterLinkButton.js";
 import { SaveButton } from "./SaveButton";
 
 // Regex patterns for slug generation
@@ -330,13 +331,13 @@ export function ContentTypeEditor({
 			    so DOM order still ends with a submit control. */}
 			<EditorHeader
 				leading={
-					<Link
+					<RouterLinkButton
 						to="/content-types"
 						aria-label={t`Back to Content Types`}
-						className={buttonVariants({ variant: "ghost", shape: "square" })}
-					>
-						<ArrowPrev className="h-5 w-5" />
-					</Link>
+						variant="ghost"
+						shape="square"
+						icon={<ArrowPrev />}
+					/>
 				}
 				actions={
 					!isFromCode && !isNew ? (
@@ -378,7 +379,7 @@ export function ContentTypeEditor({
 				{/* Settings form */}
 				<div className="lg:col-span-1">
 					<form id="content-type-editor-form" onSubmit={handleSubmit} className="space-y-4">
-						<div className="rounded-lg border p-4 space-y-4">
+						<div className="rounded-lg border bg-kumo-base p-4 space-y-4">
 							<h2 className="font-semibold">{t`Settings`}</h2>
 
 							<Input
@@ -440,78 +441,64 @@ export function ContentTypeEditor({
 							<div className="space-y-3">
 								<Label>Features</Label>
 								{SUPPORT_OPTIONS.map((option) => (
-									<label
+									<div
 										key={option.value}
 										className={cn(
-											"flex items-start space-x-3 p-2 rounded-md cursor-pointer hover:bg-kumo-tint/50",
-											isFromCode && "opacity-60 cursor-not-allowed",
+											"p-2 rounded-md hover:bg-kumo-tint/50",
+											isFromCode && "opacity-60",
 										)}
 									>
-										<input
-											type="checkbox"
+										<Checkbox
 											checked={supports.includes(option.value)}
-											onChange={() => handleSupportToggle(option.value)}
-											className="mt-1 rounded border-kumo-line"
+											onCheckedChange={() => handleSupportToggle(option.value)}
 											disabled={isFromCode}
+											label={
+												<div>
+													<span className="text-sm font-medium">{t(option.label)}</span>
+													<p className="text-xs text-kumo-subtle">{t(option.description)}</p>
+												</div>
+											}
 										/>
-										<div>
-											<span className="text-sm font-medium">{t(option.label)}</span>
-											<p className="text-xs text-kumo-subtle">{t(option.description)}</p>
-										</div>
-									</label>
+									</div>
 								))}
 							</div>
 
 							{/* SEO toggle */}
 							<div className="pt-2 border-t">
-								<label
-									className={cn(
-										"flex items-start space-x-3 p-2 rounded-md cursor-pointer hover:bg-kumo-tint/50",
-										isFromCode && "opacity-60 cursor-not-allowed",
-									)}
-								>
-									<input
-										type="checkbox"
-										checked={hasSeo}
-										onChange={() => setHasSeo(!hasSeo)}
-										className="mt-1 rounded border-kumo-line"
-										disabled={isFromCode}
-									/>
-									<div>
-										<span className="text-sm font-medium">{t`SEO`}</span>
-										<p className="text-xs text-kumo-subtle">
-											{t`Add SEO metadata fields (title, description, image) and include in sitemap`}
-										</p>
-									</div>
-								</label>
+								<Switch
+									checked={hasSeo}
+									onCheckedChange={(checked) => setHasSeo(checked)}
+									disabled={isFromCode}
+									label={
+										<div>
+											<span className="text-sm font-medium">{t`SEO`}</span>
+											<p className="text-xs text-kumo-subtle">
+												{t`Add SEO metadata fields (title, description, image) and include in sitemap`}
+											</p>
+										</div>
+									}
+								/>
 							</div>
 						</div>
 
 						{/* Comments settings — only for existing collections */}
 						{!isNew && (
-							<div className="rounded-lg border p-4 space-y-4">
+							<div className="rounded-lg border bg-kumo-base p-4 space-y-4">
 								<h2 className="font-semibold">{t`Comments`}</h2>
 
-								<label
-									className={cn(
-										"flex items-start space-x-3 p-2 rounded-md cursor-pointer hover:bg-kumo-tint/50",
-										isFromCode && "opacity-60 cursor-not-allowed",
-									)}
-								>
-									<input
-										type="checkbox"
-										checked={commentsEnabled}
-										onChange={() => setCommentsEnabled(!commentsEnabled)}
-										className="mt-1 rounded border-kumo-line"
-										disabled={isFromCode}
-									/>
-									<div>
-										<span className="text-sm font-medium">{t`Enable comments`}</span>
-										<p className="text-xs text-kumo-subtle">
-											{t`Allow visitors to leave comments on this collection's content`}
-										</p>
-									</div>
-								</label>
+								<Switch
+									checked={commentsEnabled}
+									onCheckedChange={(checked) => setCommentsEnabled(checked)}
+									disabled={isFromCode}
+									label={
+										<div>
+											<span className="text-sm font-medium">{t`Enable comments`}</span>
+											<p className="text-xs text-kumo-subtle">
+												{t`Allow visitors to leave comments on this collection's content`}
+											</p>
+										</div>
+									}
+								/>
 
 								{commentsEnabled && (
 									<>
@@ -544,28 +531,21 @@ export function ContentTypeEditor({
 											{t`Set to 0 to never close comments automatically.`}
 										</p>
 
-										<label
-											className={cn(
-												"flex items-start space-x-3 p-2 rounded-md cursor-pointer hover:bg-kumo-tint/50",
-												isFromCode && "opacity-60 cursor-not-allowed",
-											)}
-										>
-											<input
-												type="checkbox"
-												checked={commentsAutoApproveUsers}
-												onChange={() => setCommentsAutoApproveUsers(!commentsAutoApproveUsers)}
-												className="mt-1 rounded border-kumo-line"
-												disabled={isFromCode}
-											/>
-											<div>
-												<span className="text-sm font-medium">
-													{t`Auto-approve authenticated users`}
-												</span>
-												<p className="text-xs text-kumo-subtle">
-													{t`Comments from logged-in CMS users are approved automatically`}
-												</p>
-											</div>
-										</label>
+										<Switch
+											checked={commentsAutoApproveUsers}
+											onCheckedChange={(checked) => setCommentsAutoApproveUsers(checked)}
+											disabled={isFromCode}
+											label={
+												<div>
+													<span className="text-sm font-medium">
+														{t`Auto-approve authenticated users`}
+													</span>
+													<p className="text-xs text-kumo-subtle">
+														{t`Comments from logged-in CMS users are approved automatically`}
+													</p>
+												</div>
+											}
+										/>
 									</>
 								)}
 							</div>
@@ -586,7 +566,7 @@ export function ContentTypeEditor({
 				{/* Fields section - only show for existing collections */}
 				{!isNew && (
 					<div className="lg:col-span-2">
-						<div className="rounded-lg border">
+						<div className="rounded-lg border bg-kumo-base">
 							<div className="flex items-center justify-between p-4 border-b">
 								<div>
 									<h2 className="font-semibold">{t`Fields`}</h2>
@@ -605,11 +585,11 @@ export function ContentTypeEditor({
 							</div>
 
 							{/* System fields - always shown */}
-							<div className="border-b bg-kumo-tint/30">
-								<div className="px-4 py-2 text-xs font-medium text-kumo-subtle uppercase tracking-wider">
+							<div>
+								<div className="px-4 py-2 text-xs font-medium text-kumo-subtle uppercase tracking-wider bg-kumo-tint/50 border-b">
 									{t`System Fields`}
 								</div>
-								<div className="divide-y divide-kumo-line/50">
+								<div className="divide-y divide-kumo-line/50 border-b">
 									{SYSTEM_FIELDS.map((field) => (
 										<SystemFieldRow key={field.slug} field={field} />
 									))}
@@ -630,7 +610,7 @@ export function ContentTypeEditor({
 								</div>
 							) : (
 								<>
-									<div className="px-4 py-2 text-xs font-medium text-kumo-subtle uppercase tracking-wider border-b">
+									<div className="px-4 py-2 text-xs font-medium text-kumo-subtle uppercase tracking-wider bg-kumo-tint/50 border-b">
 										{t`Custom Fields`}
 									</div>
 									<DndContext

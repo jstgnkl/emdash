@@ -1287,6 +1287,8 @@ export class EmDashRuntime {
 						// or arbitrary `Record<string, unknown>` for plugin field widgets that
 						// need per-field config (e.g. a checkbox grid receiving its column defs).
 						options?: Array<{ value: string; label: string }> | Record<string, unknown>;
+						id?: string;
+						validation?: Record<string, unknown>;
 					}
 				> = {};
 
@@ -1296,6 +1298,9 @@ export class EmDashRuntime {
 						label: field.label,
 						required: field.required,
 					};
+					// Always include the field's database ID so the admin can forward it
+					// to upload/media-list API calls for MIME allowlist widening.
+					entry.id = field.id;
 					if (field.widget) entry.widget = field.widget;
 					// Plugin field widgets read their per-field config from `field.options`,
 					// which the seed schema types as `Record<string, unknown>`. Pass it
@@ -1312,8 +1317,12 @@ export class EmDashRuntime {
 						}));
 					}
 					// Include full validation for repeater fields (subFields, minItems, maxItems)
-					if (field.type === "repeater" && field.validation) {
-						(entry as Record<string, unknown>).validation = field.validation;
+					// and for file/image fields (allowedMimeTypes).
+					if (
+						(field.type === "repeater" || field.type === "file" || field.type === "image") &&
+						field.validation
+					) {
+						entry.validation = { ...field.validation };
 					}
 					fields[field.slug] = entry;
 				}
@@ -1980,7 +1989,11 @@ export class EmDashRuntime {
 	// Media Handlers
 	// =========================================================================
 
-	async handleMediaList(params: { cursor?: string; limit?: number; mimeType?: string }) {
+	async handleMediaList(params: {
+		cursor?: string;
+		limit?: number;
+		mimeType?: string | readonly string[];
+	}) {
 		return handleMediaList(this.db, params);
 	}
 
