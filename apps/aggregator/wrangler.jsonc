@@ -1,0 +1,73 @@
+{
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"name": "emdash-aggregator",
+	"main": "./src/index.ts",
+	"compatibility_date": "2026-02-24",
+	"compatibility_flags": ["nodejs_compat"],
+	// Production routes are configured at deploy time. The CDN
+	// (`cdn.emdashcms.com`) is a separate Worker that we'll add later
+	// alongside R2. Local development (`wrangler dev`) doesn't need a route
+	// binding.
+	"d1_databases": [
+		{
+			"binding": "DB",
+			"database_name": "emdash-aggregator",
+			// `database_id` intentionally omitted — wrangler auto-provisions
+			// the D1 instance on first deploy. A placeholder ID would make
+			// wrangler think the binding is already configured and skip
+			// provisioning.
+			"migrations_dir": "./migrations",
+		},
+	],
+	"queues": {
+		"producers": [
+			{
+				"binding": "RECORDS_QUEUE",
+				"queue": "emdash-aggregator-records",
+			},
+		],
+		"consumers": [
+			{
+				"queue": "emdash-aggregator-records",
+				"max_batch_size": 25,
+				"max_batch_timeout": 5,
+				"max_retries": 5,
+				"dead_letter_queue": "emdash-aggregator-records-dlq",
+			},
+		],
+	},
+	"durable_objects": {
+		"bindings": [
+			{
+				"name": "RECORDS_DO",
+				"class_name": "RecordsJetstreamDO",
+			},
+		],
+	},
+	"migrations": [
+		{
+			"tag": "v1",
+			"new_sqlite_classes": ["RecordsJetstreamDO"],
+		},
+	],
+	"triggers": {
+		// Liveness ping for the records DO. The DO holds Jetstream open and
+		// stays alive while the WebSocket is up, but during a Jetstream
+		// outage it spends time in backoff sleeps with no active connection
+		// — that's when CF can evict it. The 5-minute cron wakes it back up
+		// quickly; constructor-time `ingestor.run()` resumes from the
+		// persisted cursor. Reconciliation work will share this trigger when
+		// it lands.
+		"crons": ["*/5 * * * *"],
+	},
+	"vars": {
+		// Jetstream endpoint. Override per environment for self-hosted relays
+		// or staging backends.
+		"JETSTREAM_URL": "wss://jetstream2.us-east.bsky.network/subscribe",
+		// Constellation HTTP API for cold-start backfill DID discovery.
+		"CONSTELLATION_URL": "https://constellation.microcosm.blue",
+	},
+	"observability": {
+		"enabled": true,
+	},
+}

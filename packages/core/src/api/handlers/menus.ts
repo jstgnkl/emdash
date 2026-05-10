@@ -45,6 +45,28 @@ export interface MenuTranslationsResponse {
 	}>;
 }
 
+/**
+ * Error returned when a menu lookup by `name` matches multiple locale
+ * variants and the caller did not pass `locale` to disambiguate. Maps to
+ * HTTP 400 via `mapErrorStatus`. The available locales are surfaced in the
+ * message so MCP/REST callers can recover by re-issuing with `locale`.
+ */
+function ambiguousMenuLocaleError(
+	name: string,
+	locales: readonly string[],
+): { success: false; error: { code: "AMBIGUOUS_LOCALE"; message: string } } {
+	const sortedLocales = locales.toSorted();
+	return {
+		success: false,
+		error: {
+			code: "AMBIGUOUS_LOCALE",
+			message: `Menu '${name}' exists in multiple locales (${sortedLocales.join(
+				", ",
+			)}); pass 'locale' to disambiguate.`,
+		},
+	};
+}
+
 // ---------------------------------------------------------------------------
 // Menu handlers
 // ---------------------------------------------------------------------------
@@ -118,6 +140,21 @@ export async function handleMenuCreate(
 	input: { name: string; label: string; locale?: string; translationOf?: string },
 ): Promise<ApiResult<MenuRow>> {
 	try {
+		// Translating from a source menu only makes sense when the caller
+		// names the target locale: otherwise we'd silently clone into the
+		// configured default, which is almost never what's intended (and
+		// will collide if the source is already the default-locale menu).
+		// Enforced here so REST/SDK callers get the same guard as MCP.
+		if (input.translationOf && !input.locale) {
+			return {
+				success: false,
+				error: {
+					code: "VALIDATION_ERROR",
+					message: "`locale` is required when `translationOf` is provided",
+				},
+			};
+		}
+
 		// Resolve translation group + source (if we're creating a translation).
 		let translationGroup: string | null = null;
 		let sourceMenu: MenuRow | null = null;
@@ -311,16 +348,30 @@ export async function handleMenuUpdate(
 	input: { label?: string; locale?: string },
 ): Promise<ApiResult<MenuRow>> {
 	try {
-		let query = db.selectFrom("_emdash_menus").select("id").where("name", "=", name);
+		// Fetch every row matching the name (filtered by locale if supplied)
+		// so we can fail loud when an omitted-locale lookup is ambiguous.
+		// (name, locale) is unique, so length > 1 only happens when the
+		// caller didn't pass `locale` and the menu exists in >1 translation.
+		let query = db.selectFrom("_emdash_menus").select(["id", "locale"]).where("name", "=", name);
 		if (input.locale !== undefined) query = query.where("locale", "=", input.locale);
-		const menu = await query.executeTakeFirst();
+		const matches = await query.execute();
 
-		if (!menu) {
+		if (matches.length === 0) {
 			return {
 				success: false,
-				error: { code: "NOT_FOUND", message: `Menu '${name}' not found` },
+				error: {
+					code: "NOT_FOUND",
+					message: `Menu '${name}' not found${input.locale ? ` in locale '${input.locale}'` : ""}`,
+				},
 			};
 		}
+		if (matches.length > 1) {
+			return ambiguousMenuLocaleError(
+				name,
+				matches.map((m) => m.locale),
+			);
+		}
+		const menu = matches[0]!;
 
 		if (input.label) {
 			await db
@@ -353,16 +404,29 @@ export async function handleMenuDelete(
 	options: { locale?: string } = {},
 ): Promise<ApiResult<{ deleted: true }>> {
 	try {
-		let query = db.selectFrom("_emdash_menus").select("id").where("name", "=", name);
+		// See ambiguousMenuLocaleError for why we fetch all matches.
+		let query = db.selectFrom("_emdash_menus").select(["id", "locale"]).where("name", "=", name);
 		if (options.locale !== undefined) query = query.where("locale", "=", options.locale);
-		const menu = await query.executeTakeFirst();
+		const matches = await query.execute();
 
-		if (!menu) {
+		if (matches.length === 0) {
 			return {
 				success: false,
-				error: { code: "NOT_FOUND", message: `Menu '${name}' not found` },
+				error: {
+					code: "NOT_FOUND",
+					message: `Menu '${name}' not found${
+						options.locale ? ` in locale '${options.locale}'` : ""
+					}`,
+				},
 			};
 		}
+		if (matches.length > 1) {
+			return ambiguousMenuLocaleError(
+				name,
+				matches.map((m) => m.locale),
+			);
+		}
+		const menu = matches[0]!;
 
 		// D1 has FOREIGN KEYS off by default, so the migration's `ON DELETE
 		// CASCADE` won't fire there. Delete items explicitly first — this is
@@ -453,19 +517,28 @@ export async function handleMenuItemCreate(
 	options: { locale?: string } = {},
 ): Promise<ApiResult<MenuItemRow>> {
 	try {
+		// Same fail-loud rule as handleMenuUpdate / Delete / SetItems —
+		// see ambiguousMenuLocaleError for the rationale.
 		let menuQuery = db
 			.selectFrom("_emdash_menus")
 			.select(["id", "locale"])
 			.where("name", "=", menuName);
 		if (options.locale !== undefined) menuQuery = menuQuery.where("locale", "=", options.locale);
-		const menu = await menuQuery.executeTakeFirst();
+		const matches = await menuQuery.execute();
 
-		if (!menu) {
+		if (matches.length === 0) {
 			return {
 				success: false,
 				error: { code: "NOT_FOUND", message: "Menu not found" },
 			};
 		}
+		if (matches.length > 1) {
+			return ambiguousMenuLocaleError(
+				menuName,
+				matches.map((m) => m.locale),
+			);
+		}
+		const menu = matches[0]!;
 
 		let sortOrder = input.sortOrder ?? 0;
 		if (input.sortOrder === undefined) {
@@ -535,16 +608,27 @@ export async function handleMenuItemUpdate(
 	options: { locale?: string } = {},
 ): Promise<ApiResult<MenuItemRow>> {
 	try {
-		let menuQuery = db.selectFrom("_emdash_menus").select("id").where("name", "=", menuName);
+		// See ambiguousMenuLocaleError for the rationale.
+		let menuQuery = db
+			.selectFrom("_emdash_menus")
+			.select(["id", "locale"])
+			.where("name", "=", menuName);
 		if (options.locale !== undefined) menuQuery = menuQuery.where("locale", "=", options.locale);
-		const menu = await menuQuery.executeTakeFirst();
+		const matches = await menuQuery.execute();
 
-		if (!menu) {
+		if (matches.length === 0) {
 			return {
 				success: false,
 				error: { code: "NOT_FOUND", message: "Menu not found" },
 			};
 		}
+		if (matches.length > 1) {
+			return ambiguousMenuLocaleError(
+				menuName,
+				matches.map((m) => m.locale),
+			);
+		}
+		const menu = matches[0]!;
 
 		const item = await db
 			.selectFrom("_emdash_menu_items")
@@ -597,16 +681,27 @@ export async function handleMenuItemDelete(
 	options: { locale?: string } = {},
 ): Promise<ApiResult<{ deleted: true }>> {
 	try {
-		let menuQuery = db.selectFrom("_emdash_menus").select("id").where("name", "=", menuName);
+		// See ambiguousMenuLocaleError for the rationale.
+		let menuQuery = db
+			.selectFrom("_emdash_menus")
+			.select(["id", "locale"])
+			.where("name", "=", menuName);
 		if (options.locale !== undefined) menuQuery = menuQuery.where("locale", "=", options.locale);
-		const menu = await menuQuery.executeTakeFirst();
+		const matches = await menuQuery.execute();
 
-		if (!menu) {
+		if (matches.length === 0) {
 			return {
 				success: false,
 				error: { code: "NOT_FOUND", message: "Menu not found" },
 			};
 		}
+		if (matches.length > 1) {
+			return ambiguousMenuLocaleError(
+				menuName,
+				matches.map((m) => m.locale),
+			);
+		}
+		const menu = matches[0]!;
 
 		const result = await db
 			.deleteFrom("_emdash_menu_items")
@@ -668,6 +763,7 @@ export async function handleMenuSetItems(
 	db: Kysely<Database>,
 	menuName: string,
 	items: MenuSetItemsInput[],
+	options: { locale?: string } = {},
 ): Promise<ApiResult<{ name: string; itemCount: number }>> {
 	// Validate parentIndex references — must be strictly earlier so
 	// the array can be inserted in order with parents resolved first.
@@ -690,24 +786,38 @@ export async function handleMenuSetItems(
 	}
 
 	try {
-		// Sentinel for "menu not found" thrown from inside the transaction
-		// so the rollback fires before we return the structured error.
+		// Sentinels thrown from inside the transaction so the rollback
+		// fires before we return the structured error.
 		const notFoundSentinel = Symbol("menu-not-found");
+		// We capture the locale list rather than constructing the error
+		// inside the transaction, so the helper stays the single source
+		// of truth for AMBIGUOUS_LOCALE message shape.
+		let ambiguousLocales: string[] | null = null;
+		const ambiguousSentinel = Symbol("menu-ambiguous-locale");
 
 		try {
 			await withTransaction(db, async (trx) => {
 				// Existence check INSIDE the transaction so a concurrent
 				// menu_delete between lookup and write can't leave orphan
-				// items on D1 (FKs disabled by default).
-				const menu = await trx
+				// items on D1 (FKs disabled by default). Same fail-loud
+				// rule as handleMenuUpdate / handleMenuDelete.
+				let menuQuery = trx
 					.selectFrom("_emdash_menus")
-					.select("id")
-					.where("name", "=", menuName)
-					.executeTakeFirst();
+					.select(["id", "locale"])
+					.where("name", "=", menuName);
+				if (options.locale !== undefined) {
+					menuQuery = menuQuery.where("locale", "=", options.locale);
+				}
+				const matches = await menuQuery.execute();
 
-				if (!menu) {
+				if (matches.length === 0) {
 					throw notFoundSentinel;
 				}
+				if (matches.length > 1) {
+					ambiguousLocales = matches.map((m) => m.locale);
+					throw ambiguousSentinel;
+				}
+				const menu = matches[0]!;
 
 				await trx.deleteFrom("_emdash_menu_items").where("menu_id", "=", menu.id).execute();
 
@@ -733,6 +843,7 @@ export async function handleMenuSetItems(
 							title_attr: item.titleAttr ?? null,
 							target: item.target ?? null,
 							css_classes: item.cssClasses ?? null,
+							locale: menu.locale,
 						})
 						.execute();
 					insertedIds.push(id);
@@ -748,8 +859,16 @@ export async function handleMenuSetItems(
 			if (error === notFoundSentinel) {
 				return {
 					success: false,
-					error: { code: "NOT_FOUND", message: `Menu '${menuName}' not found` },
+					error: {
+						code: "NOT_FOUND",
+						message: `Menu '${menuName}' not found${
+							options.locale ? ` in locale '${options.locale}'` : ""
+						}`,
+					},
 				};
+			}
+			if (error === ambiguousSentinel && ambiguousLocales) {
+				return ambiguousMenuLocaleError(menuName, ambiguousLocales);
 			}
 			throw error;
 		}
@@ -774,16 +893,27 @@ export async function handleMenuItemReorder(
 	options: { locale?: string } = {},
 ): Promise<ApiResult<MenuItemRow[]>> {
 	try {
-		let menuQuery = db.selectFrom("_emdash_menus").select("id").where("name", "=", menuName);
+		// See ambiguousMenuLocaleError for the rationale.
+		let menuQuery = db
+			.selectFrom("_emdash_menus")
+			.select(["id", "locale"])
+			.where("name", "=", menuName);
 		if (options.locale !== undefined) menuQuery = menuQuery.where("locale", "=", options.locale);
-		const menu = await menuQuery.executeTakeFirst();
+		const matches = await menuQuery.execute();
 
-		if (!menu) {
+		if (matches.length === 0) {
 			return {
 				success: false,
 				error: { code: "NOT_FOUND", message: "Menu not found" },
 			};
 		}
+		if (matches.length > 1) {
+			return ambiguousMenuLocaleError(
+				menuName,
+				matches.map((m) => m.locale),
+			);
+		}
+		const menu = matches[0]!;
 
 		const updatedItems = await withTransaction(db, async (trx) => {
 			for (const item of items) {
