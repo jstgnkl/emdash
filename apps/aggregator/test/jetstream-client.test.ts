@@ -95,11 +95,24 @@ describe("wrapAtcuteSubscription", () => {
 	});
 
 	it("filters non-commit events", async () => {
-		const events: Array<{ kind: string; commit?: { collection: string } }> = [
+		// `isCommitEvent` requires the full commit shape (collection + rkey +
+		// operation) — a `{kind: "commit"}` envelope without a structurally
+		// valid `commit` object is correctly rejected as "malformed", so the
+		// stub must mirror what production producers emit.
+		const events: Array<{
+			kind: string;
+			commit?: { collection: string; rkey: string; operation: string; cid?: string };
+		}> = [
 			{ kind: "identity" },
-			{ kind: "commit", commit: { collection: "x" } },
+			{
+				kind: "commit",
+				commit: { collection: "x", rkey: "r1", operation: "create", cid: "bafyc1" },
+			},
 			{ kind: "account" },
-			{ kind: "commit", commit: { collection: "y" } },
+			{
+				kind: "commit",
+				commit: { collection: "y", rkey: "r2", operation: "create", cid: "bafyc2" },
+			},
 		];
 		let i = 0;
 		const sub: RawJetstreamSubscription<(typeof events)[number]> = {
@@ -117,5 +130,88 @@ describe("wrapAtcuteSubscription", () => {
 		for await (const event of handle) out.push(event);
 		expect(out).toHaveLength(2);
 		expect(out.every((e) => (e as { kind: string }).kind === "commit")).toBe(true);
+	});
+
+	it("rejects commits with missing cid on non-delete operations", async () => {
+		// `create`/`update` events without a `cid` would produce a RecordsJob
+		// with `cid: undefined`, breaking the consumer's verification step.
+		// Predicate must drop them at the source.
+		const events = [
+			{ kind: "commit", commit: { collection: "x", rkey: "r1", operation: "create" } },
+			{
+				kind: "commit",
+				commit: { collection: "x", rkey: "r2", operation: "update" },
+			},
+		];
+		let i = 0;
+		const sub: RawJetstreamSubscription<(typeof events)[number]> = {
+			cursor: 0,
+			[Symbol.asyncIterator]: () => ({
+				async next() {
+					if (i >= events.length) return { value: undefined, done: true };
+					const value = events[i++];
+					return { value: value as (typeof events)[number], done: false };
+				},
+			}),
+		};
+		const handle = wrapAtcuteSubscription(sub);
+		const out: unknown[] = [];
+		for await (const event of handle) out.push(event);
+		expect(out).toHaveLength(0);
+	});
+
+	it("rejects commits whose operation isn't one of create/update/delete", async () => {
+		// A producer emitting an unknown operation would otherwise produce a
+		// RecordsJob the consumer can't handle, ending up as
+		// UNEXPECTED_ERROR in dead_letters. Better to drop at the source.
+		const events = [
+			{
+				kind: "commit",
+				commit: {
+					collection: "x",
+					rkey: "r1",
+					operation: "rebase", // not a real atproto op
+					cid: "bafyc1",
+				},
+			},
+		];
+		let i = 0;
+		const sub: RawJetstreamSubscription<(typeof events)[number]> = {
+			cursor: 0,
+			[Symbol.asyncIterator]: () => ({
+				async next() {
+					if (i >= events.length) return { value: undefined, done: true };
+					const value = events[i++];
+					return { value: value as (typeof events)[number], done: false };
+				},
+			}),
+		};
+		const handle = wrapAtcuteSubscription(sub);
+		const out: unknown[] = [];
+		for await (const event of handle) out.push(event);
+		expect(out).toHaveLength(0);
+	});
+
+	it("accepts delete commits without cid", async () => {
+		// Delete events legitimately have no cid; predicate must let them
+		// through.
+		const events = [
+			{ kind: "commit", commit: { collection: "x", rkey: "r1", operation: "delete" } },
+		];
+		let i = 0;
+		const sub: RawJetstreamSubscription<(typeof events)[number]> = {
+			cursor: 0,
+			[Symbol.asyncIterator]: () => ({
+				async next() {
+					if (i >= events.length) return { value: undefined, done: true };
+					const value = events[i++];
+					return { value: value as (typeof events)[number], done: false };
+				},
+			}),
+		};
+		const handle = wrapAtcuteSubscription(sub);
+		const out: unknown[] = [];
+		for await (const event of handle) out.push(event);
+		expect(out).toHaveLength(1);
 	});
 });

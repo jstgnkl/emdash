@@ -139,11 +139,8 @@ export function wrapAtcuteSubscription<E extends { kind: string }>(
 						]);
 						if (result.done) return { value: undefined, done: true };
 						const event = result.value;
-						if (event.kind === "commit") {
-							// Cast within the function: by `kind === "commit"` we
-							// know the event is a commit; the generic `E` is too
-							// wide for the compiler to narrow automatically.
-							return { value: event as unknown as JetstreamCommitEvent, done: false };
+						if (isCommitEvent(event)) {
+							return { value: event, done: false };
 						}
 						// Skip identity/account events; loop until next commit.
 					}
@@ -156,4 +153,46 @@ export function wrapAtcuteSubscription<E extends { kind: string }>(
 			};
 		},
 	};
+}
+
+/**
+ * Discriminator + structural predicate that narrows to `JetstreamCommitEvent`.
+ *
+ * The runtime check verifies BOTH `kind === "commit"` AND that `commit` is
+ * present and shaped enough for the ingestor's downstream access (it reads
+ * `event.commit.collection`, `event.commit.rkey`, `event.commit.operation`,
+ * `event.commit.cid`). Without the structural check, a producer emitting
+ * `{kind: "commit"}` with no `commit` field would crash the ingestor on
+ * access; the cursor wouldn't advance; Jetstream would replay the same
+ * malformed event forever.
+ */
+/** Wider parameter type than the bare `{ kind: string }` constraint so the
+ * predicate can inspect `commit` without an unsafe cast. Any producer
+ * conforming to `RawJetstreamSubscription<E>` where `E extends { kind: string }`
+ * is assignable here because `commit` is optional. */
+type MaybeCommitEvent = {
+	kind: string;
+	commit?: {
+		collection?: unknown;
+		rkey?: unknown;
+		operation?: unknown;
+		cid?: unknown;
+	};
+};
+
+const KNOWN_OPERATIONS = new Set(["create", "update", "delete"]);
+
+function isCommitEvent(event: MaybeCommitEvent): event is JetstreamCommitEvent {
+	if (event.kind !== "commit" || event.commit === undefined) return false;
+	const c = event.commit;
+	if (typeof c.collection !== "string" || typeof c.rkey !== "string") return false;
+	// Restrict to the operations the downstream RecordsJob + applyDelete
+	// dispatcher know about. An unknown operation slipping through would
+	// produce a job the consumer can't process and would land in
+	// dead_letters as UNEXPECTED_ERROR — better to drop it at the source.
+	if (typeof c.operation !== "string" || !KNOWN_OPERATIONS.has(c.operation)) return false;
+	// `cid` is required for create/update (the ingestor reads it into the
+	// RecordsJob); delete events legitimately have no cid.
+	if (c.operation !== "delete" && typeof c.cid !== "string") return false;
+	return true;
 }
