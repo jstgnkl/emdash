@@ -52,7 +52,7 @@ msgstr ": از"
 msgid "(from {0})"
 msgstr "(از {0})"
 
-#: packages/admin/src/components/RegistryPluginDetail.tsx:429
+#: packages/admin/src/components/RegistryPluginDetail.tsx:518
 msgid "(pre-release)"
 msgstr ""
 
@@ -60,7 +60,7 @@ msgstr ""
 msgid "(synced)"
 msgstr "(همگام‌شده)"
 
-#: packages/admin/src/components/RegistryPluginDetail.tsx:432
+#: packages/admin/src/components/RegistryPluginDetail.tsx:521
 msgid "(too new)"
 msgstr ""
 
@@ -167,7 +167,7 @@ msgstr ""
 #. placeholder {0}: envLabel(m.key)
 #. placeholder {1}: m.required
 #. placeholder {2}: m.host
-#: packages/admin/src/components/RegistryPluginDetail.tsx:532
+#: packages/admin/src/components/RegistryPluginDetail.tsx:621
 msgid "{0} {1} required — you have {2}."
 msgstr ""
 
@@ -178,7 +178,7 @@ msgid "{0} • {1}"
 msgstr ""
 
 #. placeholder {0}: displayName ?? slug
-#: packages/admin/src/components/RegistryPluginDetail.tsx:365
+#: packages/admin/src/components/RegistryPluginDetail.tsx:410
 msgid "{0} banner"
 msgstr ""
 
@@ -198,12 +198,12 @@ msgid "{0} has been removed"
 msgstr "{0} حذف شد"
 
 #. placeholder {0}: displayName ?? slug
-#: packages/admin/src/components/RegistryPluginDetail.tsx:377
+#: packages/admin/src/components/RegistryPluginDetail.tsx:422
 msgid "{0} icon"
 msgstr ""
 
 #. placeholder {0}: plugin.installCount.toLocaleString()
-#: packages/admin/src/components/MarketplacePluginDetail.tsx:203
+#: packages/admin/src/components/MarketplacePluginDetail.tsx:202
 msgid "{0} installs"
 msgstr "{0} نصب"
 
@@ -687,12 +687,12 @@ msgid "Additional data to import."
 msgstr "داده‌های اضافی برای درون‌ریزی."
 
 #: packages/admin/src/components/settings/ApiTokenSettings.tsx:95
-#: packages/admin/src/components/Sidebar.tsx:454
+#: packages/admin/src/components/Sidebar.tsx:444
 #: packages/admin/src/components/users/roleDefinitions.ts:42
 msgid "Admin"
 msgstr "مدیر"
 
-#: packages/admin/src/components/Sidebar.tsx:394
+#: packages/admin/src/components/Sidebar.tsx:388
 msgid "Admin navigation"
 msgstr "ناوبری مدیریت"
 
@@ -978,7 +978,7 @@ msgstr "مجوز دادن به دستگاه"
 msgid "Authorizing..."
 msgstr "در حال صدور مجوز..."
 
-#: packages/admin/src/components/RegistryPluginDetail.tsx:581
+#: packages/admin/src/components/RegistryPluginDetail.tsx:670
 msgid "Authors"
 msgstr ""
 
@@ -1041,12 +1041,12 @@ msgstr ""
 msgid "Back to login"
 msgstr "بازگشت به ورود"
 
-#: packages/admin/src/components/MarketplacePluginDetail.tsx:116
-#: packages/admin/src/components/MarketplacePluginDetail.tsx:392
+#: packages/admin/src/components/MarketplacePluginDetail.tsx:115
+#: packages/admin/src/components/MarketplacePluginDetail.tsx:391
 msgid "Back to marketplace"
 msgstr "بازگشت به فروشگاه"
 
-#: packages/admin/src/components/RegistryPluginDetail.tsx:682
+#: packages/admin/src/components/RegistryPluginDetail.tsx:803
 msgid "Back to plugins"
 msgstr ""
 
@@ -1260,6 +1260,10 @@ msgstr ""
 msgid "Change Logo"
 msgstr "تغییر لوگو"
 
+#: packages/admin/src/components/RegistryPluginDetail.tsx:791
+msgid "Changelog"
+msgstr ""
+
 #: packages/admin/src/router.tsx:811
 msgid "Changes discarded"
 msgstr ""
@@ -1321,7 +1325,7 @@ msgstr "روی لینک ایمیل کلیک کنید تا وارد شوید."
 #: packages/admin/src/components/FieldEditor.tsx:345
 #: packages/admin/src/components/FieldEditor.tsx:351
 #: packages/admin/src/components/FieldEditor.tsx:355
-#: packages/admin/src/components/MarketplacePluginDetail.tsx:437
+#: packages/admin/src/components/MarketplacePluginDetail.tsx:436
 #: packages/admin/src/components/MediaDetailPanel.tsx:131
 #: packages/admin/src/components/MediaDetailPanel.tsx:133
 #: packages/admin/src/components/MediaPickerModal.tsx:469
@@ -1483,7 +1487,7 @@ msgstr "متصل شده در {0}"
 #: packages/admin/src/components/Dashboard.tsx:164
 #: packages/admin/src/components/PortableTextEditor.tsx:2006
 #: packages/admin/src/components/SectionEditor.tsx:194
-#: packages/admin/src/components/Sidebar.tsx:428
+#: packages/admin/src/components/Sidebar.tsx:422
 #: packages/admin/src/components/Widgets.tsx:819
 msgid "Content"
 msgstr "محتوا"
@@ -1849,7 +1853,7 @@ msgstr "تیره"
 #: packages/admin/src/components/ContentTypeList.tsx:246
 #: packages/admin/src/components/Dashboard.tsx:42
 #: packages/admin/src/components/Sidebar.tsx:179
-#: packages/admin/src/components/Sidebar.tsx:417
+#: packages/admin/src/components/Sidebar.tsx:411
 msgid "Dashboard"
 msgstr "داشبورد"
 
@@ -1875,7 +1879,7 @@ msgstr "قالب تاریخ"
 msgid "Decimal number"
 msgstr "عدد اعشاری"
 
-#: packages/admin/src/components/RegistryPluginDetail.tsx:646
+#: packages/admin/src/components/RegistryPluginDetail.tsx:735
 msgid "Declared permissions"
 msgstr ""
 
@@ -2097,6 +2101,7 @@ msgid "Describe what this section is for..."
 msgstr "توضیح دهید این بخش برای چیست..."
 
 #: packages/admin/src/components/ContentTypeEditor.tsx:415
+#: packages/admin/src/components/RegistryPluginDetail.tsx:788
 #: packages/admin/src/components/SectionEditor.tsx:259
 #: packages/admin/src/components/Sections.tsx:200
 #: packages/admin/src/components/Widgets.tsx:373
@@ -2261,6 +2266,10 @@ msgstr "انجام شد"
 #: packages/admin/src/components/ContentEditor.tsx:2066
 msgid "Down"
 msgstr "پایین"
+
+#: packages/admin/src/components/RegistryPluginDetail.tsx:477
+msgid "Download SBOM"
+msgstr ""
 
 #: packages/admin/src/components/WordPressImport.tsx:1962
 msgid "Downloading"
@@ -2598,7 +2607,7 @@ msgstr "خطا در ذخیره بخش"
 msgid "Error updating widget"
 msgstr ""
 
-#: packages/admin/src/components/RegistryPluginDetail.tsx:492
+#: packages/admin/src/components/RegistryPluginDetail.tsx:581
 msgid "Every published release of this plugin has been withdrawn or could not be verified. Check back later, or contact the publisher."
 msgstr ""
 
@@ -2651,7 +2660,7 @@ msgstr "ناموفق"
 msgid "Failed"
 msgstr "ناموفق"
 
-#: packages/admin/src/components/MarketplacePluginDetail.tsx:189
+#: packages/admin/src/components/MarketplacePluginDetail.tsx:188
 msgid "Failed security audit"
 msgstr "بررسی امنیتی ناموفق"
 
@@ -2854,7 +2863,7 @@ msgid "Failed to import media"
 msgstr ""
 
 #: packages/admin/src/lib/api/marketplace.ts:160
-#: packages/admin/src/lib/api/registry.ts:593
+#: packages/admin/src/lib/api/registry.ts:692
 msgid "Failed to install plugin"
 msgstr ""
 
@@ -2883,7 +2892,7 @@ msgstr ""
 msgid "Failed to load passkeys"
 msgstr "بارگذاری شاه‌کلیدها ناموفق بود"
 
-#: packages/admin/src/components/MarketplacePluginDetail.tsx:111
+#: packages/admin/src/components/MarketplacePluginDetail.tsx:110
 msgid "Failed to load plugin"
 msgstr "بارگذاری افزونه ناموفق بود"
 
@@ -3012,7 +3021,7 @@ msgid "Failed to set entry terms"
 msgstr ""
 
 #: packages/admin/src/lib/api/marketplace.ts:192
-#: packages/admin/src/lib/api/registry.ts:732
+#: packages/admin/src/lib/api/registry.ts:831
 msgid "Failed to uninstall plugin"
 msgstr ""
 
@@ -3038,7 +3047,7 @@ msgid "Failed to update domain"
 msgstr "به‌روزرسانی دامنه ناموفق بود"
 
 #: packages/admin/src/lib/api/marketplace.ts:176
-#: packages/admin/src/lib/api/registry.ts:664
+#: packages/admin/src/lib/api/registry.ts:763
 msgid "Failed to update plugin"
 msgstr ""
 
@@ -3056,6 +3065,10 @@ msgstr ""
 
 #: packages/admin/src/components/auth/PasskeyRegistration.tsx:253
 msgid "Failed to verify registration"
+msgstr ""
+
+#: packages/admin/src/components/RegistryPluginDetail.tsx:790
+msgid "FAQ"
 msgstr ""
 
 #: packages/admin/src/components/settings/GeneralSettings.tsx:236
@@ -3296,7 +3309,7 @@ msgid "https://example.com/image.jpg"
 msgstr ""
 
 #: packages/admin/src/components/MarketplaceBrowse.tsx:241
-#: packages/admin/src/components/MarketplacePluginDetail.tsx:143
+#: packages/admin/src/components/MarketplacePluginDetail.tsx:142
 msgid "Icon blurred due to image audit"
 msgstr "آیکون به دلیل بررسی تصویر محو شده"
 
@@ -3431,9 +3444,8 @@ msgstr "شامل محتوای نمونه (توصیه‌شده برای وبسا�
 msgid "Incompatible"
 msgstr "ناسازگار"
 
-#. placeholder {0}: formatDate(release.indexedAt)
-#: packages/admin/src/components/RegistryPluginDetail.tsx:402
-msgid "indexed {0}"
+#: packages/admin/src/components/RegistryPluginDetail.tsx:491
+msgid "Indexed"
 msgstr ""
 
 #: packages/admin/src/components/PortableTextEditor.tsx:2833
@@ -3502,8 +3514,8 @@ msgstr ""
 msgid "Instagram"
 msgstr "اینستاگرام"
 
-#: packages/admin/src/components/MarketplacePluginDetail.tsx:193
-#: packages/admin/src/components/RegistryPluginDetail.tsx:450
+#: packages/admin/src/components/MarketplacePluginDetail.tsx:192
+#: packages/admin/src/components/RegistryPluginDetail.tsx:539
 msgid "Install"
 msgstr "نصب"
 
@@ -3511,14 +3523,18 @@ msgstr "نصب"
 msgid "Install and activate an email provider plugin to enable email features like invitations, magic links, and password recovery."
 msgstr "افزونه ارائه‌دهنده ایمیل را نصب و فعال کنید تا قابلیت‌های ایمیلی مانند دعوت‌ها، لینک‌های جادویی و بازیابی گذرواژه فعال شوند."
 
-#: packages/admin/src/components/MarketplacePluginDetail.tsx:187
+#: packages/admin/src/components/MarketplacePluginDetail.tsx:186
 msgid "Install blocked"
 msgstr "نصب مسدود شد"
 
+#: packages/admin/src/components/RegistryPluginDetail.tsx:789
+msgid "Installation"
+msgstr ""
+
 #: packages/admin/src/components/MarketplaceBrowse.tsx:261
-#: packages/admin/src/components/MarketplacePluginDetail.tsx:174
+#: packages/admin/src/components/MarketplacePluginDetail.tsx:173
 #: packages/admin/src/components/RegistryBrowse.tsx:198
-#: packages/admin/src/components/RegistryPluginDetail.tsx:442
+#: packages/admin/src/components/RegistryPluginDetail.tsx:531
 msgid "Installed"
 msgstr "نصب‌شده"
 
@@ -3605,7 +3621,7 @@ msgstr "نام نمونه"
 msgid "JSON"
 msgstr "JSON"
 
-#: packages/admin/src/components/MarketplacePluginDetail.tsx:294
+#: packages/admin/src/components/MarketplacePluginDetail.tsx:293
 #: packages/admin/src/components/SectionEditor.tsx:268
 #: packages/admin/src/components/ThemeMarketplaceDetail.tsx:189
 msgid "Keywords"
@@ -3883,7 +3899,7 @@ msgstr ""
 msgid "Make network requests to any host (unrestricted)"
 msgstr ""
 
-#: packages/admin/src/components/Sidebar.tsx:442
+#: packages/admin/src/components/Sidebar.tsx:434
 msgid "Manage"
 msgstr "مدیریت"
 
@@ -4257,7 +4273,7 @@ msgstr "بعدی"
 msgid "Next page"
 msgstr "صفحه بعدی"
 
-#: packages/admin/src/components/MarketplacePluginDetail.tsx:464
+#: packages/admin/src/components/MarketplacePluginDetail.tsx:463
 msgid "Next screenshot"
 msgstr "تصویر بعدی"
 
@@ -4341,7 +4357,7 @@ msgstr "هنوز نوع محتوایی وجود ندارد."
 msgid "No custom fields yet"
 msgstr ""
 
-#: packages/admin/src/components/MarketplacePluginDetail.tsx:265
+#: packages/admin/src/components/MarketplacePluginDetail.tsx:264
 msgid "No detailed description available."
 msgstr "توضیحات تفصیلی موجود نیست."
 
@@ -4373,7 +4389,7 @@ msgstr "فیلدی برای مقایسه وجود ندارد"
 msgid "No headings in document"
 msgstr "سرتیتری در سند نیست"
 
-#: packages/admin/src/components/RegistryPluginDetail.tsx:490
+#: packages/admin/src/components/RegistryPluginDetail.tsx:579
 msgid "No installable releases"
 msgstr ""
 
@@ -4533,7 +4549,7 @@ msgstr ""
 msgid "None (top level)"
 msgstr "هیچ‌کدام (سطح بالا)"
 
-#: packages/admin/src/components/RegistryPluginDetail.tsx:525
+#: packages/admin/src/components/RegistryPluginDetail.tsx:614
 msgid "Not compatible with this environment"
 msgstr ""
 
@@ -4795,7 +4811,7 @@ msgstr "حذف دائمی «{title}»؟ این عمل قابل بازگشت نی
 msgid "Permanently delete {title}"
 msgstr "حذف دائمی {title}"
 
-#: packages/admin/src/components/MarketplacePluginDetail.tsx:274
+#: packages/admin/src/components/MarketplacePluginDetail.tsx:273
 msgid "Permissions"
 msgstr "مجوزها"
 
@@ -4828,6 +4844,10 @@ msgstr "لطفاً یک آدرس معتبر وارد کنید"
 msgid "Plugin"
 msgstr "پلاگین"
 
+#: packages/admin/src/components/RegistryPluginDetail.tsx:747
+msgid "Plugin details"
+msgstr ""
+
 #: packages/admin/src/components/PluginManager.tsx:110
 msgid "Plugin disabled"
 msgstr "افزونه غیرفعال شد"
@@ -4845,11 +4865,11 @@ msgstr ""
 msgid "Plugin error ({0})"
 msgstr ""
 
-#: packages/admin/src/components/MarketplacePluginDetail.tsx:113
+#: packages/admin/src/components/MarketplacePluginDetail.tsx:112
 msgid "Plugin not found"
 msgstr "افزونه یافت نشد"
 
-#: packages/admin/src/components/RegistryPluginDetail.tsx:351
+#: packages/admin/src/components/RegistryPluginDetail.tsx:396
 msgid "Plugin not found. The publisher handle or slug may be incorrect."
 msgstr ""
 
@@ -4874,7 +4894,7 @@ msgstr ""
 msgid "Plugin uninstalled"
 msgstr "افزونه حذف نصب شد"
 
-#: packages/admin/src/lib/api/registry.ts:684
+#: packages/admin/src/lib/api/registry.ts:783
 msgid "Plugin update requires re-consent"
 msgstr ""
 
@@ -4887,7 +4907,7 @@ msgstr "افزونه به‌روزرسانی شد"
 #: packages/admin/src/components/PluginManager.tsx:144
 #: packages/admin/src/components/PluginManager.tsx:153
 #: packages/admin/src/components/Sidebar.tsx:215
-#: packages/admin/src/components/Sidebar.tsx:466
+#: packages/admin/src/components/Sidebar.tsx:454
 msgid "Plugins"
 msgstr "پلاگین‌ها"
 
@@ -4903,7 +4923,7 @@ msgstr "نوشته‌ها"
 msgid "Posts Per Page"
 msgstr "نوشته در هر صفحه"
 
-#: packages/admin/src/components/RegistryPluginDetail.tsx:404
+#: packages/admin/src/components/RegistryPluginDetail.tsx:463
 msgid "Pre-release"
 msgstr ""
 
@@ -4943,7 +4963,7 @@ msgstr "قبلی"
 msgid "Previous page"
 msgstr "صفحه قبلی"
 
-#: packages/admin/src/components/MarketplacePluginDetail.tsx:446
+#: packages/admin/src/components/MarketplacePluginDetail.tsx:445
 msgid "Previous screenshot"
 msgstr "تصویر قبلی"
 
@@ -4976,7 +4996,7 @@ msgid "Published"
 msgstr "منتشرشده"
 
 #. placeholder {0}: new Date(latest.publishedAt).toLocaleDateString()
-#: packages/admin/src/components/MarketplacePluginDetail.tsx:327
+#: packages/admin/src/components/MarketplacePluginDetail.tsx:326
 msgid "Published {0}"
 msgstr "منتشرشده در {0}"
 
@@ -4984,7 +5004,7 @@ msgstr "منتشرشده در {0}"
 msgid "Published At"
 msgstr "تاریخ انتشار"
 
-#: packages/admin/src/components/RegistryPluginDetail.tsx:396
+#: packages/admin/src/components/RegistryPluginDetail.tsx:457
 msgid "Published by"
 msgstr ""
 
@@ -5106,7 +5126,7 @@ msgstr "ثبت‌نام لغو شد یا زمان آن به پایان رسید.
 msgid "Registry"
 msgstr ""
 
-#: packages/admin/src/components/RegistryPluginDetail.tsx:506
+#: packages/admin/src/components/RegistryPluginDetail.tsx:595
 msgid "Release is too new to install"
 msgstr ""
 
@@ -5248,7 +5268,7 @@ msgid "Required for accessibility. Describes the image for screen readers."
 msgstr "برای دسترسی‌پذیری الزامی است. تصویر را برای صفحه‌خوان‌ها توصیف می‌کند."
 
 #. placeholder {0}: latest.minEmDashVersion
-#: packages/admin/src/components/MarketplacePluginDetail.tsx:325
+#: packages/admin/src/components/MarketplacePluginDetail.tsx:324
 msgid "Requires EmDash {0}"
 msgstr "نیاز به EmDash {0}"
 
@@ -5351,7 +5371,7 @@ msgid "Rich text editor"
 msgstr "ویرایشگر متن غنی"
 
 #. placeholder {0}: latest.audit.riskScore
-#: packages/admin/src/components/MarketplacePluginDetail.tsx:312
+#: packages/admin/src/components/MarketplacePluginDetail.tsx:311
 msgid "Risk score: {0}/100"
 msgstr "امتیاز ریسک: {0}/۱۰۰"
 
@@ -5453,6 +5473,15 @@ msgstr "ذخیره شد"
 msgid "Saving..."
 msgstr "درحال ذخیره‌سازی …"
 
+#: packages/admin/src/components/RegistryPluginDetail.tsx:467
+msgid "SBOM"
+msgstr ""
+
+#. placeholder {0}: sbom.format
+#: packages/admin/src/components/RegistryPluginDetail.tsx:465
+msgid "SBOM · {0}"
+msgstr ""
+
 #: packages/admin/src/components/ContentEditor.tsx:899
 msgid "Schedule"
 msgstr "زمان‌بندی"
@@ -5506,8 +5535,8 @@ msgstr "محدوده‌ها: {0}"
 
 #. placeholder {0}: i + 1
 #. placeholder {0}: index + 1
-#: packages/admin/src/components/MarketplacePluginDetail.tsx:244
-#: packages/admin/src/components/RegistryPluginDetail.tsx:551
+#: packages/admin/src/components/MarketplacePluginDetail.tsx:243
+#: packages/admin/src/components/RegistryPluginDetail.tsx:640
 #: packages/admin/src/components/ThemeMarketplaceDetail.tsx:174
 #: packages/admin/src/components/ThemeMarketplaceDetail.tsx:293
 msgid "Screenshot {0}"
@@ -5515,20 +5544,20 @@ msgstr "تصویر {0}"
 
 #. placeholder {0}: index + 1
 #. placeholder {1}: screenshots.length
-#: packages/admin/src/components/MarketplacePluginDetail.tsx:454
+#: packages/admin/src/components/MarketplacePluginDetail.tsx:453
 msgid "Screenshot {0} of {1}"
 msgstr "تصویر {0} از {1}"
 
-#: packages/admin/src/components/MarketplacePluginDetail.tsx:247
+#: packages/admin/src/components/MarketplacePluginDetail.tsx:246
 msgid "Screenshot blurred due to image audit"
 msgstr "تصویر به دلیل بررسی تصویر محو شده"
 
-#: packages/admin/src/components/MarketplacePluginDetail.tsx:432
+#: packages/admin/src/components/MarketplacePluginDetail.tsx:431
 msgid "Screenshot viewer"
 msgstr "نمایشگر تصویر"
 
-#: packages/admin/src/components/MarketplacePluginDetail.tsx:234
-#: packages/admin/src/components/RegistryPluginDetail.tsx:545
+#: packages/admin/src/components/MarketplacePluginDetail.tsx:233
+#: packages/admin/src/components/RegistryPluginDetail.tsx:634
 #: packages/admin/src/components/ThemeMarketplaceDetail.tsx:164
 msgid "Screenshots"
 msgstr "تصاویر"
@@ -5671,11 +5700,12 @@ msgstr "محیط امن"
 msgid "Secure your account"
 msgstr "حساب کاربری خود را ایمن کنید"
 
+#: packages/admin/src/components/RegistryPluginDetail.tsx:792
 #: packages/admin/src/components/Settings.tsx:92
 msgid "Security"
 msgstr "امنیت"
 
-#: packages/admin/src/components/MarketplacePluginDetail.tsx:308
+#: packages/admin/src/components/MarketplacePluginDetail.tsx:307
 msgid "Security Audit"
 msgstr "بررسی امنیتی"
 
@@ -5699,7 +5729,7 @@ msgstr "بررسی امنیتی این افزونه را به‌عنوان اح�
 msgid "Security audit passed"
 msgstr "بررسی امنیتی موفق بود"
 
-#: packages/admin/src/components/RegistryPluginDetail.tsx:614
+#: packages/admin/src/components/RegistryPluginDetail.tsx:703
 msgid "Security contacts"
 msgstr ""
 
@@ -6109,7 +6139,7 @@ msgstr "مرتب‌سازی قالب‌ها"
 #: packages/admin/src/components/ContentTypeList.tsx:100
 #: packages/admin/src/components/editor/ImageDetailPanel.tsx:325
 #: packages/admin/src/components/editor/ImageDetailPanel.tsx:490
-#: packages/admin/src/components/MarketplacePluginDetail.tsx:215
+#: packages/admin/src/components/MarketplacePluginDetail.tsx:214
 #: packages/admin/src/components/PluginManager.tsx:497
 #: packages/admin/src/components/Redirects.tsx:440
 #: packages/admin/src/components/SectionEditor.tsx:279
@@ -6383,11 +6413,11 @@ msgstr "این ممکن است برای برون‌ریزی‌های بزرگ ز
 msgid "This passkey is already registered on this device."
 msgstr "این شاه‌کلید از قبل روی این دستگاه ثبت شده است."
 
-#: packages/admin/src/components/MarketplacePluginDetail.tsx:277
+#: packages/admin/src/components/MarketplacePluginDetail.tsx:276
 msgid "This plugin requires no special permissions."
 msgstr "این افزونه نیاز به مجوز خاصی ندارد."
 
-#: packages/admin/src/components/RegistryPluginDetail.tsx:475
+#: packages/admin/src/components/RegistryPluginDetail.tsx:564
 msgid "This publisher claims a name they couldn't prove they own — possibly impersonating someone else. Install is disabled. If you know the publisher and trust them, ask them to fix their identity setup before retrying."
 msgstr ""
 
@@ -6395,7 +6425,7 @@ msgstr ""
 msgid "This redirect rule will be permanently removed."
 msgstr "این قانون    تغییر مسیر برای همیشه حذف خواهد شد."
 
-#: packages/admin/src/components/RegistryPluginDetail.tsx:527
+#: packages/admin/src/components/RegistryPluginDetail.tsx:616
 msgid "This release requires a newer environment than your site currently runs. Upgrade before installing."
 msgstr ""
 
@@ -6644,7 +6674,7 @@ msgstr ""
 msgid "Undo"
 msgstr ""
 
-#: packages/admin/src/components/MarketplacePluginDetail.tsx:181
+#: packages/admin/src/components/MarketplacePluginDetail.tsx:180
 #: packages/admin/src/components/PluginManager.tsx:547
 #: packages/admin/src/components/PluginManager.tsx:643
 msgid "Uninstall"
@@ -6767,6 +6797,10 @@ msgstr "این قانون    تغییر مسیر را به‌روزرسانی ک
 #: packages/admin/src/components/PluginManager.tsx:417
 msgid "Update to v{0}"
 msgstr "به‌روزرسانی به v{0}"
+
+#: packages/admin/src/components/RegistryPluginDetail.tsx:486
+msgid "Updated"
+msgstr ""
 
 #: packages/admin/src/components/ContentTypeEditor.tsx:129
 msgid "Updated At"
@@ -6983,8 +7017,20 @@ msgid "Validation"
 msgstr "اعتبارسنجی"
 
 #: packages/admin/src/components/RegistryBrowse.tsx:186
-#: packages/admin/src/components/RegistryPluginDetail.tsx:391
+#: packages/admin/src/components/RegistryPluginDetail.tsx:447
 msgid "Verified publisher"
+msgstr ""
+
+#: packages/admin/src/components/RegistryPluginDetail.tsx:446
+msgid "Verified publisher, confirmed by labeller {verifiedLabeller}"
+msgstr ""
+
+#: packages/admin/src/components/RegistryPluginDetail.tsx:437
+msgid "Verified publisher. A labeller ({verifiedLabeller}) has confirmed this publisher's identity."
+msgstr ""
+
+#: packages/admin/src/components/RegistryPluginDetail.tsx:438
+msgid "Verified publisher. A labeller has confirmed this publisher's identity."
 msgstr ""
 
 #: packages/admin/src/components/InviteAcceptPage.tsx:194
@@ -7000,13 +7046,13 @@ msgstr "در حال تأیید لینک شما..."
 msgid "Verifying..."
 msgstr "در حال تأیید..."
 
-#: packages/admin/src/components/MarketplacePluginDetail.tsx:321
-#: packages/admin/src/components/RegistryPluginDetail.tsx:411
+#: packages/admin/src/components/MarketplacePluginDetail.tsx:320
+#: packages/admin/src/components/RegistryPluginDetail.tsx:500
 msgid "Version"
 msgstr "نسخه"
 
 #. placeholder {0}: release.version
-#: packages/admin/src/components/RegistryPluginDetail.tsx:402
+#: packages/admin/src/components/RegistryPluginDetail.tsx:462
 msgid "Version {0}"
 msgstr ""
 
@@ -7034,11 +7080,11 @@ msgstr "مشاهده {title} منتشرشده"
 msgid "View Site"
 msgstr "مشاهده وبسایت"
 
-#: packages/admin/src/components/RegistryPluginDetail.tsx:572
+#: packages/admin/src/components/RegistryPluginDetail.tsx:661
 msgid "View source"
 msgstr ""
 
-#: packages/admin/src/components/RegistryPluginDetail.tsx:815
+#: packages/admin/src/components/RegistryPluginDetail.tsx:936
 msgid "View the {license} license on spdx.org"
 msgstr ""
 
@@ -7060,7 +7106,7 @@ msgstr "هشدار"
 msgid "We couldn't connect to a WordPress site at {0}. This could mean the site isn't WordPress, the REST API is disabled, or the site isn't accessible."
 msgstr "نتوانستیم به وبسایت وردپرس در {0} متصل شویم. ممکن است وبسایت وردپرس نباشد، API REST غیرفعال باشد، یا وبسایت قابل دسترس نباشد."
 
-#: packages/admin/src/components/RegistryPluginDetail.tsx:473
+#: packages/admin/src/components/RegistryPluginDetail.tsx:562
 msgid "We couldn't verify this publisher's identity"
 msgstr ""
 
@@ -7085,8 +7131,8 @@ msgstr "آدرس وب"
 msgid "WebAuthn is not supported in this browser"
 msgstr "WebAuthn در این مرورگر پشتیبانی نمی‌شود"
 
-#: packages/admin/src/components/MarketplacePluginDetail.tsx:226
-#: packages/admin/src/components/RegistryPluginDetail.tsx:597
+#: packages/admin/src/components/MarketplacePluginDetail.tsx:225
+#: packages/admin/src/components/RegistryPluginDetail.tsx:686
 msgid "Website"
 msgstr "وبسایت"
 
@@ -7318,7 +7364,7 @@ msgid "Your Role"
 msgstr "نقش شما"
 
 #. placeholder {0}: formatHoldback(config.policy?.minimumReleaseAgeSeconds ?? 0)
-#: packages/admin/src/components/RegistryPluginDetail.tsx:508
+#: packages/admin/src/components/RegistryPluginDetail.tsx:597
 msgid "Your site requires releases to be at least {0} old before they can be installed. This release will become installable later."
 msgstr ""
 

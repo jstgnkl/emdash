@@ -50,7 +50,7 @@ msgstr ": 다음 사용"
 msgid "(from {0})"
 msgstr "({0} 제공)"
 
-#: packages/admin/src/components/RegistryPluginDetail.tsx:429
+#: packages/admin/src/components/RegistryPluginDetail.tsx:518
 msgid "(pre-release)"
 msgstr ""
 
@@ -58,7 +58,7 @@ msgstr ""
 msgid "(synced)"
 msgstr "(동기화됨)"
 
-#: packages/admin/src/components/RegistryPluginDetail.tsx:432
+#: packages/admin/src/components/RegistryPluginDetail.tsx:521
 msgid "(too new)"
 msgstr ""
 
@@ -165,7 +165,7 @@ msgstr ""
 #. placeholder {0}: envLabel(m.key)
 #. placeholder {1}: m.required
 #. placeholder {2}: m.host
-#: packages/admin/src/components/RegistryPluginDetail.tsx:532
+#: packages/admin/src/components/RegistryPluginDetail.tsx:621
 msgid "{0} {1} required — you have {2}."
 msgstr ""
 
@@ -176,7 +176,7 @@ msgid "{0} • {1}"
 msgstr ""
 
 #. placeholder {0}: displayName ?? slug
-#: packages/admin/src/components/RegistryPluginDetail.tsx:365
+#: packages/admin/src/components/RegistryPluginDetail.tsx:410
 msgid "{0} banner"
 msgstr ""
 
@@ -196,12 +196,12 @@ msgid "{0} has been removed"
 msgstr "{0}이(가) 제거되었습니다"
 
 #. placeholder {0}: displayName ?? slug
-#: packages/admin/src/components/RegistryPluginDetail.tsx:377
+#: packages/admin/src/components/RegistryPluginDetail.tsx:422
 msgid "{0} icon"
 msgstr ""
 
 #. placeholder {0}: plugin.installCount.toLocaleString()
-#: packages/admin/src/components/MarketplacePluginDetail.tsx:203
+#: packages/admin/src/components/MarketplacePluginDetail.tsx:202
 msgid "{0} installs"
 msgstr "{0}회 설치"
 
@@ -685,12 +685,12 @@ msgid "Additional data to import."
 msgstr "가져올 추가 데이터입니다."
 
 #: packages/admin/src/components/settings/ApiTokenSettings.tsx:95
-#: packages/admin/src/components/Sidebar.tsx:454
+#: packages/admin/src/components/Sidebar.tsx:444
 #: packages/admin/src/components/users/roleDefinitions.ts:42
 msgid "Admin"
 msgstr "관리자"
 
-#: packages/admin/src/components/Sidebar.tsx:394
+#: packages/admin/src/components/Sidebar.tsx:388
 msgid "Admin navigation"
 msgstr "관리자 탐색 메뉴"
 
@@ -976,7 +976,7 @@ msgstr "장치 승인"
 msgid "Authorizing..."
 msgstr "승인 중..."
 
-#: packages/admin/src/components/RegistryPluginDetail.tsx:581
+#: packages/admin/src/components/RegistryPluginDetail.tsx:670
 msgid "Authors"
 msgstr ""
 
@@ -1039,12 +1039,12 @@ msgstr ""
 msgid "Back to login"
 msgstr "로그인으로 돌아가기"
 
-#: packages/admin/src/components/MarketplacePluginDetail.tsx:116
-#: packages/admin/src/components/MarketplacePluginDetail.tsx:392
+#: packages/admin/src/components/MarketplacePluginDetail.tsx:115
+#: packages/admin/src/components/MarketplacePluginDetail.tsx:391
 msgid "Back to marketplace"
 msgstr "마켓플레이스로 돌아가기"
 
-#: packages/admin/src/components/RegistryPluginDetail.tsx:682
+#: packages/admin/src/components/RegistryPluginDetail.tsx:803
 msgid "Back to plugins"
 msgstr ""
 
@@ -1258,6 +1258,10 @@ msgstr ""
 msgid "Change Logo"
 msgstr "로고 변경"
 
+#: packages/admin/src/components/RegistryPluginDetail.tsx:791
+msgid "Changelog"
+msgstr ""
+
 #: packages/admin/src/router.tsx:811
 msgid "Changes discarded"
 msgstr ""
@@ -1319,7 +1323,7 @@ msgstr "이메일에 있는 링크를 클릭하여 로그인하세요."
 #: packages/admin/src/components/FieldEditor.tsx:345
 #: packages/admin/src/components/FieldEditor.tsx:351
 #: packages/admin/src/components/FieldEditor.tsx:355
-#: packages/admin/src/components/MarketplacePluginDetail.tsx:437
+#: packages/admin/src/components/MarketplacePluginDetail.tsx:436
 #: packages/admin/src/components/MediaDetailPanel.tsx:131
 #: packages/admin/src/components/MediaDetailPanel.tsx:133
 #: packages/admin/src/components/MediaPickerModal.tsx:469
@@ -1481,7 +1485,7 @@ msgstr "연결됨 {0}"
 #: packages/admin/src/components/Dashboard.tsx:164
 #: packages/admin/src/components/PortableTextEditor.tsx:2006
 #: packages/admin/src/components/SectionEditor.tsx:194
-#: packages/admin/src/components/Sidebar.tsx:428
+#: packages/admin/src/components/Sidebar.tsx:422
 #: packages/admin/src/components/Widgets.tsx:819
 msgid "Content"
 msgstr "콘텐츠"
@@ -1847,7 +1851,7 @@ msgstr "어두운 테마"
 #: packages/admin/src/components/ContentTypeList.tsx:246
 #: packages/admin/src/components/Dashboard.tsx:42
 #: packages/admin/src/components/Sidebar.tsx:179
-#: packages/admin/src/components/Sidebar.tsx:417
+#: packages/admin/src/components/Sidebar.tsx:411
 msgid "Dashboard"
 msgstr "대시보드"
 
@@ -1873,7 +1877,7 @@ msgstr "날짜 형식"
 msgid "Decimal number"
 msgstr "소수"
 
-#: packages/admin/src/components/RegistryPluginDetail.tsx:646
+#: packages/admin/src/components/RegistryPluginDetail.tsx:735
 msgid "Declared permissions"
 msgstr ""
 
@@ -2095,6 +2099,7 @@ msgid "Describe what this section is for..."
 msgstr "이 섹션의 용도를 설명하세요."
 
 #: packages/admin/src/components/ContentTypeEditor.tsx:415
+#: packages/admin/src/components/RegistryPluginDetail.tsx:788
 #: packages/admin/src/components/SectionEditor.tsx:259
 #: packages/admin/src/components/Sections.tsx:200
 #: packages/admin/src/components/Widgets.tsx:373
@@ -2259,6 +2264,10 @@ msgstr "완료"
 #: packages/admin/src/components/ContentEditor.tsx:2066
 msgid "Down"
 msgstr "아래로"
+
+#: packages/admin/src/components/RegistryPluginDetail.tsx:477
+msgid "Download SBOM"
+msgstr ""
 
 #: packages/admin/src/components/WordPressImport.tsx:1962
 msgid "Downloading"
@@ -2596,7 +2605,7 @@ msgstr "섹션을 저장하는 중에 오류가 발생했습니다."
 msgid "Error updating widget"
 msgstr ""
 
-#: packages/admin/src/components/RegistryPluginDetail.tsx:492
+#: packages/admin/src/components/RegistryPluginDetail.tsx:581
 msgid "Every published release of this plugin has been withdrawn or could not be verified. Check back later, or contact the publisher."
 msgstr ""
 
@@ -2649,7 +2658,7 @@ msgstr "실패됨"
 msgid "Failed"
 msgstr "실패"
 
-#: packages/admin/src/components/MarketplacePluginDetail.tsx:189
+#: packages/admin/src/components/MarketplacePluginDetail.tsx:188
 msgid "Failed security audit"
 msgstr "보안 감사 실패"
 
@@ -2852,7 +2861,7 @@ msgid "Failed to import media"
 msgstr ""
 
 #: packages/admin/src/lib/api/marketplace.ts:160
-#: packages/admin/src/lib/api/registry.ts:593
+#: packages/admin/src/lib/api/registry.ts:692
 msgid "Failed to install plugin"
 msgstr ""
 
@@ -2881,7 +2890,7 @@ msgstr ""
 msgid "Failed to load passkeys"
 msgstr "패스키를 로드하지 못했습니다."
 
-#: packages/admin/src/components/MarketplacePluginDetail.tsx:111
+#: packages/admin/src/components/MarketplacePluginDetail.tsx:110
 msgid "Failed to load plugin"
 msgstr "플러그인을 로드하지 못했습니다."
 
@@ -3010,7 +3019,7 @@ msgid "Failed to set entry terms"
 msgstr ""
 
 #: packages/admin/src/lib/api/marketplace.ts:192
-#: packages/admin/src/lib/api/registry.ts:732
+#: packages/admin/src/lib/api/registry.ts:831
 msgid "Failed to uninstall plugin"
 msgstr ""
 
@@ -3036,7 +3045,7 @@ msgid "Failed to update domain"
 msgstr "도메인을 업데이트하지 못했습니다."
 
 #: packages/admin/src/lib/api/marketplace.ts:176
-#: packages/admin/src/lib/api/registry.ts:664
+#: packages/admin/src/lib/api/registry.ts:763
 msgid "Failed to update plugin"
 msgstr ""
 
@@ -3054,6 +3063,10 @@ msgstr ""
 
 #: packages/admin/src/components/auth/PasskeyRegistration.tsx:253
 msgid "Failed to verify registration"
+msgstr ""
+
+#: packages/admin/src/components/RegistryPluginDetail.tsx:790
+msgid "FAQ"
 msgstr ""
 
 #: packages/admin/src/components/settings/GeneralSettings.tsx:236
@@ -3294,7 +3307,7 @@ msgid "https://example.com/image.jpg"
 msgstr ""
 
 #: packages/admin/src/components/MarketplaceBrowse.tsx:241
-#: packages/admin/src/components/MarketplacePluginDetail.tsx:143
+#: packages/admin/src/components/MarketplacePluginDetail.tsx:142
 msgid "Icon blurred due to image audit"
 msgstr "이미지 검수로 인해 아이콘이 흐리게 표시됨"
 
@@ -3429,9 +3442,8 @@ msgstr "샘플 콘텐츠 포함(새 사이트에 권장)"
 msgid "Incompatible"
 msgstr "호환되지 않음"
 
-#. placeholder {0}: formatDate(release.indexedAt)
-#: packages/admin/src/components/RegistryPluginDetail.tsx:402
-msgid "indexed {0}"
+#: packages/admin/src/components/RegistryPluginDetail.tsx:491
+msgid "Indexed"
 msgstr ""
 
 #: packages/admin/src/components/PortableTextEditor.tsx:2833
@@ -3500,8 +3512,8 @@ msgstr ""
 msgid "Instagram"
 msgstr "인스타그램"
 
-#: packages/admin/src/components/MarketplacePluginDetail.tsx:193
-#: packages/admin/src/components/RegistryPluginDetail.tsx:450
+#: packages/admin/src/components/MarketplacePluginDetail.tsx:192
+#: packages/admin/src/components/RegistryPluginDetail.tsx:539
 msgid "Install"
 msgstr "설치"
 
@@ -3509,14 +3521,18 @@ msgstr "설치"
 msgid "Install and activate an email provider plugin to enable email features like invitations, magic links, and password recovery."
 msgstr "초대, 매직 링크, 비밀번호 복구와 같은 이메일 기능을 활성화하려면 이메일 공급자 플러그인을 설치하고 활성화하세요."
 
-#: packages/admin/src/components/MarketplacePluginDetail.tsx:187
+#: packages/admin/src/components/MarketplacePluginDetail.tsx:186
 msgid "Install blocked"
 msgstr "설치가 차단됨"
 
+#: packages/admin/src/components/RegistryPluginDetail.tsx:789
+msgid "Installation"
+msgstr ""
+
 #: packages/admin/src/components/MarketplaceBrowse.tsx:261
-#: packages/admin/src/components/MarketplacePluginDetail.tsx:174
+#: packages/admin/src/components/MarketplacePluginDetail.tsx:173
 #: packages/admin/src/components/RegistryBrowse.tsx:198
-#: packages/admin/src/components/RegistryPluginDetail.tsx:442
+#: packages/admin/src/components/RegistryPluginDetail.tsx:531
 msgid "Installed"
 msgstr "설치됨"
 
@@ -3603,7 +3619,7 @@ msgstr "제인 도"
 msgid "JSON"
 msgstr "JSON"
 
-#: packages/admin/src/components/MarketplacePluginDetail.tsx:294
+#: packages/admin/src/components/MarketplacePluginDetail.tsx:293
 #: packages/admin/src/components/SectionEditor.tsx:268
 #: packages/admin/src/components/ThemeMarketplaceDetail.tsx:189
 msgid "Keywords"
@@ -3881,7 +3897,7 @@ msgstr ""
 msgid "Make network requests to any host (unrestricted)"
 msgstr ""
 
-#: packages/admin/src/components/Sidebar.tsx:442
+#: packages/admin/src/components/Sidebar.tsx:434
 msgid "Manage"
 msgstr "관리"
 
@@ -4255,7 +4271,7 @@ msgstr "다음"
 msgid "Next page"
 msgstr "다음 페이지"
 
-#: packages/admin/src/components/MarketplacePluginDetail.tsx:464
+#: packages/admin/src/components/MarketplacePluginDetail.tsx:463
 msgid "Next screenshot"
 msgstr "다음 스크린샷"
 
@@ -4339,7 +4355,7 @@ msgstr "아직 콘텐츠 유형이 없습니다."
 msgid "No custom fields yet"
 msgstr ""
 
-#: packages/admin/src/components/MarketplacePluginDetail.tsx:265
+#: packages/admin/src/components/MarketplacePluginDetail.tsx:264
 msgid "No detailed description available."
 msgstr "자세한 설명이 없습니다."
 
@@ -4371,7 +4387,7 @@ msgstr "비교할 필드가 없습니다."
 msgid "No headings in document"
 msgstr "문서에 제목이 없습니다."
 
-#: packages/admin/src/components/RegistryPluginDetail.tsx:490
+#: packages/admin/src/components/RegistryPluginDetail.tsx:579
 msgid "No installable releases"
 msgstr ""
 
@@ -4531,7 +4547,7 @@ msgstr ""
 msgid "None (top level)"
 msgstr "없음(최상위 수준)"
 
-#: packages/admin/src/components/RegistryPluginDetail.tsx:525
+#: packages/admin/src/components/RegistryPluginDetail.tsx:614
 msgid "Not compatible with this environment"
 msgstr ""
 
@@ -4793,7 +4809,7 @@ msgstr "\"{제목}\"을(를) 영구적으로 삭제하시겠습니까? 이 작�
 msgid "Permanently delete {title}"
 msgstr "{title}을(를) 영구적으로 삭제"
 
-#: packages/admin/src/components/MarketplacePluginDetail.tsx:274
+#: packages/admin/src/components/MarketplacePluginDetail.tsx:273
 msgid "Permissions"
 msgstr "권한"
 
@@ -4826,6 +4842,10 @@ msgstr "유효한 URL을 입력하세요."
 msgid "Plugin"
 msgstr "플러그인"
 
+#: packages/admin/src/components/RegistryPluginDetail.tsx:747
+msgid "Plugin details"
+msgstr ""
+
 #: packages/admin/src/components/PluginManager.tsx:110
 msgid "Plugin disabled"
 msgstr "플러그인 비활성화됨"
@@ -4843,11 +4863,11 @@ msgstr ""
 msgid "Plugin error ({0})"
 msgstr ""
 
-#: packages/admin/src/components/MarketplacePluginDetail.tsx:113
+#: packages/admin/src/components/MarketplacePluginDetail.tsx:112
 msgid "Plugin not found"
 msgstr "플러그인을 찾을 수 없습니다"
 
-#: packages/admin/src/components/RegistryPluginDetail.tsx:351
+#: packages/admin/src/components/RegistryPluginDetail.tsx:396
 msgid "Plugin not found. The publisher handle or slug may be incorrect."
 msgstr ""
 
@@ -4872,7 +4892,7 @@ msgstr ""
 msgid "Plugin uninstalled"
 msgstr "플러그인이 제거되었습니다."
 
-#: packages/admin/src/lib/api/registry.ts:684
+#: packages/admin/src/lib/api/registry.ts:783
 msgid "Plugin update requires re-consent"
 msgstr ""
 
@@ -4885,7 +4905,7 @@ msgstr "플러그인이 업데이트되었습니다."
 #: packages/admin/src/components/PluginManager.tsx:144
 #: packages/admin/src/components/PluginManager.tsx:153
 #: packages/admin/src/components/Sidebar.tsx:215
-#: packages/admin/src/components/Sidebar.tsx:466
+#: packages/admin/src/components/Sidebar.tsx:454
 msgid "Plugins"
 msgstr "플러그인"
 
@@ -4901,7 +4921,7 @@ msgstr "게시물"
 msgid "Posts Per Page"
 msgstr "페이지당 게시물 수"
 
-#: packages/admin/src/components/RegistryPluginDetail.tsx:404
+#: packages/admin/src/components/RegistryPluginDetail.tsx:463
 msgid "Pre-release"
 msgstr ""
 
@@ -4941,7 +4961,7 @@ msgstr "이전"
 msgid "Previous page"
 msgstr "이전 페이지"
 
-#: packages/admin/src/components/MarketplacePluginDetail.tsx:446
+#: packages/admin/src/components/MarketplacePluginDetail.tsx:445
 msgid "Previous screenshot"
 msgstr "이전 스크린샷"
 
@@ -4974,7 +4994,7 @@ msgid "Published"
 msgstr "게시됨"
 
 #. placeholder {0}: new Date(latest.publishedAt).toLocaleDateString()
-#: packages/admin/src/components/MarketplacePluginDetail.tsx:327
+#: packages/admin/src/components/MarketplacePluginDetail.tsx:326
 msgid "Published {0}"
 msgstr "게시됨 {0}"
 
@@ -4982,7 +5002,7 @@ msgstr "게시됨 {0}"
 msgid "Published At"
 msgstr "게시 날짜"
 
-#: packages/admin/src/components/RegistryPluginDetail.tsx:396
+#: packages/admin/src/components/RegistryPluginDetail.tsx:457
 msgid "Published by"
 msgstr ""
 
@@ -5104,7 +5124,7 @@ msgstr "등록이 취소되었거나 시간이 초과되었습니다. 다시 시
 msgid "Registry"
 msgstr ""
 
-#: packages/admin/src/components/RegistryPluginDetail.tsx:506
+#: packages/admin/src/components/RegistryPluginDetail.tsx:595
 msgid "Release is too new to install"
 msgstr ""
 
@@ -5246,7 +5266,7 @@ msgid "Required for accessibility. Describes the image for screen readers."
 msgstr "접근성을 위해 필수입니다. 스크린 리더가 이미지 내용을 읽어줍니다."
 
 #. placeholder {0}: latest.minEmDashVersion
-#: packages/admin/src/components/MarketplacePluginDetail.tsx:325
+#: packages/admin/src/components/MarketplacePluginDetail.tsx:324
 msgid "Requires EmDash {0}"
 msgstr "EmDash {0} 필요"
 
@@ -5349,7 +5369,7 @@ msgid "Rich text editor"
 msgstr "리치 텍스트 편집기"
 
 #. placeholder {0}: latest.audit.riskScore
-#: packages/admin/src/components/MarketplacePluginDetail.tsx:312
+#: packages/admin/src/components/MarketplacePluginDetail.tsx:311
 msgid "Risk score: {0}/100"
 msgstr "위험 점수: {0}/100"
 
@@ -5451,6 +5471,15 @@ msgstr "저장됨"
 msgid "Saving..."
 msgstr "저장 중..."
 
+#: packages/admin/src/components/RegistryPluginDetail.tsx:467
+msgid "SBOM"
+msgstr ""
+
+#. placeholder {0}: sbom.format
+#: packages/admin/src/components/RegistryPluginDetail.tsx:465
+msgid "SBOM · {0}"
+msgstr ""
+
 #: packages/admin/src/components/ContentEditor.tsx:899
 msgid "Schedule"
 msgstr "예약"
@@ -5504,8 +5533,8 @@ msgstr "권한 범위: {0}"
 
 #. placeholder {0}: i + 1
 #. placeholder {0}: index + 1
-#: packages/admin/src/components/MarketplacePluginDetail.tsx:244
-#: packages/admin/src/components/RegistryPluginDetail.tsx:551
+#: packages/admin/src/components/MarketplacePluginDetail.tsx:243
+#: packages/admin/src/components/RegistryPluginDetail.tsx:640
 #: packages/admin/src/components/ThemeMarketplaceDetail.tsx:174
 #: packages/admin/src/components/ThemeMarketplaceDetail.tsx:293
 msgid "Screenshot {0}"
@@ -5513,20 +5542,20 @@ msgstr "스크린샷 {0}"
 
 #. placeholder {0}: index + 1
 #. placeholder {1}: screenshots.length
-#: packages/admin/src/components/MarketplacePluginDetail.tsx:454
+#: packages/admin/src/components/MarketplacePluginDetail.tsx:453
 msgid "Screenshot {0} of {1}"
 msgstr "{1} 중 스크린샷 {0}"
 
-#: packages/admin/src/components/MarketplacePluginDetail.tsx:247
+#: packages/admin/src/components/MarketplacePluginDetail.tsx:246
 msgid "Screenshot blurred due to image audit"
 msgstr "이미지 검수로 인해 스크린샷이 흐리게 표시됨"
 
-#: packages/admin/src/components/MarketplacePluginDetail.tsx:432
+#: packages/admin/src/components/MarketplacePluginDetail.tsx:431
 msgid "Screenshot viewer"
 msgstr "스크린샷 뷰어"
 
-#: packages/admin/src/components/MarketplacePluginDetail.tsx:234
-#: packages/admin/src/components/RegistryPluginDetail.tsx:545
+#: packages/admin/src/components/MarketplacePluginDetail.tsx:233
+#: packages/admin/src/components/RegistryPluginDetail.tsx:634
 #: packages/admin/src/components/ThemeMarketplaceDetail.tsx:164
 msgid "Screenshots"
 msgstr "스크린샷"
@@ -5669,11 +5698,12 @@ msgstr "보안 환경"
 msgid "Secure your account"
 msgstr "계정을 보호하세요"
 
+#: packages/admin/src/components/RegistryPluginDetail.tsx:792
 #: packages/admin/src/components/Settings.tsx:92
 msgid "Security"
 msgstr "보안"
 
-#: packages/admin/src/components/MarketplacePluginDetail.tsx:308
+#: packages/admin/src/components/MarketplacePluginDetail.tsx:307
 msgid "Security Audit"
 msgstr "보안 감사"
 
@@ -5697,7 +5727,7 @@ msgstr "보안 감사에서 이 플러그인이 잠재적으로 안전하지 않
 msgid "Security audit passed"
 msgstr "보안 감사 통과"
 
-#: packages/admin/src/components/RegistryPluginDetail.tsx:614
+#: packages/admin/src/components/RegistryPluginDetail.tsx:703
 msgid "Security contacts"
 msgstr ""
 
@@ -6107,7 +6137,7 @@ msgstr "테마 정렬"
 #: packages/admin/src/components/ContentTypeList.tsx:100
 #: packages/admin/src/components/editor/ImageDetailPanel.tsx:325
 #: packages/admin/src/components/editor/ImageDetailPanel.tsx:490
-#: packages/admin/src/components/MarketplacePluginDetail.tsx:215
+#: packages/admin/src/components/MarketplacePluginDetail.tsx:214
 #: packages/admin/src/components/PluginManager.tsx:497
 #: packages/admin/src/components/Redirects.tsx:440
 #: packages/admin/src/components/SectionEditor.tsx:279
@@ -6381,11 +6411,11 @@ msgstr "대규모 내보내기의 경우 시간이 걸릴 수 있습니다."
 msgid "This passkey is already registered on this device."
 msgstr "이 패스키는 이 기기에 이미 등록되어 있습니다."
 
-#: packages/admin/src/components/MarketplacePluginDetail.tsx:277
+#: packages/admin/src/components/MarketplacePluginDetail.tsx:276
 msgid "This plugin requires no special permissions."
 msgstr "이 플러그인에는 특별한 권한이 필요하지 않습니다."
 
-#: packages/admin/src/components/RegistryPluginDetail.tsx:475
+#: packages/admin/src/components/RegistryPluginDetail.tsx:564
 msgid "This publisher claims a name they couldn't prove they own — possibly impersonating someone else. Install is disabled. If you know the publisher and trust them, ask them to fix their identity setup before retrying."
 msgstr ""
 
@@ -6393,7 +6423,7 @@ msgstr ""
 msgid "This redirect rule will be permanently removed."
 msgstr "이 리디렉션 규칙은 영구적으로 삭제됩니다."
 
-#: packages/admin/src/components/RegistryPluginDetail.tsx:527
+#: packages/admin/src/components/RegistryPluginDetail.tsx:616
 msgid "This release requires a newer environment than your site currently runs. Upgrade before installing."
 msgstr ""
 
@@ -6642,7 +6672,7 @@ msgstr ""
 msgid "Undo"
 msgstr ""
 
-#: packages/admin/src/components/MarketplacePluginDetail.tsx:181
+#: packages/admin/src/components/MarketplacePluginDetail.tsx:180
 #: packages/admin/src/components/PluginManager.tsx:547
 #: packages/admin/src/components/PluginManager.tsx:643
 msgid "Uninstall"
@@ -6765,6 +6795,10 @@ msgstr "이 리디렉션 규칙을 업데이트하세요."
 #: packages/admin/src/components/PluginManager.tsx:417
 msgid "Update to v{0}"
 msgstr "v{0}로 업데이트"
+
+#: packages/admin/src/components/RegistryPluginDetail.tsx:486
+msgid "Updated"
+msgstr ""
 
 #: packages/admin/src/components/ContentTypeEditor.tsx:129
 msgid "Updated At"
@@ -6981,8 +7015,20 @@ msgid "Validation"
 msgstr "유효성 검증"
 
 #: packages/admin/src/components/RegistryBrowse.tsx:186
-#: packages/admin/src/components/RegistryPluginDetail.tsx:391
+#: packages/admin/src/components/RegistryPluginDetail.tsx:447
 msgid "Verified publisher"
+msgstr ""
+
+#: packages/admin/src/components/RegistryPluginDetail.tsx:446
+msgid "Verified publisher, confirmed by labeller {verifiedLabeller}"
+msgstr ""
+
+#: packages/admin/src/components/RegistryPluginDetail.tsx:437
+msgid "Verified publisher. A labeller ({verifiedLabeller}) has confirmed this publisher's identity."
+msgstr ""
+
+#: packages/admin/src/components/RegistryPluginDetail.tsx:438
+msgid "Verified publisher. A labeller has confirmed this publisher's identity."
 msgstr ""
 
 #: packages/admin/src/components/InviteAcceptPage.tsx:194
@@ -6998,13 +7044,13 @@ msgstr "링크 확인 중..."
 msgid "Verifying..."
 msgstr "확인 중..."
 
-#: packages/admin/src/components/MarketplacePluginDetail.tsx:321
-#: packages/admin/src/components/RegistryPluginDetail.tsx:411
+#: packages/admin/src/components/MarketplacePluginDetail.tsx:320
+#: packages/admin/src/components/RegistryPluginDetail.tsx:500
 msgid "Version"
 msgstr "버전"
 
 #. placeholder {0}: release.version
-#: packages/admin/src/components/RegistryPluginDetail.tsx:402
+#: packages/admin/src/components/RegistryPluginDetail.tsx:462
 msgid "Version {0}"
 msgstr ""
 
@@ -7032,11 +7078,11 @@ msgstr "게시된 {title} 보기"
 msgid "View Site"
 msgstr "사이트 보기"
 
-#: packages/admin/src/components/RegistryPluginDetail.tsx:572
+#: packages/admin/src/components/RegistryPluginDetail.tsx:661
 msgid "View source"
 msgstr ""
 
-#: packages/admin/src/components/RegistryPluginDetail.tsx:815
+#: packages/admin/src/components/RegistryPluginDetail.tsx:936
 msgid "View the {license} license on spdx.org"
 msgstr ""
 
@@ -7058,7 +7104,7 @@ msgstr "경고"
 msgid "We couldn't connect to a WordPress site at {0}. This could mean the site isn't WordPress, the REST API is disabled, or the site isn't accessible."
 msgstr "{0}에서 WordPress 사이트에 연결하지 못했습니다. WordPress 사이트가 아니거나, REST API가 비활성화되었거나, 사이트에 접근할 수 없는 경우 발생할 수 있습니다."
 
-#: packages/admin/src/components/RegistryPluginDetail.tsx:473
+#: packages/admin/src/components/RegistryPluginDetail.tsx:562
 msgid "We couldn't verify this publisher's identity"
 msgstr ""
 
@@ -7083,8 +7129,8 @@ msgstr "웹 주소"
 msgid "WebAuthn is not supported in this browser"
 msgstr "이 브라우저에서는 WebAuthn이 지원되지 않습니다."
 
-#: packages/admin/src/components/MarketplacePluginDetail.tsx:226
-#: packages/admin/src/components/RegistryPluginDetail.tsx:597
+#: packages/admin/src/components/MarketplacePluginDetail.tsx:225
+#: packages/admin/src/components/RegistryPluginDetail.tsx:686
 msgid "Website"
 msgstr "웹사이트"
 
@@ -7316,7 +7362,7 @@ msgid "Your Role"
 msgstr "내 권한"
 
 #. placeholder {0}: formatHoldback(config.policy?.minimumReleaseAgeSeconds ?? 0)
-#: packages/admin/src/components/RegistryPluginDetail.tsx:508
+#: packages/admin/src/components/RegistryPluginDetail.tsx:597
 msgid "Your site requires releases to be at least {0} old before they can be installed. This release will become installable later."
 msgstr ""
 

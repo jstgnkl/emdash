@@ -50,7 +50,7 @@ msgstr " : utiliser"
 msgid "(from {0})"
 msgstr "(à partir de {0})"
 
-#: packages/admin/src/components/RegistryPluginDetail.tsx:429
+#: packages/admin/src/components/RegistryPluginDetail.tsx:518
 msgid "(pre-release)"
 msgstr ""
 
@@ -58,7 +58,7 @@ msgstr ""
 msgid "(synced)"
 msgstr "(synchronisé)"
 
-#: packages/admin/src/components/RegistryPluginDetail.tsx:432
+#: packages/admin/src/components/RegistryPluginDetail.tsx:521
 msgid "(too new)"
 msgstr ""
 
@@ -165,7 +165,7 @@ msgstr "{0, plural, one {champ} other {champs}}"
 #. placeholder {0}: envLabel(m.key)
 #. placeholder {1}: m.required
 #. placeholder {2}: m.host
-#: packages/admin/src/components/RegistryPluginDetail.tsx:532
+#: packages/admin/src/components/RegistryPluginDetail.tsx:621
 msgid "{0} {1} required — you have {2}."
 msgstr ""
 
@@ -176,7 +176,7 @@ msgid "{0} • {1}"
 msgstr "{0} • {1}"
 
 #. placeholder {0}: displayName ?? slug
-#: packages/admin/src/components/RegistryPluginDetail.tsx:365
+#: packages/admin/src/components/RegistryPluginDetail.tsx:410
 msgid "{0} banner"
 msgstr ""
 
@@ -196,12 +196,12 @@ msgid "{0} has been removed"
 msgstr "{0} a été supprimé"
 
 #. placeholder {0}: displayName ?? slug
-#: packages/admin/src/components/RegistryPluginDetail.tsx:377
+#: packages/admin/src/components/RegistryPluginDetail.tsx:422
 msgid "{0} icon"
 msgstr ""
 
 #. placeholder {0}: plugin.installCount.toLocaleString()
-#: packages/admin/src/components/MarketplacePluginDetail.tsx:203
+#: packages/admin/src/components/MarketplacePluginDetail.tsx:202
 msgid "{0} installs"
 msgstr "{0} installations"
 
@@ -685,12 +685,12 @@ msgid "Additional data to import."
 msgstr "Données supplémentaires à importer."
 
 #: packages/admin/src/components/settings/ApiTokenSettings.tsx:95
-#: packages/admin/src/components/Sidebar.tsx:454
+#: packages/admin/src/components/Sidebar.tsx:444
 #: packages/admin/src/components/users/roleDefinitions.ts:42
 msgid "Admin"
 msgstr "Admin"
 
-#: packages/admin/src/components/Sidebar.tsx:394
+#: packages/admin/src/components/Sidebar.tsx:388
 msgid "Admin navigation"
 msgstr "Navigation administrateur"
 
@@ -976,7 +976,7 @@ msgstr "Autoriser l'appareil"
 msgid "Authorizing..."
 msgstr "En cours d'autorisation..."
 
-#: packages/admin/src/components/RegistryPluginDetail.tsx:581
+#: packages/admin/src/components/RegistryPluginDetail.tsx:670
 msgid "Authors"
 msgstr ""
 
@@ -1039,12 +1039,12 @@ msgstr "Retour aux types de contenu"
 msgid "Back to login"
 msgstr "Retour à la page de connexion"
 
-#: packages/admin/src/components/MarketplacePluginDetail.tsx:116
-#: packages/admin/src/components/MarketplacePluginDetail.tsx:392
+#: packages/admin/src/components/MarketplacePluginDetail.tsx:115
+#: packages/admin/src/components/MarketplacePluginDetail.tsx:391
 msgid "Back to marketplace"
 msgstr "Retour à la place de marché"
 
-#: packages/admin/src/components/RegistryPluginDetail.tsx:682
+#: packages/admin/src/components/RegistryPluginDetail.tsx:803
 msgid "Back to plugins"
 msgstr "Retour aux modules d'extension"
 
@@ -1258,6 +1258,10 @@ msgstr "Modifier l'image"
 msgid "Change Logo"
 msgstr "Modifier le logo"
 
+#: packages/admin/src/components/RegistryPluginDetail.tsx:791
+msgid "Changelog"
+msgstr ""
+
 #: packages/admin/src/router.tsx:811
 msgid "Changes discarded"
 msgstr "Modifications rejetées"
@@ -1319,7 +1323,7 @@ msgstr "Cliquez sur le lien dans l'e-mail pour vous connecter."
 #: packages/admin/src/components/FieldEditor.tsx:345
 #: packages/admin/src/components/FieldEditor.tsx:351
 #: packages/admin/src/components/FieldEditor.tsx:355
-#: packages/admin/src/components/MarketplacePluginDetail.tsx:437
+#: packages/admin/src/components/MarketplacePluginDetail.tsx:436
 #: packages/admin/src/components/MediaDetailPanel.tsx:131
 #: packages/admin/src/components/MediaDetailPanel.tsx:133
 #: packages/admin/src/components/MediaPickerModal.tsx:469
@@ -1481,7 +1485,7 @@ msgstr "Connecté {0}"
 #: packages/admin/src/components/Dashboard.tsx:164
 #: packages/admin/src/components/PortableTextEditor.tsx:2006
 #: packages/admin/src/components/SectionEditor.tsx:194
-#: packages/admin/src/components/Sidebar.tsx:428
+#: packages/admin/src/components/Sidebar.tsx:422
 #: packages/admin/src/components/Widgets.tsx:819
 msgid "Content"
 msgstr "Contenu"
@@ -1847,7 +1851,7 @@ msgstr "Sombre"
 #: packages/admin/src/components/ContentTypeList.tsx:246
 #: packages/admin/src/components/Dashboard.tsx:42
 #: packages/admin/src/components/Sidebar.tsx:179
-#: packages/admin/src/components/Sidebar.tsx:417
+#: packages/admin/src/components/Sidebar.tsx:411
 msgid "Dashboard"
 msgstr "Tableau de bord"
 
@@ -1873,7 +1877,7 @@ msgstr "Format des dates"
 msgid "Decimal number"
 msgstr "Nombre décimal"
 
-#: packages/admin/src/components/RegistryPluginDetail.tsx:646
+#: packages/admin/src/components/RegistryPluginDetail.tsx:735
 msgid "Declared permissions"
 msgstr "Autorisations déclarées"
 
@@ -2095,6 +2099,7 @@ msgid "Describe what this section is for..."
 msgstr "Décrivez à quoi sert cette section..."
 
 #: packages/admin/src/components/ContentTypeEditor.tsx:415
+#: packages/admin/src/components/RegistryPluginDetail.tsx:788
 #: packages/admin/src/components/SectionEditor.tsx:259
 #: packages/admin/src/components/Sections.tsx:200
 #: packages/admin/src/components/Widgets.tsx:373
@@ -2259,6 +2264,10 @@ msgstr "Fait"
 #: packages/admin/src/components/ContentEditor.tsx:2066
 msgid "Down"
 msgstr "Vers le bas"
+
+#: packages/admin/src/components/RegistryPluginDetail.tsx:477
+msgid "Download SBOM"
+msgstr ""
 
 #: packages/admin/src/components/WordPressImport.tsx:1962
 msgid "Downloading"
@@ -2596,7 +2605,7 @@ msgstr "Erreur lors de l'enregistrement de la section"
 msgid "Error updating widget"
 msgstr "Erreur lors de la mise à jour du widget"
 
-#: packages/admin/src/components/RegistryPluginDetail.tsx:492
+#: packages/admin/src/components/RegistryPluginDetail.tsx:581
 msgid "Every published release of this plugin has been withdrawn or could not be verified. Check back later, or contact the publisher."
 msgstr ""
 
@@ -2649,7 +2658,7 @@ msgstr "Échec"
 msgid "Failed"
 msgstr "Échec"
 
-#: packages/admin/src/components/MarketplacePluginDetail.tsx:189
+#: packages/admin/src/components/MarketplacePluginDetail.tsx:188
 msgid "Failed security audit"
 msgstr "Échec lors de l'audit de sécurité"
 
@@ -2852,7 +2861,7 @@ msgid "Failed to import media"
 msgstr "Échec lors de l'importation du média"
 
 #: packages/admin/src/lib/api/marketplace.ts:160
-#: packages/admin/src/lib/api/registry.ts:593
+#: packages/admin/src/lib/api/registry.ts:692
 msgid "Failed to install plugin"
 msgstr "Échec lors de l'installation du module d'extension"
 
@@ -2881,7 +2890,7 @@ msgstr "Échec lors du chargement de l'image"
 msgid "Failed to load passkeys"
 msgstr "Échec lors du chargement des clés d'accès"
 
-#: packages/admin/src/components/MarketplacePluginDetail.tsx:111
+#: packages/admin/src/components/MarketplacePluginDetail.tsx:110
 msgid "Failed to load plugin"
 msgstr "Échec lors du chargement du module d'extension"
 
@@ -3010,7 +3019,7 @@ msgid "Failed to set entry terms"
 msgstr "Échec lors de la définition des conditions d'entrée"
 
 #: packages/admin/src/lib/api/marketplace.ts:192
-#: packages/admin/src/lib/api/registry.ts:732
+#: packages/admin/src/lib/api/registry.ts:831
 msgid "Failed to uninstall plugin"
 msgstr "Échec lors de la désinstallation du module d'extension"
 
@@ -3036,7 +3045,7 @@ msgid "Failed to update domain"
 msgstr "Échec lors de la mise à jour du domaine"
 
 #: packages/admin/src/lib/api/marketplace.ts:176
-#: packages/admin/src/lib/api/registry.ts:664
+#: packages/admin/src/lib/api/registry.ts:763
 msgid "Failed to update plugin"
 msgstr "Échec lors de la mise à jour du module d'extension"
 
@@ -3055,6 +3064,10 @@ msgstr "Échec lors de la vérification de l'authentification"
 #: packages/admin/src/components/auth/PasskeyRegistration.tsx:253
 msgid "Failed to verify registration"
 msgstr "Échec lors de la vérification de l'inscription"
+
+#: packages/admin/src/components/RegistryPluginDetail.tsx:790
+msgid "FAQ"
+msgstr ""
 
 #: packages/admin/src/components/settings/GeneralSettings.tsx:236
 #: packages/admin/src/components/settings/GeneralSettings.tsx:242
@@ -3294,7 +3307,7 @@ msgid "https://example.com/image.jpg"
 msgstr "https://example.com/image.jpg"
 
 #: packages/admin/src/components/MarketplaceBrowse.tsx:241
-#: packages/admin/src/components/MarketplacePluginDetail.tsx:143
+#: packages/admin/src/components/MarketplacePluginDetail.tsx:142
 msgid "Icon blurred due to image audit"
 msgstr "Icône floutée en raison de l'audit d'image"
 
@@ -3429,10 +3442,9 @@ msgstr "Inclure un exemple de contenu (recommandé pour les nouveaux sites)"
 msgid "Incompatible"
 msgstr "Incompatible"
 
-#. placeholder {0}: formatDate(release.indexedAt)
-#: packages/admin/src/components/RegistryPluginDetail.tsx:402
-msgid "indexed {0}"
-msgstr "indexé le {0}"
+#: packages/admin/src/components/RegistryPluginDetail.tsx:491
+msgid "Indexed"
+msgstr ""
 
 #: packages/admin/src/components/PortableTextEditor.tsx:2833
 msgid "Inline Code"
@@ -3500,8 +3512,8 @@ msgstr "Insérer un tableau"
 msgid "Instagram"
 msgstr "Instagram"
 
-#: packages/admin/src/components/MarketplacePluginDetail.tsx:193
-#: packages/admin/src/components/RegistryPluginDetail.tsx:450
+#: packages/admin/src/components/MarketplacePluginDetail.tsx:192
+#: packages/admin/src/components/RegistryPluginDetail.tsx:539
 msgid "Install"
 msgstr "Installer"
 
@@ -3509,14 +3521,18 @@ msgstr "Installer"
 msgid "Install and activate an email provider plugin to enable email features like invitations, magic links, and password recovery."
 msgstr "Installez et activez un module d'extension de fournisseur de messagerie pour activer les fonctionnalités de messagerie telles que les invitations, les liens magiques et la récupération de mot de passe."
 
-#: packages/admin/src/components/MarketplacePluginDetail.tsx:187
+#: packages/admin/src/components/MarketplacePluginDetail.tsx:186
 msgid "Install blocked"
 msgstr "Installation bloquée"
 
+#: packages/admin/src/components/RegistryPluginDetail.tsx:789
+msgid "Installation"
+msgstr ""
+
 #: packages/admin/src/components/MarketplaceBrowse.tsx:261
-#: packages/admin/src/components/MarketplacePluginDetail.tsx:174
+#: packages/admin/src/components/MarketplacePluginDetail.tsx:173
 #: packages/admin/src/components/RegistryBrowse.tsx:198
-#: packages/admin/src/components/RegistryPluginDetail.tsx:442
+#: packages/admin/src/components/RegistryPluginDetail.tsx:531
 msgid "Installed"
 msgstr "Installé"
 
@@ -3603,7 +3619,7 @@ msgstr "Jane Doe"
 msgid "JSON"
 msgstr "JSON"
 
-#: packages/admin/src/components/MarketplacePluginDetail.tsx:294
+#: packages/admin/src/components/MarketplacePluginDetail.tsx:293
 #: packages/admin/src/components/SectionEditor.tsx:268
 #: packages/admin/src/components/ThemeMarketplaceDetail.tsx:189
 msgid "Keywords"
@@ -3881,7 +3897,7 @@ msgstr "Effectuer des requêtes réseau"
 msgid "Make network requests to any host (unrestricted)"
 msgstr "Effectuer des requêtes réseau vers n'importe quel hôte (sans restriction)"
 
-#: packages/admin/src/components/Sidebar.tsx:442
+#: packages/admin/src/components/Sidebar.tsx:434
 msgid "Manage"
 msgstr "Gérer"
 
@@ -4255,7 +4271,7 @@ msgstr "Suivant"
 msgid "Next page"
 msgstr "Page suivante"
 
-#: packages/admin/src/components/MarketplacePluginDetail.tsx:464
+#: packages/admin/src/components/MarketplacePluginDetail.tsx:463
 msgid "Next screenshot"
 msgstr "Capture d'écran suivante"
 
@@ -4339,7 +4355,7 @@ msgstr "Aucun type de contenu pour l'instant."
 msgid "No custom fields yet"
 msgstr "Pas encore de champs personnalisés"
 
-#: packages/admin/src/components/MarketplacePluginDetail.tsx:265
+#: packages/admin/src/components/MarketplacePluginDetail.tsx:264
 msgid "No detailed description available."
 msgstr "Aucune description détaillée disponible."
 
@@ -4371,7 +4387,7 @@ msgstr "Aucun champ à comparer"
 msgid "No headings in document"
 msgstr "Aucun titre dans le document"
 
-#: packages/admin/src/components/RegistryPluginDetail.tsx:490
+#: packages/admin/src/components/RegistryPluginDetail.tsx:579
 msgid "No installable releases"
 msgstr ""
 
@@ -4531,7 +4547,7 @@ msgstr "Aucune zone de widget pour l'instant. Créez-en une pour commencer."
 msgid "None (top level)"
 msgstr "Aucun (niveau supérieur)"
 
-#: packages/admin/src/components/RegistryPluginDetail.tsx:525
+#: packages/admin/src/components/RegistryPluginDetail.tsx:614
 msgid "Not compatible with this environment"
 msgstr ""
 
@@ -4796,7 +4812,7 @@ msgstr "Supprimer définitivement « {title} » ? Cela ne peut pas être ann
 msgid "Permanently delete {title}"
 msgstr "Supprimer définitivement {title}"
 
-#: packages/admin/src/components/MarketplacePluginDetail.tsx:274
+#: packages/admin/src/components/MarketplacePluginDetail.tsx:273
 msgid "Permissions"
 msgstr "Autorisations"
 
@@ -4829,6 +4845,10 @@ msgstr "Veuillez saisir une URL valide"
 msgid "Plugin"
 msgstr "Module d'extension"
 
+#: packages/admin/src/components/RegistryPluginDetail.tsx:747
+msgid "Plugin details"
+msgstr ""
+
 #: packages/admin/src/components/PluginManager.tsx:110
 msgid "Plugin disabled"
 msgstr "Module d'extension désactivé"
@@ -4846,11 +4866,11 @@ msgstr "Erreur de module d'extension"
 msgid "Plugin error ({0})"
 msgstr "Erreur de module d'extension ({0})"
 
-#: packages/admin/src/components/MarketplacePluginDetail.tsx:113
+#: packages/admin/src/components/MarketplacePluginDetail.tsx:112
 msgid "Plugin not found"
 msgstr "Module d'extension introuvable"
 
-#: packages/admin/src/components/RegistryPluginDetail.tsx:351
+#: packages/admin/src/components/RegistryPluginDetail.tsx:396
 msgid "Plugin not found. The publisher handle or slug may be incorrect."
 msgstr "Module d'extension introuvable. L'identifiant ou le slug de l'éditeur est peut-être incorrect."
 
@@ -4875,7 +4895,7 @@ msgstr "Le module d'extension a répondu avec {0} : {text}"
 msgid "Plugin uninstalled"
 msgstr "Module d'extension désinstallé"
 
-#: packages/admin/src/lib/api/registry.ts:684
+#: packages/admin/src/lib/api/registry.ts:783
 msgid "Plugin update requires re-consent"
 msgstr ""
 
@@ -4888,7 +4908,7 @@ msgstr "Module d'extension mis à jour"
 #: packages/admin/src/components/PluginManager.tsx:144
 #: packages/admin/src/components/PluginManager.tsx:153
 #: packages/admin/src/components/Sidebar.tsx:215
-#: packages/admin/src/components/Sidebar.tsx:466
+#: packages/admin/src/components/Sidebar.tsx:454
 msgid "Plugins"
 msgstr "Modules d'extension"
 
@@ -4904,7 +4924,7 @@ msgstr "Articles"
 msgid "Posts Per Page"
 msgstr "Articles par page"
 
-#: packages/admin/src/components/RegistryPluginDetail.tsx:404
+#: packages/admin/src/components/RegistryPluginDetail.tsx:463
 msgid "Pre-release"
 msgstr ""
 
@@ -4944,7 +4964,7 @@ msgstr "Précédent"
 msgid "Previous page"
 msgstr "Page précédente"
 
-#: packages/admin/src/components/MarketplacePluginDetail.tsx:446
+#: packages/admin/src/components/MarketplacePluginDetail.tsx:445
 msgid "Previous screenshot"
 msgstr "Capture d'écran précédente"
 
@@ -4977,7 +4997,7 @@ msgid "Published"
 msgstr "Publié"
 
 #. placeholder {0}: new Date(latest.publishedAt).toLocaleDateString()
-#: packages/admin/src/components/MarketplacePluginDetail.tsx:327
+#: packages/admin/src/components/MarketplacePluginDetail.tsx:326
 msgid "Published {0}"
 msgstr "Publié {0}"
 
@@ -4985,7 +5005,7 @@ msgstr "Publié {0}"
 msgid "Published At"
 msgstr "Publié le"
 
-#: packages/admin/src/components/RegistryPluginDetail.tsx:396
+#: packages/admin/src/components/RegistryPluginDetail.tsx:457
 msgid "Published by"
 msgstr "Publié par"
 
@@ -5107,7 +5127,7 @@ msgstr "L'inscription a été annulée ou a expiré. Veuillez réessayer."
 msgid "Registry"
 msgstr ""
 
-#: packages/admin/src/components/RegistryPluginDetail.tsx:506
+#: packages/admin/src/components/RegistryPluginDetail.tsx:595
 msgid "Release is too new to install"
 msgstr "La version est trop récente pour être installée"
 
@@ -5249,7 +5269,7 @@ msgid "Required for accessibility. Describes the image for screen readers."
 msgstr "Nécessaire pour l'accessibilité. Décrit l'image pour les lecteurs d'écran."
 
 #. placeholder {0}: latest.minEmDashVersion
-#: packages/admin/src/components/MarketplacePluginDetail.tsx:325
+#: packages/admin/src/components/MarketplacePluginDetail.tsx:324
 msgid "Requires EmDash {0}"
 msgstr "Nécessite EmDash {0}"
 
@@ -5352,7 +5372,7 @@ msgid "Rich text editor"
 msgstr "Éditeur de texte enrichi"
 
 #. placeholder {0}: latest.audit.riskScore
-#: packages/admin/src/components/MarketplacePluginDetail.tsx:312
+#: packages/admin/src/components/MarketplacePluginDetail.tsx:311
 msgid "Risk score: {0}/100"
 msgstr "Score de risque : {0}/100"
 
@@ -5454,6 +5474,15 @@ msgstr "Enregistré"
 msgid "Saving..."
 msgstr "En cours d'enregistrement..."
 
+#: packages/admin/src/components/RegistryPluginDetail.tsx:467
+msgid "SBOM"
+msgstr ""
+
+#. placeholder {0}: sbom.format
+#: packages/admin/src/components/RegistryPluginDetail.tsx:465
+msgid "SBOM · {0}"
+msgstr ""
+
 #: packages/admin/src/components/ContentEditor.tsx:899
 msgid "Schedule"
 msgstr "Programmer"
@@ -5507,8 +5536,8 @@ msgstr "Champs d'application : {0}"
 
 #. placeholder {0}: i + 1
 #. placeholder {0}: index + 1
-#: packages/admin/src/components/MarketplacePluginDetail.tsx:244
-#: packages/admin/src/components/RegistryPluginDetail.tsx:551
+#: packages/admin/src/components/MarketplacePluginDetail.tsx:243
+#: packages/admin/src/components/RegistryPluginDetail.tsx:640
 #: packages/admin/src/components/ThemeMarketplaceDetail.tsx:174
 #: packages/admin/src/components/ThemeMarketplaceDetail.tsx:293
 msgid "Screenshot {0}"
@@ -5516,20 +5545,20 @@ msgstr "Capture d'écran {0}"
 
 #. placeholder {0}: index + 1
 #. placeholder {1}: screenshots.length
-#: packages/admin/src/components/MarketplacePluginDetail.tsx:454
+#: packages/admin/src/components/MarketplacePluginDetail.tsx:453
 msgid "Screenshot {0} of {1}"
 msgstr "Capture d'écran {0} sur {1}"
 
-#: packages/admin/src/components/MarketplacePluginDetail.tsx:247
+#: packages/admin/src/components/MarketplacePluginDetail.tsx:246
 msgid "Screenshot blurred due to image audit"
 msgstr "Capture d'écran floutée en raison d'un audit d'image"
 
-#: packages/admin/src/components/MarketplacePluginDetail.tsx:432
+#: packages/admin/src/components/MarketplacePluginDetail.tsx:431
 msgid "Screenshot viewer"
 msgstr "Visionneuse de capture d'écran"
 
-#: packages/admin/src/components/MarketplacePluginDetail.tsx:234
-#: packages/admin/src/components/RegistryPluginDetail.tsx:545
+#: packages/admin/src/components/MarketplacePluginDetail.tsx:233
+#: packages/admin/src/components/RegistryPluginDetail.tsx:634
 #: packages/admin/src/components/ThemeMarketplaceDetail.tsx:164
 msgid "Screenshots"
 msgstr "Captures d'écran"
@@ -5672,11 +5701,12 @@ msgstr "contexte sécurisé"
 msgid "Secure your account"
 msgstr "Sécuriser votre compte"
 
+#: packages/admin/src/components/RegistryPluginDetail.tsx:792
 #: packages/admin/src/components/Settings.tsx:92
 msgid "Security"
 msgstr "Sécurité"
 
-#: packages/admin/src/components/MarketplacePluginDetail.tsx:308
+#: packages/admin/src/components/MarketplacePluginDetail.tsx:307
 msgid "Security Audit"
 msgstr "Audit de sécurité"
 
@@ -5700,7 +5730,7 @@ msgstr "L'audit de sécurité a signalé ce module d'extension comme potentielle
 msgid "Security audit passed"
 msgstr "Audit de sécurité réussi"
 
-#: packages/admin/src/components/RegistryPluginDetail.tsx:614
+#: packages/admin/src/components/RegistryPluginDetail.tsx:703
 msgid "Security contacts"
 msgstr ""
 
@@ -6110,7 +6140,7 @@ msgstr "Trier les thèmes"
 #: packages/admin/src/components/ContentTypeList.tsx:100
 #: packages/admin/src/components/editor/ImageDetailPanel.tsx:325
 #: packages/admin/src/components/editor/ImageDetailPanel.tsx:490
-#: packages/admin/src/components/MarketplacePluginDetail.tsx:215
+#: packages/admin/src/components/MarketplacePluginDetail.tsx:214
 #: packages/admin/src/components/PluginManager.tsx:497
 #: packages/admin/src/components/Redirects.tsx:440
 #: packages/admin/src/components/SectionEditor.tsx:279
@@ -6384,11 +6414,11 @@ msgstr "Cela peut prendre un certain temps pour les grandes exportations."
 msgid "This passkey is already registered on this device."
 msgstr "Cette clé d'accès est déjà enregistrée sur cet appareil."
 
-#: packages/admin/src/components/MarketplacePluginDetail.tsx:277
+#: packages/admin/src/components/MarketplacePluginDetail.tsx:276
 msgid "This plugin requires no special permissions."
 msgstr "Ce module d'extension ne nécessite aucune autorisation particulière."
 
-#: packages/admin/src/components/RegistryPluginDetail.tsx:475
+#: packages/admin/src/components/RegistryPluginDetail.tsx:564
 msgid "This publisher claims a name they couldn't prove they own — possibly impersonating someone else. Install is disabled. If you know the publisher and trust them, ask them to fix their identity setup before retrying."
 msgstr "Cet éditeur revendique un nom dont il ne peut prouver être propriétaire — il pourrait s'agir d'une usurpation d'identité. L'installation est désactivée. Si vous connaissez l'éditeur et lui faites confiance, demandez-lui de corriger la configuration de son identité avant de réessayer."
 
@@ -6396,7 +6426,7 @@ msgstr "Cet éditeur revendique un nom dont il ne peut prouver être propriétai
 msgid "This redirect rule will be permanently removed."
 msgstr "Cette règle de redirection sera définitivement supprimée."
 
-#: packages/admin/src/components/RegistryPluginDetail.tsx:527
+#: packages/admin/src/components/RegistryPluginDetail.tsx:616
 msgid "This release requires a newer environment than your site currently runs. Upgrade before installing."
 msgstr ""
 
@@ -6645,7 +6675,7 @@ msgstr "Soulignement"
 msgid "Undo"
 msgstr "Annuler"
 
-#: packages/admin/src/components/MarketplacePluginDetail.tsx:181
+#: packages/admin/src/components/MarketplacePluginDetail.tsx:180
 #: packages/admin/src/components/PluginManager.tsx:547
 #: packages/admin/src/components/PluginManager.tsx:643
 msgid "Uninstall"
@@ -6768,6 +6798,10 @@ msgstr "Mettez à jour cette règle de redirection."
 #: packages/admin/src/components/PluginManager.tsx:417
 msgid "Update to v{0}"
 msgstr "Mise à jour vers v{0}"
+
+#: packages/admin/src/components/RegistryPluginDetail.tsx:486
+msgid "Updated"
+msgstr ""
 
 #: packages/admin/src/components/ContentTypeEditor.tsx:129
 msgid "Updated At"
@@ -6984,9 +7018,21 @@ msgid "Validation"
 msgstr "Validation"
 
 #: packages/admin/src/components/RegistryBrowse.tsx:186
-#: packages/admin/src/components/RegistryPluginDetail.tsx:391
+#: packages/admin/src/components/RegistryPluginDetail.tsx:447
 msgid "Verified publisher"
 msgstr "Éditeur vérifié"
+
+#: packages/admin/src/components/RegistryPluginDetail.tsx:446
+msgid "Verified publisher, confirmed by labeller {verifiedLabeller}"
+msgstr ""
+
+#: packages/admin/src/components/RegistryPluginDetail.tsx:437
+msgid "Verified publisher. A labeller ({verifiedLabeller}) has confirmed this publisher's identity."
+msgstr ""
+
+#: packages/admin/src/components/RegistryPluginDetail.tsx:438
+msgid "Verified publisher. A labeller has confirmed this publisher's identity."
+msgstr ""
 
 #: packages/admin/src/components/InviteAcceptPage.tsx:194
 msgid "Verifying your invite..."
@@ -7001,13 +7047,13 @@ msgstr "Vérification de votre lien en cours..."
 msgid "Verifying..."
 msgstr "Vérification en cours..."
 
-#: packages/admin/src/components/MarketplacePluginDetail.tsx:321
-#: packages/admin/src/components/RegistryPluginDetail.tsx:411
+#: packages/admin/src/components/MarketplacePluginDetail.tsx:320
+#: packages/admin/src/components/RegistryPluginDetail.tsx:500
 msgid "Version"
 msgstr "Version"
 
 #. placeholder {0}: release.version
-#: packages/admin/src/components/RegistryPluginDetail.tsx:402
+#: packages/admin/src/components/RegistryPluginDetail.tsx:462
 msgid "Version {0}"
 msgstr "Version {0}"
 
@@ -7035,11 +7081,11 @@ msgstr "Voir {title} publié"
 msgid "View Site"
 msgstr "Voir le site"
 
-#: packages/admin/src/components/RegistryPluginDetail.tsx:572
+#: packages/admin/src/components/RegistryPluginDetail.tsx:661
 msgid "View source"
 msgstr ""
 
-#: packages/admin/src/components/RegistryPluginDetail.tsx:815
+#: packages/admin/src/components/RegistryPluginDetail.tsx:936
 msgid "View the {license} license on spdx.org"
 msgstr ""
 
@@ -7061,7 +7107,7 @@ msgstr "Avertir"
 msgid "We couldn't connect to a WordPress site at {0}. This could mean the site isn't WordPress, the REST API is disabled, or the site isn't accessible."
 msgstr "Nous n'avons pas pu nous connecter à un site WordPress à l'adresse {0}. Cela peut signifier que le site n'est pas WordPress, que l'API REST est désactivée ou que le site n'est pas accessible."
 
-#: packages/admin/src/components/RegistryPluginDetail.tsx:473
+#: packages/admin/src/components/RegistryPluginDetail.tsx:562
 msgid "We couldn't verify this publisher's identity"
 msgstr "Nous n'avons pas pu vérifier l'identité de cet éditeur"
 
@@ -7086,8 +7132,8 @@ msgstr "Adresse Internet"
 msgid "WebAuthn is not supported in this browser"
 msgstr "WebAuthn n'est pas pris en charge dans ce navigateur"
 
-#: packages/admin/src/components/MarketplacePluginDetail.tsx:226
-#: packages/admin/src/components/RegistryPluginDetail.tsx:597
+#: packages/admin/src/components/MarketplacePluginDetail.tsx:225
+#: packages/admin/src/components/RegistryPluginDetail.tsx:686
 msgid "Website"
 msgstr "Site web"
 
@@ -7319,7 +7365,7 @@ msgid "Your Role"
 msgstr "Votre rôle"
 
 #. placeholder {0}: formatHoldback(config.policy?.minimumReleaseAgeSeconds ?? 0)
-#: packages/admin/src/components/RegistryPluginDetail.tsx:508
+#: packages/admin/src/components/RegistryPluginDetail.tsx:597
 msgid "Your site requires releases to be at least {0} old before they can be installed. This release will become installable later."
 msgstr "Votre site exige que les versions soient publiées depuis au moins {0} avant de pouvoir être installées. Cette version sera installable plus tard."
 
