@@ -6,6 +6,7 @@ import {
 	findReviewCheck,
 	fetchUnifiedDiff,
 	postReview,
+	removePullRequestLabel,
 	updateReviewCheck,
 } from "../.flue/lib/github.js";
 
@@ -22,6 +23,18 @@ afterEach(() => {
 });
 
 describe("GitHub review checks", () => {
+	it("removes the manual review label", async () => {
+		const fetchMock = vi.fn<typeof fetch>().mockResolvedValue(new Response(null, { status: 200 }));
+		vi.stubGlobal("fetch", fetchMock);
+
+		await removePullRequestLabel(TOKEN, "emdash-cms", "emdash", 42, "bot:review");
+
+		expect(fetchMock).toHaveBeenCalledWith(
+			"https://api.github.com/repos/emdash-cms/emdash/issues/42/labels/bot%3Areview",
+			expect.objectContaining({ method: "DELETE" }),
+		);
+	});
+
 	it("creates an in-progress check for the admitted head commit", async () => {
 		const fetchMock = vi
 			.fn<typeof fetch>()
@@ -43,9 +56,10 @@ describe("GitHub review checks", () => {
 			}),
 		);
 		expect(requestBody(fetchMock)).toMatchObject({
-			name: "EmDash review",
+			name: "EmDashBot review",
 			head_sha: "abc123",
 			status: "in_progress",
+			details_url: "https://github.com/emdash-cms/emdash/pull/42/files",
 			external_id: "attempt-1",
 			started_at: expect.any(String),
 			output: {
@@ -73,10 +87,27 @@ describe("GitHub review checks", () => {
 		expect(requestBody(fetchMock)).toEqual({
 			status: "in_progress",
 			external_id: "run_123",
+			details_url: "https://github.com/emdash-cms/emdash/pull/42/files",
 			output: {
-				title: "Reviewing PR #42",
-				summary: "The model is reviewing the diff.",
-				text: "Run: `run_123`\n\nStage: `model_review`",
+				title: "Analyzing PR #42",
+				summary:
+					"The model is reviewing the diff. This is usually the longest step and can take several minutes. Next, EmDashBot will publish the review to GitHub.",
+				text: [
+					"### Progress",
+					"",
+					"- [x] Prepare the workspace",
+					"- [x] Load the pull request diff",
+					"- [ ] **Analyze the changes (in progress)**",
+					"- [ ] Publish the review",
+					"",
+					"<details>",
+					"<summary>Diagnostics</summary>",
+					"",
+					"Run ID: `run_123`",
+					"",
+					"Stage: `model_review`",
+					"</details>",
+				].join("\n"),
 			},
 		});
 	});
@@ -99,6 +130,7 @@ describe("GitHub review checks", () => {
 		expect(requestBody(fetchMock)).toMatchObject({
 			status: "completed",
 			conclusion: "failure",
+			details_url: "https://github.com/emdash-cms/emdash/pull/42",
 			completed_at: expect.any(String),
 			external_id: "run_123",
 			output: {
@@ -196,6 +228,7 @@ describe("GitHub review checks", () => {
 	it("reconciles an ambiguously successful review POST by attempt marker", async () => {
 		const fetchMock = vi
 			.fn<typeof fetch>()
+			.mockResolvedValueOnce(Response.json([]))
 			.mockResolvedValueOnce(new Response("server error", { status: 503 }))
 			.mockResolvedValueOnce(
 				Response.json([
@@ -218,6 +251,119 @@ describe("GitHub review checks", () => {
 				"attempt-1",
 			),
 		).resolves.toBeUndefined();
+		expect(fetchMock).toHaveBeenCalledTimes(3);
+	});
+
+	it("fails closed when review marker inspection is unavailable", async () => {
+		const fetchMock = vi
+			.fn<typeof fetch>()
+			.mockResolvedValue(new Response("unavailable", { status: 503 }));
+		vi.stubGlobal("fetch", fetchMock);
+
+		await expect(
+			postReview(
+				TOKEN,
+				"emdash-cms",
+				"emdash",
+				42,
+				{ verdict: "approve", summary: "Looks good", findings: [] },
+				"head-sha",
+				"attempt-1",
+			),
+		).rejects.toThrow("review marker inspection failed: 503");
+		expect(fetchMock).toHaveBeenCalledTimes(1);
+	});
+
+	it("does not post a review whose attempt marker already exists", async () => {
+		const fetchMock = vi.fn<typeof fetch>().mockResolvedValue(
+			Response.json([
+				{
+					body: "Looks good\n\n<!-- emdash-review-attempt:attempt-1 -->",
+					commit_id: "head-sha",
+				},
+			]),
+		);
+		vi.stubGlobal("fetch", fetchMock);
+
+		await expect(
+			postReview(
+				TOKEN,
+				"emdash-cms",
+				"emdash",
+				42,
+				{ verdict: "approve", summary: "Looks good", findings: [] },
+				"head-sha",
+				"attempt-1",
+			),
+		).resolves.toBeUndefined();
+		expect(fetchMock).toHaveBeenCalledTimes(1);
+		expect(fetchMock).toHaveBeenCalledWith(
+			"https://api.github.com/repos/emdash-cms/emdash/pulls/42/reviews?per_page=100",
+			expect.objectContaining({ headers: expect.any(Object) }),
+		);
+	});
+
+	it("finds an existing attempt marker on a later reviews page", async () => {
+		const fetchMock = vi
+			.fn<typeof fetch>()
+			.mockResolvedValueOnce(
+				Response.json(
+					Array.from({ length: 100 }, (_, index) => ({
+						body: `Review ${index}`,
+						commit_id: "head-sha",
+					})),
+				),
+			)
+			.mockResolvedValueOnce(
+				Response.json([
+					{
+						body: "Looks good\n\n<!-- emdash-review-attempt:attempt-1 -->",
+						commit_id: "head-sha",
+					},
+				]),
+			);
+		vi.stubGlobal("fetch", fetchMock);
+
+		await expect(
+			postReview(
+				TOKEN,
+				"emdash-cms",
+				"emdash",
+				42,
+				{ verdict: "approve", summary: "Looks good", findings: [] },
+				"head-sha",
+				"attempt-1",
+			),
+		).resolves.toBeUndefined();
 		expect(fetchMock).toHaveBeenCalledTimes(2);
+		expect(fetchMock).toHaveBeenLastCalledWith(
+			"https://api.github.com/repos/emdash-cms/emdash/pulls/42/reviews?per_page=100&page=2",
+			expect.any(Object),
+		);
+	});
+
+	it("fails closed after inspecting 10 full review pages", async () => {
+		const reviews = Array.from({ length: 100 }, (_, index) => ({
+			body: `Review ${index}`,
+			commit_id: "head-sha",
+		}));
+		const fetchMock = vi.fn<typeof fetch>();
+		for (let page = 0; page < 10; page++) {
+			fetchMock.mockResolvedValueOnce(Response.json(reviews));
+		}
+		vi.stubGlobal("fetch", fetchMock);
+
+		await expect(
+			postReview(
+				TOKEN,
+				"emdash-cms",
+				"emdash",
+				42,
+				{ verdict: "approve", summary: "Looks good", findings: [] },
+				"head-sha",
+				"attempt-1",
+			),
+		).rejects.toThrow("review marker inspection exceeded 10 pages");
+		expect(fetchMock).toHaveBeenCalledTimes(10);
 	});
 });

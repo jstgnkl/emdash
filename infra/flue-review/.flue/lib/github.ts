@@ -120,6 +120,10 @@ function installationHeaders(token: string): Record<string, string> {
 	return { ...GITHUB_HEADERS, authorization: `Bearer ${token}` };
 }
 
+function pullRequestUrl(owner: string, repo: string, prNumber: number, files = false): string {
+	return `https://github.com/${owner}/${repo}/pull/${prNumber}${files ? "/files" : ""}`;
+}
+
 async function requireGitHubResponse(res: Response, operation: string): Promise<void> {
 	if (!res.ok) throw new Error(`${operation} failed: ${res.status} ${await res.text()}`);
 }
@@ -134,9 +138,10 @@ export async function createReviewCheck(
 		method: "POST",
 		headers: installationHeaders(token),
 		body: JSON.stringify({
-			name: "EmDash review",
+			name: "EmDashBot review",
 			head_sha: input.headSha,
 			status: "in_progress",
+			details_url: pullRequestUrl(owner, repo, input.prNumber, true),
 			external_id: input.attemptId,
 			started_at: new Date().toISOString(),
 			output: {
@@ -161,7 +166,7 @@ export async function findReviewCheck(
 	attemptId: string,
 ): Promise<number | undefined> {
 	const query = new URLSearchParams({
-		check_name: "EmDash review",
+		check_name: "EmDashBot review",
 		filter: "all",
 		per_page: "100",
 	});
@@ -172,6 +177,55 @@ export async function findReviewCheck(
 	await requireGitHubResponse(res, "find review check");
 	const body = await res.json<{ check_runs?: Array<{ id?: number; external_id?: string }> }>();
 	return body.check_runs?.find((check) => check.external_id === attemptId)?.id;
+}
+
+const REVIEW_PROGRESS = [
+	{ stage: "hydrating", label: "Prepare the workspace" },
+	{ stage: "fetching_diff", label: "Load the pull request diff" },
+	{ stage: "model_review", label: "Analyze the changes" },
+	{ stage: "posting_review", label: "Publish the review" },
+] as const;
+
+const REVIEW_STAGE_COPY: Record<string, { title: string; guidance: string }> = {
+	hydrating: {
+		title: "Preparing",
+		guidance: "Next, EmDashBot will load the pull request diff.",
+	},
+	fetching_diff: {
+		title: "Loading changes for",
+		guidance: "Next, the model will analyze the changed code.",
+	},
+	model_review: {
+		title: "Analyzing",
+		guidance:
+			"This is usually the longest step and can take several minutes. Next, EmDashBot will publish the review to GitHub.",
+	},
+	posting_review: {
+		title: "Publishing review for",
+		guidance: "The analysis is complete and the review should appear shortly.",
+	},
+};
+
+function renderReviewProgress(stage: string, runId: string): string {
+	const currentIndex = REVIEW_PROGRESS.findIndex((step) => step.stage === stage);
+	const progress = REVIEW_PROGRESS.map((step, index) => {
+		if (index < currentIndex) return `- [x] ${step.label}`;
+		if (index === currentIndex) return `- [ ] **${step.label} (in progress)**`;
+		return `- [ ] ${step.label}`;
+	});
+	return [
+		"### Progress",
+		"",
+		...progress,
+		"",
+		"<details>",
+		"<summary>Diagnostics</summary>",
+		"",
+		`Run ID: \`${runId}\``,
+		"",
+		`Stage: \`${stage}\``,
+		"</details>",
+	].join("\n");
 }
 
 export async function updateReviewCheck(
@@ -187,12 +241,17 @@ export async function updateReviewCheck(
 	},
 ): Promise<void> {
 	const correlation = input.runId ?? "pending admission";
+	const stageCopy = REVIEW_STAGE_COPY[input.stage] ?? {
+		title: "Reviewing",
+		guidance: "EmDashBot will update this check when the next step begins.",
+	};
 	const body: Record<string, unknown> = {
 		status: "in_progress",
+		details_url: pullRequestUrl(owner, repo, input.prNumber, true),
 		output: {
-			title: `Reviewing PR #${input.prNumber}`,
-			summary: input.detail,
-			text: `Run: \`${correlation}\`\n\nStage: \`${input.stage}\``,
+			title: `${stageCopy.title} PR #${input.prNumber}`,
+			summary: `${input.detail} ${stageCopy.guidance}`,
+			text: renderReviewProgress(input.stage, correlation),
 		},
 	};
 	if (input.runId) body.external_id = input.runId;
@@ -229,11 +288,29 @@ export async function completeReviewCheck(
 			status: "completed",
 			conclusion: input.conclusion,
 			completed_at: new Date().toISOString(),
+			details_url: pullRequestUrl(owner, repo, input.prNumber),
 			external_id: input.runId,
 			output: { title, summary: input.summary, text: `Run: \`${input.runId}\`` },
 		}),
 	});
 	await requireGitHubResponse(res, "complete review check");
+}
+
+export async function removePullRequestLabel(
+	token: string,
+	owner: string,
+	repo: string,
+	prNumber: number,
+	label: string,
+): Promise<void> {
+	const res = await githubFetch(
+		`${GITHUB_API}/repos/${owner}/${repo}/issues/${prNumber}/labels/${encodeURIComponent(label)}`,
+		{
+			method: "DELETE",
+			headers: installationHeaders(token),
+		},
+	);
+	if (res.status !== 404) await requireGitHubResponse(res, "remove pull request label");
 }
 
 /**
@@ -431,6 +508,13 @@ function renderFindingsMarkdown(findings: ReviewResult["findings"]): string {
 	return `\n\n---\n\n### Findings\n\n${lines.join("\n\n")}`;
 }
 
+type ReviewLookup =
+	| { status: "present" }
+	| { status: "absent" }
+	| { status: "unavailable"; error: Error };
+
+const REVIEW_LOOKUP_MAX_PAGES = 10;
+
 async function reviewWasPosted(
 	token: string,
 	owner: string,
@@ -438,19 +522,39 @@ async function reviewWasPosted(
 	prNumber: number,
 	commitId: string,
 	marker: string,
-): Promise<boolean> {
+): Promise<ReviewLookup> {
 	try {
-		const res = await githubFetch(
-			`${GITHUB_API}/repos/${owner}/${repo}/pulls/${prNumber}/reviews?per_page=100`,
-			{ headers: installationHeaders(token) },
-		);
-		if (!res.ok) return false;
-		const reviews = await res.json<Array<{ body?: string; commit_id?: string }>>();
-		return reviews.some(
-			(review) => review.commit_id === commitId && review.body?.includes(marker) === true,
-		);
-	} catch {
-		return false;
+		for (let page = 1; page <= REVIEW_LOOKUP_MAX_PAGES; page++) {
+			const suffix = page === 1 ? "" : `&page=${page}`;
+			const res = await githubFetch(
+				`${GITHUB_API}/repos/${owner}/${repo}/pulls/${prNumber}/reviews?per_page=100${suffix}`,
+				{ headers: installationHeaders(token) },
+			);
+			if (!res.ok) {
+				return {
+					status: "unavailable",
+					error: new Error(`review marker inspection failed: ${res.status}`),
+				};
+			}
+			const reviews = await res.json<Array<{ body?: string; commit_id?: string }>>();
+			if (
+				reviews.some(
+					(review) => review.commit_id === commitId && review.body?.includes(marker) === true,
+				)
+			) {
+				return { status: "present" };
+			}
+			if (reviews.length < 100) return { status: "absent" };
+		}
+		return {
+			status: "unavailable",
+			error: new Error(`review marker inspection exceeded ${REVIEW_LOOKUP_MAX_PAGES} pages`),
+		};
+	} catch (error) {
+		return {
+			status: "unavailable",
+			error: new Error("review marker inspection failed", { cause: error }),
+		};
 	}
 }
 
@@ -473,6 +577,11 @@ export async function postReview(
 	const event = verdictToEvent(result.verdict);
 	const marker = attemptId ? `<!-- emdash-review-attempt:${attemptId} -->` : undefined;
 	const summary = `${result.summary.trim() || FALLBACK_SUMMARY}${marker ? `\n\n${marker}` : ""}`;
+	if (commitId && marker) {
+		const lookup = await reviewWasPosted(token, owner, repo, prNumber, commitId, marker);
+		if (lookup.status === "present") return;
+		if (lookup.status === "unavailable") throw lookup.error;
+	}
 	const headers = {
 		authorization: `Bearer ${token}`,
 		accept: "application/vnd.github+json",
@@ -491,12 +600,9 @@ export async function postReview(
 	try {
 		res = await githubFetch(url, { method: "POST", headers, body: JSON.stringify(withComments) });
 	} catch (error) {
-		if (
-			commitId &&
-			marker &&
-			(await reviewWasPosted(token, owner, repo, prNumber, commitId, marker))
-		) {
-			return;
+		if (commitId && marker) {
+			const lookup = await reviewWasPosted(token, owner, repo, prNumber, commitId, marker);
+			if (lookup.status === "present") return;
 		}
 		throw error;
 	}
@@ -507,12 +613,9 @@ export async function postReview(
 	// carries the summary AND the findings inline, so the review still lands.
 	const firstError = await res.text();
 	if (res.status !== 422) {
-		if (
-			commitId &&
-			marker &&
-			(await reviewWasPosted(token, owner, repo, prNumber, commitId, marker))
-		) {
-			return;
+		if (commitId && marker) {
+			const lookup = await reviewWasPosted(token, owner, repo, prNumber, commitId, marker);
+			if (lookup.status === "present") return;
 		}
 		throw new Error(`postReview failed: ${res.status} ${firstError}`);
 	}
@@ -524,22 +627,16 @@ export async function postReview(
 	try {
 		res = await githubFetch(url, { method: "POST", headers, body: JSON.stringify(bodyOnly) });
 	} catch (error) {
-		if (
-			commitId &&
-			marker &&
-			(await reviewWasPosted(token, owner, repo, prNumber, commitId, marker))
-		) {
-			return;
+		if (commitId && marker) {
+			const lookup = await reviewWasPosted(token, owner, repo, prNumber, commitId, marker);
+			if (lookup.status === "present") return;
 		}
 		throw error;
 	}
 	if (!res.ok) {
-		if (
-			commitId &&
-			marker &&
-			(await reviewWasPosted(token, owner, repo, prNumber, commitId, marker))
-		) {
-			return;
+		if (commitId && marker) {
+			const lookup = await reviewWasPosted(token, owner, repo, prNumber, commitId, marker);
+			if (lookup.status === "present") return;
 		}
 		throw new Error(
 			`postReview failed (with comments: ${firstError}); body-only retry: ${res.status} ${await res.text()}`,
