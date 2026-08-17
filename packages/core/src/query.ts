@@ -27,6 +27,7 @@
 import { encodeCursor } from "./database/repositories/types.js";
 import { getFallbackChain, getI18nConfig, isI18nEnabled } from "./i18n/config.js";
 import {
+	creditsFromFoldedBylines,
 	CURSOR_RAW_VALUES,
 	FOLDED_BYLINES,
 	FOLDED_BYLINES_EXIST,
@@ -41,6 +42,7 @@ import {
 } from "./object-cache/index.js";
 import { requestCached } from "./request-cache.js";
 import { getRequestContext } from "./request-context.js";
+import { compileUrlPattern } from "./schema/url-pattern.js";
 import type { TaxonomyTerm } from "./taxonomies/types.js";
 import { isMissingTableError } from "./utils/db-errors.js";
 import {
@@ -1017,17 +1019,7 @@ async function hydrateEntryBylines<D>(type: string, entries: ContentEntry<D>[]):
 			const data = entryData(entry);
 			const folded = Reflect.get(data, FOLDED_BYLINES);
 			const rows = Array.isArray(folded) ? folded : [];
-			const credits = rows
-				.map((raw) => {
-					const b = raw?.byline ?? {};
-					return {
-						roleLabel: raw?.roleLabel ?? null,
-						sortOrder: Number(raw?.sortOrder ?? 0),
-						source: "explicit" as const,
-						byline: { ...b, isGuest: Boolean(b.isGuest), customFields: {} },
-					};
-				})
-				.toSorted((a, b) => a.sortOrder - b.sortOrder);
+			const credits = creditsFromFoldedBylines(rows);
 			return { data, credits };
 		});
 
@@ -1310,26 +1302,27 @@ export interface ResolvePathResult<T = Record<string, unknown>> {
 	params: Record<string, string>;
 }
 
-/** Matches `{paramName}` placeholders in URL patterns */
-const URL_PARAM_PATTERN = /\{(\w+)\}/g;
-
-/** Convert a URL pattern like "/blog/{slug}" to a regex and param name list */
-function patternToRegex(pattern: string): { regex: RegExp; paramNames: string[] } {
-	const paramNames: string[] = [];
-	const regexStr = pattern.replace(URL_PARAM_PATTERN, (_match, name: string) => {
-		paramNames.push(name);
-		return "([^/]+)";
-	});
-	return { regex: new RegExp(`^${regexStr}$`), paramNames };
-}
-
 /** Cached compiled URL patterns for resolveEmDashPath */
 interface CachedPattern {
 	slug: string;
 	regex: RegExp;
 	paramNames: string[];
 }
-let cachedUrlPatterns: CachedPattern[] | null = null;
+
+interface UrlPatternCache {
+	patterns: CachedPattern[] | null;
+}
+
+const URL_PATTERN_CACHE_KEY = Symbol.for("emdash:url-pattern-cache");
+const queryGlobal = globalThis as Record<symbol, unknown>;
+const urlPatternCache: UrlPatternCache =
+	// eslint-disable-next-line typescript/no-unsafe-type-assertion -- globalThis singleton pattern (see request-context.ts)
+	(queryGlobal[URL_PATTERN_CACHE_KEY] as UrlPatternCache | undefined) ??
+	(() => {
+		const cache: UrlPatternCache = { patterns: null };
+		queryGlobal[URL_PATTERN_CACHE_KEY] = cache;
+		return cache;
+	})();
 
 /**
  * Invalidate the cached URL patterns used by resolveEmDashPath.
@@ -1340,7 +1333,7 @@ let cachedUrlPatterns: CachedPattern[] | null = null;
  * every schema-mutation path already routes through here.
  */
 export function invalidateUrlPatternCache(): void {
-	cachedUrlPatterns = null;
+	urlPatternCache.patterns = null;
 	invalidateSchemaObjectCache();
 }
 
@@ -1367,6 +1360,7 @@ export async function resolveEmDashPath<T = Record<string, unknown>>(
 	path: string,
 ): Promise<ResolvePathResult<T> | null> {
 	// Build and cache compiled patterns on first call
+	let cachedUrlPatterns = urlPatternCache.patterns;
 	if (!cachedUrlPatterns) {
 		const { getDb } = await import("./loader.js");
 		const { SchemaRegistry } = await import("./schema/registry.js");
@@ -1377,9 +1371,10 @@ export async function resolveEmDashPath<T = Record<string, unknown>>(
 		cachedUrlPatterns = [];
 		for (const collection of collections) {
 			if (!collection.urlPattern) continue;
-			const { regex, paramNames } = patternToRegex(collection.urlPattern);
+			const { regex, paramNames } = compileUrlPattern(collection.urlPattern);
 			cachedUrlPatterns.push({ slug: collection.slug, regex, paramNames });
 		}
+		urlPatternCache.patterns = cachedUrlPatterns;
 	}
 
 	for (const pattern of cachedUrlPatterns) {
