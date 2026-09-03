@@ -5,20 +5,29 @@ import {
 } from "@atcute/oauth-node-client";
 import { getDelegatedReleasePermission } from "@emdash-cms/registry-lexicons";
 
+import type { AccessConfiguration } from "./access/auth.js";
 import { createEnvelopeEncryption, type EnvelopeEncryption } from "./crypto/encryption.js";
 
-export type ConfigurationBindings = Record<
-	keyof Pick<
-		Env,
-		| "PUBLIC_ORIGIN"
-		| "DEPLOYMENT_ID"
-		| "OAUTH_REDIRECT_URIS"
-		| "OAUTH_ASSERTION_KEYSET"
-		| "ENCRYPTION_KEYRING"
-	>,
+type ConfigurationStringBinding =
+	| "PUBLIC_ORIGIN"
+	| "DEPLOYMENT_ID"
+	| "OAUTH_REDIRECT_URIS"
+	| "ACCESS_TEAM_DOMAIN"
+	| "ACCESS_VIEWER_AUD"
+	| "ACCESS_REVIEWER_AUD"
+	| "ACCESS_ADMIN_AUD";
+type ConfigurationSecretBinding = "OAUTH_ASSERTION_KEYSET" | "ENCRYPTION_KEYRING";
+type ConfigurationSecretSource = string | SecretsStoreSecret;
+
+export type ConfigurationBindings = Record<ConfigurationStringBinding, string> &
+	Record<ConfigurationSecretBinding, ConfigurationSecretSource>;
+type ResolvedConfigurationBindings = Record<
+	ConfigurationStringBinding | ConfigurationSecretBinding,
 	string
 >;
 
+const ACCESS_AUDIENCE_PATTERN = /^[a-f0-9]{64}$/;
+const MAX_ACCESS_AUDIENCES_PER_ROLE = 8;
 const BASE64URL_PATTERN = /^[A-Za-z0-9_-]+$/;
 const DEPLOYMENT_ID_PATTERN = /^[A-Za-z0-9][A-Za-z0-9._:-]{0,255}$/;
 const MAX_ASSERTION_KEYSET_CHARS = 64 * 1024;
@@ -29,20 +38,27 @@ const CONFIGURATION_BINDING_KEYS = [
 	"DEPLOYMENT_ID",
 	"OAUTH_REDIRECT_URIS",
 	"OAUTH_ASSERTION_KEYSET",
-	"ENCRYPTION_KEYRING",
+	"ACCESS_TEAM_DOMAIN",
+	"ACCESS_VIEWER_AUD",
+	"ACCESS_REVIEWER_AUD",
+	"ACCESS_ADMIN_AUD",
 ] as const satisfies readonly (keyof ConfigurationBindings)[];
 
 interface ConfigurationCacheEntry {
 	snapshot: readonly string[];
-	promise: Promise<ServiceConfiguration>;
+	promise: Promise<CachedServiceConfiguration>;
+	encryption?: { keyring: string; value: EnvelopeEncryption };
 }
 
 export interface ServiceConfiguration {
 	publicOrigin: string;
 	deploymentId: string;
+	access: AccessConfiguration;
 	oauth: OAuthConfiguration;
 	encryption: EnvelopeEncryption;
 }
+
+type CachedServiceConfiguration = Omit<ServiceConfiguration, "encryption">;
 
 export type P256AssertionPrivateJwk = ClientAssertionPrivateJwk & {
 	kty: "EC";
@@ -83,6 +99,48 @@ function parseOrigin(value: unknown): string | null {
 	} catch {
 		return null;
 	}
+}
+
+function parseAccessTeamDomain(value: unknown): string | null {
+	const origin = parseOrigin(value);
+	if (!origin) return null;
+	const url = new URL(origin);
+	return url.port === "" ? origin : null;
+}
+
+function parseAccessAudiences(
+	bindings: ResolvedConfigurationBindings,
+): AccessConfiguration["audiences"] | null {
+	function parseAudience(value: string): string | readonly string[] | null {
+		if (ACCESS_AUDIENCE_PATTERN.test(value)) return value;
+		try {
+			const parsed: unknown = JSON.parse(value);
+			if (
+				!Array.isArray(parsed) ||
+				parsed.length === 0 ||
+				parsed.length > MAX_ACCESS_AUDIENCES_PER_ROLE ||
+				!parsed.every(
+					(audience): audience is string =>
+						typeof audience === "string" && ACCESS_AUDIENCE_PATTERN.test(audience),
+				)
+			) {
+				return null;
+			}
+			return Object.freeze([...parsed]);
+		} catch {
+			return null;
+		}
+	}
+
+	const viewer = parseAudience(bindings.ACCESS_VIEWER_AUD);
+	const reviewer = parseAudience(bindings.ACCESS_REVIEWER_AUD);
+	const admin = parseAudience(bindings.ACCESS_ADMIN_AUD);
+	if (!viewer || !reviewer || !admin) return null;
+	const audiences = { viewer, reviewer, admin };
+	const values = Object.values(audiences).flatMap((audience) =>
+		typeof audience === "string" ? [audience] : audience,
+	);
+	return new Set(values).size === values.length ? audiences : null;
 }
 
 function isRecord(value: unknown): value is Record<string, unknown> {
@@ -209,7 +267,9 @@ async function parseAssertionKeyset(value: string): Promise<{
 	}
 }
 
-async function parseConfiguration(bindings: ConfigurationBindings): Promise<ServiceConfiguration> {
+async function parseConfiguration(
+	bindings: ResolvedConfigurationBindings,
+): Promise<CachedServiceConfiguration> {
 	const issues: string[] = [];
 	const publicOrigin = parseOrigin(bindings.PUBLIC_ORIGIN);
 	if (!publicOrigin) issues.push("PUBLIC_ORIGIN_INVALID");
@@ -223,14 +283,20 @@ async function parseConfiguration(bindings: ConfigurationBindings): Promise<Serv
 	if (!redirectUris) issues.push("OAUTH_REDIRECT_URIS_INVALID");
 	const assertionKeyset = await parseAssertionKeyset(bindings.OAUTH_ASSERTION_KEYSET);
 	if (!assertionKeyset) issues.push("OAUTH_ASSERTION_KEYSET_INVALID");
-	if (!publicOrigin || !deploymentId || !redirectUris || !assertionKeyset || issues.length > 0) {
+	const accessTeamDomain = parseAccessTeamDomain(bindings.ACCESS_TEAM_DOMAIN);
+	if (!accessTeamDomain) issues.push("ACCESS_TEAM_DOMAIN_INVALID");
+	const accessAudiences = parseAccessAudiences(bindings);
+	if (!accessAudiences) issues.push("ACCESS_AUDIENCES_INVALID");
+	if (
+		!publicOrigin ||
+		!deploymentId ||
+		!redirectUris ||
+		!assertionKeyset ||
+		!accessTeamDomain ||
+		!accessAudiences ||
+		issues.length > 0
+	) {
 		throw new ConfigurationError(issues);
-	}
-	let encryption: EnvelopeEncryption;
-	try {
-		encryption = createEnvelopeEncryption(bindings.ENCRYPTION_KEYRING, deploymentId);
-	} catch {
-		throw new ConfigurationError(["ENCRYPTION_KEYRING_INVALID"]);
 	}
 	const permission = getDelegatedReleasePermission();
 	const clientMetadata: OAuthConfiguration["clientMetadata"] = {
@@ -250,7 +316,7 @@ async function parseConfiguration(bindings: ConfigurationBindings): Promise<Serv
 	return {
 		publicOrigin,
 		deploymentId,
-		encryption,
+		access: { teamDomain: accessTeamDomain, audiences: accessAudiences },
 		oauth: {
 			clientMetadata,
 			releaseNsid: permission.collection,
@@ -270,18 +336,51 @@ function getConfigurationCache(): WeakMap<object, ConfigurationCacheEntry> {
 	return (target[CONFIGURATION_CACHE_SYMBOL] ??= new WeakMap());
 }
 
+async function resolveSecret(source: ConfigurationSecretSource): Promise<string> {
+	if (typeof source === "string") return source;
+	const value = await source.get();
+	if (typeof value !== "string") throw new TypeError("Secret value is invalid");
+	return value;
+}
+
 export async function loadConfiguration(
 	bindings: ConfigurationBindings,
 ): Promise<ServiceConfiguration> {
-	const snapshot = CONFIGURATION_BINDING_KEYS.map((key) => bindings[key]);
+	let assertionKeyset: string;
+	let encryptionKeyring: string;
+	try {
+		[assertionKeyset, encryptionKeyring] = await Promise.all([
+			resolveSecret(bindings.OAUTH_ASSERTION_KEYSET),
+			resolveSecret(bindings.ENCRYPTION_KEYRING),
+		]);
+	} catch {
+		throw new ConfigurationError(["SECRET_STORE_UNAVAILABLE"]);
+	}
+	const resolved: ResolvedConfigurationBindings = {
+		...bindings,
+		OAUTH_ASSERTION_KEYSET: assertionKeyset,
+		ENCRYPTION_KEYRING: encryptionKeyring,
+	};
+	const snapshot = CONFIGURATION_BINDING_KEYS.map((key) => resolved[key]);
 	const cache = getConfigurationCache();
 	const cached = cache.get(bindings);
 	let promise = cached?.snapshot.every((value, index) => value === snapshot[index])
 		? cached.promise
 		: null;
 	if (!promise) {
-		promise = parseConfiguration(bindings);
+		promise = parseConfiguration(resolved);
 		cache.set(bindings, { snapshot, promise });
 	}
-	return promise;
+	const configuration = await promise;
+	const entry = cache.get(bindings);
+	let encryption = entry?.encryption?.keyring === encryptionKeyring ? entry.encryption.value : null;
+	if (!encryption) {
+		try {
+			encryption = createEnvelopeEncryption(encryptionKeyring, configuration.deploymentId);
+		} catch {
+			throw new ConfigurationError(["ENCRYPTION_KEYRING_INVALID"]);
+		}
+		if (entry) entry.encryption = { keyring: encryptionKeyring, value: encryption };
+	}
+	return { ...configuration, encryption };
 }
