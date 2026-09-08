@@ -1,5 +1,6 @@
 import {
 	Badge,
+	Banner,
 	Button,
 	Checkbox,
 	Input,
@@ -159,8 +160,14 @@ export interface ContentEditorProps {
 	isAutosaveFeedbackActive?: boolean;
 	/** Entry-scoped token advanced after a successful autosave. */
 	autosaveCompletionToken?: number;
-	/** Entry-scoped token advanced after the server rejected an autosave payload. */
+	/**
+	 * Entry-scoped token advanced after the server rejected an autosave payload in
+	 * a way that resending cannot fix. A conflict does not count: it recovers
+	 * through `hasSaveConflict`.
+	 */
 	autosaveRejectionToken?: number;
+	/** Whether the server refused the last save because it was based on a stale read. */
+	hasSaveConflict?: boolean;
 	onPublish?: (payload: {
 		data: Record<string, unknown>;
 		slug?: string;
@@ -257,6 +264,7 @@ export function ContentEditor({
 	isAutosaveFeedbackActive,
 	autosaveCompletionToken,
 	autosaveRejectionToken,
+	hasSaveConflict,
 	onPublish,
 	onUnpublish,
 	onDiscardDraft,
@@ -542,6 +550,12 @@ export function ContentEditor({
 			return;
 		}
 
+		// Autosaving through a conflict would put the writer's copy over the other
+		// version without them ever choosing to.
+		if (hasSaveConflict) {
+			return;
+		}
+
 		// Clear any pending autosave
 		if (autosaveTimeoutRef.current) {
 			clearTimeout(autosaveTimeoutRef.current);
@@ -579,11 +593,11 @@ export function ContentEditor({
 		hasUnsupportedPortableTextMarks,
 		isPublishing,
 		rejectedAutosaveState,
+		hasSaveConflict,
 	]);
 
 	// Cancel pending autosave on manual save
-	const handleSubmit = (e: React.FormEvent) => {
-		e.preventDefault();
+	const submitSave = () => {
 		if (
 			isContentSaveBlocked ||
 			isPublishingRef.current ||
@@ -593,6 +607,10 @@ export function ContentEditor({
 			return;
 		cancelPendingAutosave();
 		onSave?.(createSavePayload());
+	};
+	const handleSubmit = (e: React.FormEvent) => {
+		e.preventDefault();
+		submitSave();
 	};
 	const handlePublish = React.useCallback(() => {
 		if (
@@ -826,7 +844,7 @@ export function ContentEditor({
 				style={
 					{
 						"--sidebar-bg": "var(--color-kumo-elevated)",
-						...(isBelowLg ? { "--sidebar-width": "20rem" } : {}),
+						...(isBelowLg ? { "--sidebar-width": "min(20rem, 100vw)" } : {}),
 					} as React.CSSProperties
 				}
 			>
@@ -996,6 +1014,19 @@ export function ContentEditor({
 							isDistractionFree ? "mx-auto max-w-3xl pt-16" : "mx-auto max-w-3xl space-y-6",
 						)}
 					>
+						{hasSaveConflict && (
+							<Banner
+								variant="error"
+								role="alert"
+								title={t`This entry changed somewhere else after you opened it.`}
+								description={t`What you typed is still here. Saving replaces the newer version.`}
+								action={
+									<Button size="sm" variant="secondary" type="button" onClick={submitSave}>
+										{t`Save anyway`}
+									</Button>
+								}
+							/>
+						)}
 						<div className="space-y-6">
 							{Object.entries(fields).map(([name, field]) => {
 								// Key by item id so all field editors remount cleanly when the
@@ -1073,7 +1104,7 @@ export function ContentEditor({
 						className="flex-1 overflow-y-auto overflow-x-hidden bg-kumo-base"
 						style={isBelowLg ? { paddingTop: ADMIN_HEADER_HEIGHT_PX } : undefined}
 					>
-						{isBelowLg && (
+						{isBelowLg && blockSidebarPanel?.type !== "image" && (
 							<div className="flex justify-end px-4 pt-3">
 								<MobileSettingsCloseButton />
 							</div>
@@ -1974,19 +2005,19 @@ function FileFieldRenderer({
 							</p>
 						)}
 					</div>
-					<div className="flex gap-1">
+					<div className="flex flex-wrap gap-2">
 						<Button type="button" size="sm" variant="secondary" onClick={() => setPickerOpen(true)}>
-							{t`Change`}
+							{t`Replace`}
 						</Button>
 						<Button
 							type="button"
-							shape="square"
-							variant="destructive"
-							className="h-8 w-8"
+							size="sm"
+							variant="secondary-destructive"
+							icon={<X aria-hidden="true" />}
 							onClick={handleRemove}
 							aria-label={t`Remove ${label}`}
 						>
-							<X className="h-4 w-4" />
+							{t`Remove`}
 						</Button>
 					</div>
 				</div>
@@ -2012,7 +2043,8 @@ function FileFieldRenderer({
 				fieldId={fieldId}
 				hideUrlInput
 				mediaKind="file"
-				title={t`Select ${label}`}
+				title={normalized ? t`Replace ${label}` : t`Select ${label}`}
+				confirmLabel={normalized ? t`Replace` : undefined}
 			/>
 			{required && !normalized && (
 				<p className="-mt-1 text-sm text-kumo-danger">{t`This field is required`}</p>
