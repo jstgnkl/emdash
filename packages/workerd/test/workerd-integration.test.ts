@@ -9,11 +9,15 @@
  */
 
 import Database from "better-sqlite3";
-import { createSandboxRouteError } from "emdash";
+import { createSandboxRouteError, SchemaRegistry } from "emdash";
+import type { RuntimeDependencies } from "emdash/plugin-test-runtime";
 import { Kysely, SqliteDialect, type QueryId } from "kysely";
-import { describe, it, expect, beforeEach, afterEach } from "vitest";
+import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 
 import { WorkerdSandboxRunner } from "../src/sandbox/runner.js";
+
+vi.mock("virtual:emdash/config", () => ({ default: null }), { virtual: true });
+vi.mock("virtual:emdash/object-cache", () => ({ default: null }), { virtual: true });
 
 // Check at module level so describe.skipIf works
 let workerdAvailable = false;
@@ -61,6 +65,22 @@ async function setupTables(db: Kysely<any>) {
 		.addColumn("live_revision_id", "text")
 		.addColumn("draft_revision_id", "text")
 		.execute();
+
+	await db.schema
+		.createTable("_emdash_cron_tasks")
+		.addColumn("id", "text", (col) => col.primaryKey())
+		.addColumn("plugin_id", "text", (col) => col.notNull())
+		.addColumn("task_name", "text", (col) => col.notNull())
+		.addColumn("schedule", "text", (col) => col.notNull())
+		.addColumn("is_oneshot", "integer", (col) => col.notNull())
+		.addColumn("data", "text")
+		.addColumn("next_run_at", "text", (col) => col.notNull())
+		.addColumn("last_run_at", "text")
+		.addColumn("status", "text", (col) => col.notNull())
+		.addColumn("locked_at", "text")
+		.addColumn("enabled", "integer", (col) => col.notNull())
+		.addUniqueConstraint("uq_cron_plugin_task", ["plugin_id", "task_name"])
+		.execute();
 }
 
 /** Minimal plugin code that echoes back hook/route calls.
@@ -87,6 +107,12 @@ export default {
 				await ctx.kv.set("test-key", routeCtx.input.value);
 				const result = await ctx.kv.get("test-key");
 				return { stored: result };
+			}
+		},
+		"cron-test": {
+			handler: async (_routeCtx, ctx) => {
+				await ctx.cron.schedule("daily", { schedule: "@daily", data: { source: "workerd" } });
+				return ctx.cron.list();
 			}
 		},
 		"conditional-test": {
@@ -176,6 +202,23 @@ export default {
 };
 `;
 
+const RUNTIME_HOST_PLUGIN = `
+let isolateId;
+export default {
+	hooks: {
+		"content:beforeSave": async (event, ctx) => {
+			await ctx.kv.set("saw-save", true);
+			return { ...event.content, title: event.content.title + " [workerd]" };
+		}
+	},
+	routes: {
+		"state": {
+			handler: async (_route, ctx) => ({ isolateId: isolateId ??= crypto.randomUUID(), sawSave: await ctx.kv.get("saw-save") })
+		}
+	}
+};
+`;
+
 describe.skipIf(!workerdAvailable)("WorkerdSandboxRunner integration", () => {
 	let db: Kysely<any>;
 	let sqlite: Database.Database;
@@ -220,6 +263,76 @@ describe.skipIf(!workerdAvailable)("WorkerdSandboxRunner integration", () => {
 
 		expect(result).toBeDefined();
 		expect(result.input).toEqual({ hello: "world" });
+	}, 30_000);
+
+	it("runs an equivalent runtime content and cold-restart journey through workerd", async () => {
+		const { EmDashRuntime } = await import("emdash/plugin-test-runtime");
+		const runtimeSqlite = new Database(":memory:");
+		const deps: RuntimeDependencies = {
+			config: {
+				database: {
+					entrypoint: `workerd-runtime-${crypto.randomUUID()}`,
+					type: "sqlite",
+					config: {},
+				},
+			},
+			plugins: [],
+			createDialect: () => new SqliteDialect({ database: runtimeSqlite }),
+			createStorage: null,
+			createScheduler: null,
+			sandboxEnabled: true,
+			sandboxedPluginEntries: [
+				{
+					id: "runtime-workerd",
+					version: "1.0.0",
+					options: {},
+					code: RUNTIME_HOST_PLUGIN,
+					capabilities: ["content:write"],
+					allowedHosts: [],
+					storage: {},
+					hooks: ["content:beforeSave"],
+					routes: [{ name: "state", public: true }],
+				},
+			],
+			createSandboxRunner: (options) => new WorkerdSandboxRunner(options),
+		};
+		let runtime = await EmDashRuntime.create(deps);
+		try {
+			await new SchemaRegistry(runtime.db).createCollection({ slug: "posts", label: "Posts" });
+			await new SchemaRegistry(runtime.db).createField("posts", {
+				slug: "title",
+				label: "Title",
+				type: "string",
+			});
+			const created = await runtime.handleContentCreate("posts", { data: { title: "Original" } });
+			expect(created).toMatchObject({
+				success: true,
+				data: { item: { data: { title: "Original [workerd]" } } },
+			});
+			if (!created.success) return;
+			const first = await runtime.handlePluginApiRoute(
+				"runtime-workerd",
+				"GET",
+				"/state",
+				new Request("https://test.local/state"),
+			);
+			await runtime.shutdown();
+			runtime = await EmDashRuntime.create(deps);
+			const second = await runtime.handlePluginApiRoute(
+				"runtime-workerd",
+				"GET",
+				"/state",
+				new Request("https://test.local/state"),
+			);
+			expect(second).toMatchObject({ success: true, data: { sawSave: true } });
+			expect(second.success && first.success && second.data.isolateId).not.toBe(
+				first.success ? first.data.isolateId : undefined,
+			);
+		} finally {
+			await runtime.shutdown();
+			await runtime.db.destroy();
+			runtimeSqlite.close();
+		}
 	}, 30_000);
 
 	it("loads a plugin and invokes a hook", async () => {
@@ -298,6 +411,29 @@ describe.skipIf(!workerdAvailable)("WorkerdSandboxRunner integration", () => {
 		)) as any;
 
 		expect(result.stored).toBe("hello");
+	}, 30_000);
+
+	it("provides plugin-scoped cron through the production workerd bridge", async () => {
+		const plugin = await runner.load(
+			{
+				id: "test-cron",
+				version: "1.0.0",
+				capabilities: [],
+				allowedHosts: [],
+				storage: {},
+			},
+			ECHO_PLUGIN,
+		);
+
+		await expect(
+			plugin.invokeRoute("cron-test", {}, { method: "POST", url: "/api/cron", headers: {} }),
+		).resolves.toEqual([expect.objectContaining({ name: "daily", schedule: "@daily" })]);
+		expect(
+			await db
+				.selectFrom("_emdash_cron_tasks" as any)
+				.select("plugin_id" as any)
+				.executeTakeFirst(),
+		).toMatchObject({ plugin_id: "test-cron" });
 	}, 30_000);
 
 	it("preserves versioned values and conditional results through the generated worker", async () => {
@@ -509,7 +645,7 @@ describe.skipIf(!workerdAvailable)("WorkerdSandboxRunner integration", () => {
 				{
 					id: "test-content-write",
 					version: "1.0.0",
-					capabilities: ["write:content"],
+					capabilities: ["content:write"],
 					allowedHosts: [],
 					storage: {},
 				},

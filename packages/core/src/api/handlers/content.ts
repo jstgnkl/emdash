@@ -489,7 +489,7 @@ const DATE_ONLY_RE = /^\d{4}-\d{2}-\d{2}$/;
  */
 function normalizeDateBound(value: string | undefined, edge: "start" | "end"): string | undefined {
 	if (!value) return undefined;
-	if (!DATE_ONLY_RE.test(value)) return value;
+	if (!DATE_ONLY_RE.test(value)) return new Date(value).toISOString();
 	return edge === "start" ? `${value}T00:00:00.000Z` : `${value}T23:59:59.999Z`;
 }
 
@@ -1538,6 +1538,7 @@ export async function handleContentSchedule(
 	collection: string,
 	id: string,
 	scheduledAt: string,
+	currentTime: Date = new Date(),
 ): Promise<ApiResult<ContentResponse>> {
 	try {
 		const item = await withTransaction(db, async (trx) => {
@@ -1548,7 +1549,7 @@ export async function handleContentSchedule(
 				const publishConfig = await getCollectionPublishConfig(trx, collection);
 				requireRoutablePublishSlug(publishConfig.routable, existing.slug);
 			}
-			return repo.schedule(collection, resolvedId, scheduledAt);
+			return repo.schedule(collection, resolvedId, scheduledAt, currentTime);
 		});
 
 		const hasSeo = await collectionHasSeo(db, collection);
@@ -1637,6 +1638,7 @@ export async function handleContentPublish(
 		requireScheduledDue?: boolean;
 		expectedScheduledAt?: string;
 		_rev?: string;
+		currentTime?: Date;
 	} = {},
 ): Promise<ApiResult<ContentResponse>> {
 	try {
@@ -1662,6 +1664,7 @@ export async function handleContentPublish(
 				publishConfig.supportsRevisions,
 				publishConfig.routable,
 				expectedRevision,
+				options.currentTime,
 			);
 
 			if (
