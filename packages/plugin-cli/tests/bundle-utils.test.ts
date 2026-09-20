@@ -31,6 +31,22 @@ const minimalResolved = (overrides: Partial<ResolvedPlugin> = {}): ResolvedPlugi
 });
 
 describe("extractManifest", () => {
+	it("closes redirect write authority under its read implication", () => {
+		const manifest = extractManifest(minimalResolved({ capabilities: ["redirects:write"] }));
+		expect(manifest.capabilities).toEqual(["redirects:read", "redirects:write"]);
+		expect(manifest.declaredAccess).toEqual({
+			redirects: { read: {}, write: {} },
+		});
+	});
+
+	it("preserves legacy allowed hosts without changing capability authority", () => {
+		const manifest = extractManifest(
+			minimalResolved({ capabilities: ["content:read"], allowedHosts: ["api.example.com"] }),
+		);
+		expect(manifest.capabilities).toEqual(["content:read"]);
+		expect(manifest.allowedHosts).toEqual(["api.example.com"]);
+	});
+
 	it("emits plain hook names when metadata is at defaults", () => {
 		const manifest = extractManifest(
 			minimalResolved({
@@ -145,6 +161,15 @@ describe("extractManifest", () => {
 		const manifest = extractManifest(
 			minimalResolved({
 				admin: {
+					editorPanels: [{ id: "health", title: "Health", route: "entry-health" }],
+					editorActions: [
+						{
+							id: "repair",
+							label: "Repair",
+							route: "entry-repair",
+							placement: "toolbar",
+						},
+					],
 					settingsSchema: {
 						enabled: { type: "boolean", label: "Enabled", default: true },
 					},
@@ -162,6 +187,8 @@ describe("extractManifest", () => {
 
 		expect(manifest.admin.settingsSchema).toHaveProperty("enabled");
 		expect(manifest.admin.fieldWidgets?.[0]).toMatchObject({ name: "event-picker" });
+		expect(manifest.admin.editorPanels?.[0]).toMatchObject({ id: "health" });
+		expect(manifest.admin.editorActions?.[0]).toMatchObject({ id: "repair" });
 	});
 });
 

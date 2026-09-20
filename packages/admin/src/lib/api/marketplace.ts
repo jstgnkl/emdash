@@ -381,21 +381,33 @@ import type { MessageDescriptor } from "@lingui/core";
 export const CAPABILITY_LABELS: Record<string, MessageDescriptor> = {
 	// Canonical
 	"content:read": msg`Read your content`,
+	"content:revisions:read": msg`Read retained content revision history`,
 	"content:write": msg`Create, update, and delete content`,
+	"content:publish": msg`Publish, unpublish, schedule, and unschedule content`,
+	"content:restore": msg`Read and restore trashed content`,
+	"comments:read": msg`Read comment bodies, author email addresses, pseudonymous IP hashes, user agents, and moderation metadata`,
+	"comments:moderate": msg`Approve comments and mark them as pending or spam`,
+	"schema:read": msg`Read collection and field definitions`,
+	"hooks.content-policy:register": msg`Review and block publishing, scheduling, and unpublishing content`,
 	"taxonomies:read": msg`Read your taxonomies and terms`,
+	"taxonomies:write": msg`Create taxonomy terms and change content classifications`,
+	"redirects:read": msg`Read redirect rules`,
+	"redirects:write": msg`Change where visitors are sent`,
 	"media:read": msg`Access your media library`,
+	"media:bytes:read": msg`Read media file contents`,
+	"media:metadata:write": msg`Edit media alt text, captions, and focal points`,
 	"media:write": msg`Upload and manage media`,
 	"users:read": msg`Read user accounts`,
-	"network:request": msg`Make network requests`,
-	"network:request:unrestricted": msg`Make network requests to any host (unrestricted)`,
+	"network:request": msg`Connect to network hosts and load external plugin admin images`,
+	"network:request:unrestricted": msg`Connect to any network host and load external plugin admin images (unrestricted)`,
 	// Legacy aliases (still emitted by older installed manifests)
 	"read:content": msg`Read your content`,
 	"write:content": msg`Create, update, and delete content`,
 	"read:media": msg`Access your media library`,
 	"write:media": msg`Upload and manage media`,
 	"read:users": msg`Read user accounts`,
-	"network:fetch": msg`Make network requests`,
-	"network:fetch:any": msg`Make network requests to any host (unrestricted)`,
+	"network:fetch": msg`Connect to network hosts and load external plugin admin images`,
+	"network:fetch:any": msg`Connect to any network host and load external plugin admin images (unrestricted)`,
 };
 
 /** Capability names that grant scoped network access (legacy + canonical). */

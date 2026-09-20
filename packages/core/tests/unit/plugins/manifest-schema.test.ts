@@ -3,6 +3,7 @@ import { describe, it, expect } from "vitest";
 import {
 	pluginManifestSchema,
 	normalizeManifestRoute,
+	reconcileManifestAccess,
 } from "../../../src/plugins/manifest-schema.js";
 
 /** Minimal valid manifest for testing — only storage fields vary */
@@ -19,7 +20,44 @@ function makeManifest(storage: Record<string, { indexes: Array<string | string[]
 	};
 }
 
+describe("pluginManifestSchema — content policy", () => {
+	it("accepts the policy capability and all synchronous publication hooks", () => {
+		expect(
+			pluginManifestSchema.safeParse({
+				...makeManifest({}),
+				declaredAccess: { content: { policy: {} } },
+				capabilities: ["hooks.content-policy:register"],
+				hooks: ["content:beforePublish", "content:beforeSchedule", "content:beforeUnpublish"],
+			}).success,
+		).toBe(true);
+	});
+});
+
 describe("pluginManifestSchema — route entries", () => {
+	it("preserves taxonomy write authority during reconciliation", () => {
+		const result = pluginManifestSchema.safeParse({
+			...makeManifest({}),
+			declaredAccess: { taxonomies: { read: {}, write: {} } },
+			capabilities: ["taxonomies:read", "taxonomies:write"],
+		});
+		expect(result.success).toBe(true);
+		if (!result.success) return;
+		expect(result.data.declaredAccess?.taxonomies?.write).toEqual({});
+		expect(reconcileManifestAccess(result.data).capabilities).toEqual([
+			"taxonomies:read",
+			"taxonomies:write",
+		]);
+	});
+
+	it("accepts redirect access in both manifest representations", () => {
+		const result = pluginManifestSchema.safeParse({
+			...makeManifest({}),
+			capabilities: ["redirects:read", "redirects:write"],
+			declaredAccess: { redirects: { read: {}, write: {} } },
+		});
+		expect(result.success).toBe(true);
+	});
+
 	it("should accept plain string routes", () => {
 		const result = pluginManifestSchema.safeParse(makeManifest({}));
 		// Baseline with empty routes is valid
@@ -116,6 +154,64 @@ describe("pluginManifestSchema — route entries", () => {
 		const result = pluginManifestSchema.safeParse({
 			...makeManifest({}),
 			routes: [{ name: "../escape", public: true }],
+		});
+		expect(result.success).toBe(false);
+	});
+});
+
+describe("pluginManifestSchema — editor extensions", () => {
+	it("accepts bounded declarations that reference private routes", () => {
+		const result = pluginManifestSchema.safeParse({
+			...makeManifest({}),
+			routes: [
+				{ name: "entry-panel", permission: "content:edit_own" },
+				{ name: "entry-action", permission: "content:edit_own" },
+			],
+			admin: {
+				editorPanels: [
+					{ id: "health", title: "Health", route: "entry-panel", collections: ["posts"] },
+				],
+				editorActions: [
+					{
+						id: "repair",
+						label: "Repair",
+						route: "entry-action",
+						placement: "toolbar",
+					},
+				],
+			},
+		});
+		expect(result.success).toBe(true);
+	});
+
+	it.each([
+		["missing", ["entry-panel"], "missing"],
+		["public", [{ name: "entry-panel", public: true }], "entry-panel"],
+		["ambiguous", ["entry-panel", { name: "entry-panel" }], "entry-panel"],
+	])("rejects a %s editor extension route", (_label, routes, route) => {
+		const result = pluginManifestSchema.safeParse({
+			...makeManifest({}),
+			routes,
+			admin: { editorPanels: [{ id: "health", title: "Health", route }] },
+		});
+		expect(result.success).toBe(false);
+	});
+
+	it("requires confirmation for danger actions", () => {
+		const result = pluginManifestSchema.safeParse({
+			...makeManifest({}),
+			routes: ["repair"],
+			admin: {
+				editorActions: [
+					{
+						id: "repair",
+						label: "Repair",
+						route: "repair",
+						placement: "toolbar",
+						style: "danger",
+					},
+				],
+			},
 		});
 		expect(result.success).toBe(false);
 	});

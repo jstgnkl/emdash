@@ -4,9 +4,9 @@ Registry plugins run against a capability-gated host API, not the complete trust
 
 ## Cross-runner transport caveats
 
-### Plugin settings are not encrypted
+### Encrypted settings require operator key material
 
-The generated admin form and sandbox `ctx.kv` share the `settings:*` namespace across both runners. A `secret` settings field is masked and write-only in admin responses, but the stored value is not encrypted. EmDash does not expose an encrypted settings or secrets API to registry plugins.
+The generated admin form and sandbox `ctx.settings` share one plugin-scoped namespace across both runners. A field declared as `secret` is encrypted with `EMDASH_ENCRYPTION_KEY` and remains write-only in admin responses. If the matching key is unavailable or the envelope is tampered with, reads fail instead of returning ciphertext or an empty value. Restore the database together with the encryption-key list. Existing `ctx.kv.get("settings:<key>")` reads remain a compatibility alias through EmDash 0.x.
 
 ### Cloudflare HTTP response bodies are text-decoded
 
@@ -22,31 +22,31 @@ The sandbox authoring type and manifest schema accept `page:fragments`, and the 
 
 The following surfaces do not exist in the current sandbox contract. Do not invent bridge calls, use internal REST routes as substitutes, or claim registry portability for them.
 
-### Content lifecycle and policy
+### Content lifecycle
 
-- `ctx.content` has `get`, `list`, `create`, `update`, and `delete`. It has no publish, unpublish, schedule, unschedule, trash, or restore methods.
-- Content hooks observe saves, deletes, and completed publication-state changes. There are no pre-publish, pre-unpublish, pre-schedule, or pre-restore policy hooks that can approve, reject, or transform those operations.
-- Content save events may include `actor: { id, role }`, but they do not include the actor's origin. A hook cannot distinguish REST, visual editing, MCP, or another authenticated path from the actor snapshot.
-- `ctx.content.create()` accepts a locale but not `translationOf`. `ctx.content` has no translation discovery API.
+- `content:publish` adds versioned publish, unpublish, schedule, and unschedule methods. `content:restore` separately adds versioned reads and restoration for trashed content. Neither capability adds a permanent-delete method.
+- `hooks.content-policy:register` provides synchronous `content:beforePublish`, `content:beforeSchedule`, and `content:beforeUnpublish` hooks. It does not add publication methods to `ctx.content`.
+- Publication policy events identify API, MCP, visual-editor, plugin, scheduler, and system origins. Authenticated human actions also include `actor: { id, role, source }`.
+- `ctx.content.create()` accepts `{ locale, translationOf }` to add an active locale to an existing entry's translation group. It cannot create a second active entry for the same group and locale. `ctx.content.getTranslations()` lists the active locale siblings.
 
-### Schema, taxonomies, and redirects
+### Schema and taxonomies
 
-- There is no schema or collection-definition listing API on `PluginContext`.
-- `ctx.taxonomies` is read-only. It cannot create, update, delete, reorder, or assign terms.
-- There is no redirects API and no redirect write capability.
+- `ctx.schema` is read-only. It cannot create, update, reorder, or delete collections or fields.
+- `taxonomies:write` can create terms and add or remove entry assignments. It cannot update, delete, or reorder terms.
 
 ### Comments and media
 
-- Comment hooks receive the comment involved in their event. There is no comment list/get API and no method to change a stored comment's status from plugin code.
-- `ctx.media.get()` and `list()` return metadata and a URL. They do not download media bytes or expose an original-byte read API.
-- `ctx.media.upload()` and `delete()` are the only sandbox media writes. There is no media metadata update API.
+- `ctx.comments` excludes trashed comments and linked user-account IDs. It cannot delete comments or replace statuses in bulk. `setStatus()` accepts only `approved`, `pending`, and `spam` and requires the status observed by the caller.
+- `ctx.media.get()` and `list()` return ready-media metadata and an authenticated ID-based asset URL without storage keys, author identity, content hashes, or bytes. Logged-out asset requests stop in authentication middleware before the route queries media.
+- `media:bytes:read` grants buffered byte reads from ready media. Reads default to 10 MiB, cannot request more than 16 MiB, and enforce the limit while consuming the storage stream. Content hashes are returned only with this authority.
+- `media:metadata:write` changes only alt text, caption, and a complete focal-point pair. Upload, replacement, movement, and deletion remain under other authority.
 
 ### Routes, public access, and admin UI
 
 - Plugin routes return JSON-serializable data inside EmDash's API envelope. There is no raw or unwrapped route response that controls the status, stream, or arbitrary headers.
 - `public: true` removes host authentication from the route. There is no separate safe-public-view abstraction that automatically limits fields or capabilities; validate requests and return the minimum public data.
-- Block Kit has buttons and form controls, but no navigation-link element and no content-editor panel extension point.
-- The sandbox context exposes the site locale, not the current administrator's UI locale. Registry plugins receive no admin-locale context or translation catalog callback.
+- Content-editor panels and actions cannot receive field values or unsaved editor state. They receive saved entry identity and version; use `ctx.content` for capability-gated saved-content reads.
+- Block Kit route calls expose the current administrator's host-attested locale and direction in `routeCtx.ui`. Manifest navigation labels remain static strings.
 
 ## Runner-only methods are not portable
 

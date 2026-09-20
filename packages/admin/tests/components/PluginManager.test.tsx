@@ -433,7 +433,10 @@ describe("PluginManager", () => {
 			new MarketplaceUpdateEscalationError(
 				"ROUTE_VISIBILITY_ESCALATION",
 				"Review the update",
-				{ added: ["network:request"], removed: [] },
+				{
+					added: ["media:bytes:read", "media:metadata:write", "network:request"],
+					removed: [],
+				},
 				{ newlyPublic: ["webhook"] },
 				[
 					{
@@ -462,7 +465,13 @@ describe("PluginManager", () => {
 				version: "2.0.0",
 			});
 		});
-		await expect.element(screen.getByText("Make network requests")).toBeInTheDocument();
+		await expect.element(screen.getByText("Read media file contents")).toBeInTheDocument();
+		await expect
+			.element(screen.getByText("Edit media alt text, captions, and focal points"))
+			.toBeInTheDocument();
+		await expect
+			.element(screen.getByText("Connect to network hosts and load external plugin admin images"))
+			.toBeInTheDocument();
 		await expect.element(screen.getByText("webhook")).toBeInTheDocument();
 		await expect.element(screen.getByText("sync", { exact: true })).toBeInTheDocument();
 

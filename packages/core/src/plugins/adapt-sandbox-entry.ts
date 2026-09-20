@@ -251,8 +251,16 @@ export function adaptSandboxEntry(
 						request: requestShape,
 						requestMeta: ctx.requestMeta,
 						user: ctx.user,
+						ui: ctx.ui,
 					};
-					const { input: _, request: __, requestMeta: ___, user: ____, ...pluginCtx } = ctx;
+					const {
+						input: _,
+						request: __,
+						requestMeta: ___,
+						user: ____,
+						ui: _____,
+						...pluginCtx
+					} = ctx;
 					return handler(routeCtx, pluginCtx);
 				},
 			};
@@ -275,9 +283,7 @@ export function adaptSandboxEntry(
 	}
 
 	// Silent normalization: rewrite deprecated names to current names.
-	// Safe assertion — `normalizeCapabilities` only emits validated input
-	// plus current names from the rename map, all of which are in the union.
-	// eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion -- validated above; normalizeCapabilities only returns capabilities from the union
+	// eslint-disable-next-line typescript/no-unsafe-type-assertion -- validated above; normalization only returns capabilities from the union
 	const capabilities = normalizeCapabilities(rawCapabilities) as PluginCapability[];
 	const allowedHosts = descriptor.allowedHosts ?? [];
 
@@ -287,8 +293,17 @@ export function adaptSandboxEntry(
 	if (capabilities.includes("content:write") && !capabilities.includes("content:read")) {
 		capabilities.push("content:read");
 	}
+	if (capabilities.includes("content:revisions:read") && !capabilities.includes("content:read")) {
+		capabilities.push("content:read");
+	}
+	if (capabilities.includes("content:publish") && !capabilities.includes("content:read")) {
+		capabilities.push("content:read");
+	}
 	if (capabilities.includes("media:write") && !capabilities.includes("media:read")) {
 		capabilities.push("media:read");
+	}
+	if (capabilities.includes("comments:moderate") && !capabilities.includes("comments:read")) {
+		capabilities.push("comments:read");
 	}
 	if (
 		capabilities.includes("network:request:unrestricted") &&
@@ -320,6 +335,12 @@ export function adaptSandboxEntry(
 	}
 	if (descriptor.adminWidgets) {
 		admin.widgets = descriptor.adminWidgets;
+	}
+	if (descriptor.editorPanels) {
+		admin.editorPanels = descriptor.editorPanels;
+	}
+	if (descriptor.editorActions) {
+		admin.editorActions = descriptor.editorActions;
 	}
 	if (descriptor.settingsSchema) {
 		admin.settingsSchema = descriptor.settingsSchema;

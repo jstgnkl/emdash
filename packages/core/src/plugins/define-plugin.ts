@@ -156,8 +156,18 @@ function defineNativePlugin<TStorage extends PluginStorageConfig>(
 		"network:request",
 		"network:request:unrestricted",
 		"content:read",
+		"content:revisions:read",
 		"content:write",
+		"content:publish",
+		"content:restore",
+		"comments:read",
+		"comments:moderate",
+		"schema:read",
+		"hooks.content-policy:register",
 		"taxonomies:read",
+		"taxonomies:write",
+		"redirects:read",
+		"redirects:write",
 		"media:read",
 		"media:write",
 		"users:read",
@@ -183,12 +193,9 @@ function defineNativePlugin<TStorage extends PluginStorageConfig>(
 		}
 	}
 
-	// Silent normalization: rewrite deprecated names to current names. Done
-	// before the implication pass so implications work on canonical names.
-	// `as PluginCapability[]` is safe because `normalizeCapabilities` only
-	// returns strings from the validated input plus current names from the
-	// rename map, all of which are in the union.
-	const canonical = normalizeCapabilities(capabilities) as PluginCapability[];
+	// Silent normalization: rewrite deprecated names to current names before
+	// the implication pass so implications work on canonical names.
+	const canonical = normalizeCapabilities(capabilities);
 
 	// Capability implications: broader capabilities imply narrower ones.
 	// Operates on canonical names only.
@@ -196,8 +203,23 @@ function defineNativePlugin<TStorage extends PluginStorageConfig>(
 	if (canonical.includes("content:write") && !canonical.includes("content:read")) {
 		normalizedCapabilities.push("content:read");
 	}
+	if (canonical.includes("content:revisions:read") && !canonical.includes("content:read")) {
+		normalizedCapabilities.push("content:read");
+	}
+	if (canonical.includes("taxonomies:write") && !canonical.includes("taxonomies:read")) {
+		normalizedCapabilities.push("taxonomies:read");
+	}
+	if (canonical.includes("content:publish") && !canonical.includes("content:read")) {
+		normalizedCapabilities.push("content:read");
+	}
 	if (canonical.includes("media:write") && !canonical.includes("media:read")) {
 		normalizedCapabilities.push("media:read");
+	}
+	if (canonical.includes("comments:moderate") && !canonical.includes("comments:read")) {
+		normalizedCapabilities.push("comments:read");
+	}
+	if (canonical.includes("redirects:write") && !canonical.includes("redirects:read")) {
+		normalizedCapabilities.push("redirects:read");
 	}
 	if (
 		canonical.includes("network:request:unrestricted") &&

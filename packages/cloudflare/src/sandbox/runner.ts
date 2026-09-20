@@ -19,15 +19,31 @@ import {
 	normalizeCapabilities,
 	type SandboxRunner,
 	type SandboxedPluginInstance,
+	type SandboxInvocationOptions,
 	type SandboxEmailSendCallback,
+	type SandboxCommentModerateCallback,
+	type SandboxContentCreateCallback,
+	type ContentActionCallbacks,
 	type SandboxOptions,
 	type SandboxRunnerFactory,
 	type SerializedRequest,
 	type PluginManifest,
+	type SettingField,
 	type I18nConfig,
 } from "emdash";
 
-import { setCronNowCallback, setCronRescheduleCallback, setEmailSendCallback } from "./bridge.js";
+import {
+	setCommentModerateCallback,
+	setContentCreateCallback,
+	beginContentActionCallbacks,
+	setContentActionsCallback,
+	flushContentActionCallbacks,
+	setCronNowCallback,
+	setCronRescheduleCallback,
+	setEmailSendCallback,
+	setMediaStorageCallback,
+	setTaxonomyWriteCallback,
+} from "./bridge.js";
 import type { WorkerLoader, WorkerStub, PluginBridgeBinding, WorkerLoaderLimits } from "./types.js";
 import { generatePluginWrapper } from "./wrapper.js";
 
@@ -53,11 +69,21 @@ export interface PluginBridgeProps {
 	capabilities: string[];
 	allowedHosts: string[];
 	storageCollections: string[];
+	contentCreateRuntimeId?: string;
+	contentActionsRuntimeId?: string;
+	taxonomyWriteRuntimeId?: string;
 	i18nConfig?: I18nConfig | null;
+	siteInfo?: {
+		name: string;
+		url: string;
+		locale: string;
+		trailingSlash?: "always" | "never" | "ignore";
+	};
 	storageConfig?: Record<
 		string,
 		{ indexes?: Array<string | string[]>; uniqueIndexes?: Array<string | string[]> }
 	>;
+	settingsSchema?: Record<string, SettingField>;
 }
 
 /**
@@ -107,6 +133,9 @@ export class CloudflareSandboxRunner implements SandboxRunner {
 	private plugins = new Map<string, CloudflareSandboxedPlugin>();
 	private options: SandboxOptions;
 	private resolvedLimits: ResolvedLimits;
+	private readonly contentCreateRuntimeId = crypto.randomUUID();
+	private readonly contentActionsRuntimeId = crypto.randomUUID();
+	private readonly taxonomyWriteRuntimeId = crypto.randomUUID();
 	private siteInfo?: {
 		name: string;
 		url: string;
@@ -121,7 +150,11 @@ export class CloudflareSandboxRunner implements SandboxRunner {
 
 		// Wire email send callback if provided at construction time
 		setEmailSendCallback(options.emailSend ?? null);
+		setContentActionsCallback(this.contentActionsRuntimeId, options.contentActions ?? null);
 		setCronNowCallback(options.now ?? null);
+		setMediaStorageCallback(options.mediaStorage ?? null);
+		setCommentModerateCallback(options.commentModerate ?? null);
+		setTaxonomyWriteCallback(this.taxonomyWriteRuntimeId, options.taxonomyWrite ?? null);
 	}
 
 	/**
@@ -131,6 +164,18 @@ export class CloudflareSandboxRunner implements SandboxRunner {
 	 */
 	setEmailSend(callback: SandboxEmailSendCallback | null): void {
 		setEmailSendCallback(callback);
+	}
+
+	setCommentModerate(callback: SandboxCommentModerateCallback | null): void {
+		setCommentModerateCallback(callback);
+	}
+
+	setContentCreate(callback: SandboxContentCreateCallback | null): void {
+		setContentCreateCallback(this.contentCreateRuntimeId, callback);
+	}
+
+	setContentActions(callback: ContentActionCallbacks | null): void {
+		setContentActionsCallback(this.contentActionsRuntimeId, callback);
 	}
 
 	setCronReschedule(callback: (() => void) | null): void {
@@ -194,6 +239,9 @@ export class CloudflareSandboxRunner implements SandboxRunner {
 			this.resolvedLimits,
 			this.siteInfo,
 			this.options.isolateKey,
+			this.contentCreateRuntimeId,
+			this.contentActionsRuntimeId,
+			this.taxonomyWriteRuntimeId,
 		);
 
 		this.plugins.set(pluginId, plugin);
@@ -208,6 +256,9 @@ export class CloudflareSandboxRunner implements SandboxRunner {
 			await plugin.terminate();
 		}
 		this.plugins.clear();
+		setContentCreateCallback(this.contentCreateRuntimeId, null);
+		setContentActionsCallback(this.contentActionsRuntimeId, null);
+		setTaxonomyWriteCallback(this.taxonomyWriteRuntimeId, null);
 	}
 }
 
@@ -247,6 +298,9 @@ class CloudflareSandboxedPlugin implements SandboxedPluginInstance {
 			trailingSlash?: "always" | "never" | "ignore";
 		},
 		isolateKey?: string,
+		private contentCreateRuntimeId?: string,
+		private contentActionsRuntimeId?: string,
+		private taxonomyWriteRuntimeId?: string,
 	) {
 		this.id = `${manifest.id}:${manifest.version}`;
 		this.workerName = isolateKey ? `${this.id}:${isolateKey}` : this.id;
@@ -283,15 +337,24 @@ class CloudflareSandboxedPlugin implements SandboxedPluginInstance {
 		// the rename (or sites still using the legacy alias layer) keep
 		// working — `normalizeCapabilities` rewrites legacy names like
 		// `read:content` → `content:read` and `network:fetch` → `network:request`.
+		const capabilities = normalizeCapabilities(this.manifest.capabilities || []);
+		if (capabilities.includes("comments:moderate") && !capabilities.includes("comments:read")) {
+			capabilities.push("comments:read");
+		}
 		const bridgeBinding = this.createBridge({
 			props: {
 				pluginId: this.manifest.id,
 				pluginVersion: this.manifest.version || "0.0.0",
-				capabilities: normalizeCapabilities(this.manifest.capabilities || []),
+				capabilities,
 				allowedHosts: this.manifest.allowedHosts || [],
 				storageCollections: Object.keys(this.manifest.storage || {}),
+				contentCreateRuntimeId: this.contentCreateRuntimeId,
+				contentActionsRuntimeId: this.contentActionsRuntimeId,
+				taxonomyWriteRuntimeId: this.taxonomyWriteRuntimeId,
 				i18nConfig: getI18nConfig(),
+				siteInfo: this.siteInfo,
 				storageConfig: this.manifest.storage,
+				settingsSchema: this.manifest.admin?.settingsSchema,
 			},
 		});
 
@@ -332,12 +395,22 @@ class CloudflareSandboxedPlugin implements SandboxedPluginInstance {
 	 * Loader doesn't expose a wall-time limit — a plugin could stall
 	 * indefinitely waiting on network I/O.
 	 */
-	private async withWallTimeLimit<T>(operation: string, fn: () => Promise<T>): Promise<T> {
+	private async withWallTimeLimit<T>(
+		operation: string,
+		invocationId: string,
+		invocation: Promise<T>,
+	): Promise<T> {
 		const wallTimeMs = this.limits.wallTimeMs;
 		let timer: ReturnType<typeof setTimeout> | undefined;
 
 		const timeout = new Promise<never>((_, reject) => {
 			timer = setTimeout(() => {
+				void flushContentActionCallbacks(
+					this.contentActionsRuntimeId ?? "",
+					this.manifest.id,
+					invocationId,
+					false,
+				);
 				reject(
 					new Error(
 						`Plugin ${this.manifest.id} exceeded wall-time limit of ${wallTimeMs}ms during ${operation}`,
@@ -347,7 +420,23 @@ class CloudflareSandboxedPlugin implements SandboxedPluginInstance {
 		});
 
 		try {
-			return await Promise.race([fn(), timeout]);
+			void invocation.then(
+				() =>
+					flushContentActionCallbacks(
+						this.contentActionsRuntimeId ?? "",
+						this.manifest.id,
+						invocationId,
+						true,
+					),
+				() =>
+					flushContentActionCallbacks(
+						this.contentActionsRuntimeId ?? "",
+						this.manifest.id,
+						invocationId,
+						true,
+					),
+			);
+			return await Promise.race([invocation, timeout]);
 		} finally {
 			if (timer !== undefined) clearTimeout(timer);
 		}
@@ -360,11 +449,12 @@ class CloudflareSandboxedPlugin implements SandboxedPluginInstance {
 	 * Wall-time is enforced here.
 	 */
 	async invokeHook(hookName: string, event: unknown): Promise<unknown> {
-		return this.withWallTimeLimit(`hook:${hookName}`, () => {
-			const worker = this.createWorker();
-			const entrypoint = worker.getEntrypoint<PluginEntrypoint>("default");
-			return entrypoint.invokeHook(hookName, event);
-		});
+		const invocationId = crypto.randomUUID();
+		beginContentActionCallbacks(this.contentActionsRuntimeId ?? "", this.manifest.id, invocationId);
+		const worker = this.createWorker();
+		const entrypoint = worker.getEntrypoint<PluginEntrypoint>("default");
+		const invocation = entrypoint.invokeHook(hookName, event, invocationId);
+		return this.withWallTimeLimit(`hook:${hookName}`, invocationId, invocation);
 	}
 
 	/**
@@ -377,15 +467,24 @@ class CloudflareSandboxedPlugin implements SandboxedPluginInstance {
 		routeName: string,
 		input: unknown,
 		request: SerializedRequest,
+		options?: SandboxInvocationOptions,
 	): Promise<unknown> {
-		return this.withWallTimeLimit(`route:${routeName}`, async () => {
-			const worker = this.createWorker();
-			const entrypoint = worker.getEntrypoint<PluginEntrypoint>("default");
-			const result = await entrypoint.invokeRoute(routeName, input, request);
-			const envelope = getSandboxRouteErrorEnvelope(result);
+		const invocationId = crypto.randomUUID();
+		beginContentActionCallbacks(
+			this.contentActionsRuntimeId ?? "",
+			this.manifest.id,
+			invocationId,
+			options?.invalidateContentCache,
+		);
+		const worker = this.createWorker();
+		const entrypoint = worker.getEntrypoint<PluginEntrypoint>("default");
+		const invocation = (async () => {
+			const routeResult = await entrypoint.invokeRoute(routeName, input, request, invocationId);
+			const envelope = getSandboxRouteErrorEnvelope(routeResult);
 			if (envelope) throw createSandboxRouteError(envelope.error.code);
-			return result;
-		});
+			return routeResult;
+		})();
+		return this.withWallTimeLimit(`route:${routeName}`, invocationId, invocation);
 	}
 
 	/**
@@ -401,8 +500,13 @@ class CloudflareSandboxedPlugin implements SandboxedPluginInstance {
  * The RPC interface exposed by the plugin wrapper.
  */
 interface PluginEntrypoint {
-	invokeHook(hookName: string, event: unknown): Promise<unknown>;
-	invokeRoute(routeName: string, input: unknown, request: SerializedRequest): Promise<unknown>;
+	invokeHook(hookName: string, event: unknown, invocationId: string): Promise<unknown>;
+	invokeRoute(
+		routeName: string,
+		input: unknown,
+		request: SerializedRequest,
+		invocationId: string,
+	): Promise<unknown>;
 }
 
 /**

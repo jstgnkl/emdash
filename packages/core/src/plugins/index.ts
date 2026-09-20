@@ -27,8 +27,11 @@ export {
 	createPluginContext,
 	createKVAccess,
 	createStorageAccess,
-	createContentAccess,
 	createContentAccessWithWrite,
+	createCommentAccess,
+	createRedirectAccess,
+	RedirectAccessError,
+	createSchemaAccess,
 	createMediaAccess,
 	createMediaAccessWithWrite,
 	createHttpAccess,
@@ -39,13 +42,31 @@ export {
 	createUrlHelper,
 	createSiteInfo,
 } from "./context.js";
-export type { PluginContextFactoryOptions } from "./context.js";
+export { createContentAccess } from "./content-access.js";
+export type { ContentActionCallbacks, PluginContextFactoryOptions } from "./context.js";
 export { CronAccessImpl } from "./cron.js";
+export {
+	DEFAULT_PLUGIN_MEDIA_READ_BYTES,
+	MAX_PLUGIN_MEDIA_READ_BYTES,
+	parsePluginMediaMetadataPatch,
+	readPluginMediaBytes,
+	toPluginMediaItem,
+	updatePluginMediaMetadata,
+} from "./media.js";
 
 // Hooks
 export { HookPipeline, createHookPipeline } from "./hooks.js";
 export type { HookResult } from "./hooks.js";
 export { ContentSaveRejectedError, isContentSaveRejection } from "./save-rejection.js";
+export {
+	SCHEDULED_POLICY_REJECTION_PREFIX,
+	isScheduledPolicyRejection,
+	scheduledPolicyRejectionKey,
+} from "./content-policy.js";
+export type {
+	ScheduledPolicyRejection,
+	VersionedScheduledPolicyRejection,
+} from "./content-policy.js";
 
 // Email pipeline
 export { EmailPipeline, EmailNotConfiguredError, EmailRecursionError } from "./email.js";
@@ -87,10 +108,13 @@ export {
 export type {
 	SandboxRunner,
 	SandboxedPluginInstance,
+	SandboxInvocationOptions,
 	SandboxRunnerFactory,
 	SandboxOptions,
 	SandboxEmailMessage,
 	SandboxEmailSendCallback,
+	SandboxCommentModerateCallback,
+	SandboxContentCreateCallback,
 	ResourceLimits,
 	PluginCodeStorage,
 	SerializedRequest,
@@ -103,6 +127,15 @@ export type {
 } from "./sandbox/index.js";
 
 export { StorageSerializationError } from "./storage-query.js";
+export {
+	PluginSettingEncryptionError,
+	createPluginSecretRedactor,
+	createSettingsAccess,
+	decodePluginSettingValue,
+	encryptPluginSetting,
+	isEncryptedPluginSetting,
+} from "./settings.js";
+export type { EncryptedPluginSetting, PluginSecretRedactor } from "./settings.js";
 
 // Types
 export type {
@@ -128,16 +161,27 @@ export type {
 	ConditionalWriteResult,
 	ConditionalDeleteResult,
 	KVAccess,
+	SettingsAccess,
 	ContentAccess,
 	ContentAccessWithWrite,
+	ContentPublicationAccess,
+	ContentRestoreAccess,
+	VersionedContentItem,
 	MediaAccess,
 	MediaAccessWithWrite,
+	MediaBytes,
+	MediaMetadataPatch,
 	HttpAccess,
 	LogAccess,
 	SiteInfo,
 	UserInfo,
 	UserAccess,
 	ContentItem,
+	ContentTranslationSummary,
+	ContentRevisionInfo,
+	SchemaAccess,
+	CollectionSchemaInfo,
+	FieldSchemaInfo,
 	ContentCreateOptions,
 	ContentWriteInput,
 	CronTaskInfo,
@@ -145,9 +189,19 @@ export type {
 	ContentListOptions,
 	MediaListOptions,
 	TaxonomyAccess,
+	TaxonomyAccessWithWrite,
 	TaxonomyDefInfo,
 	TaxonomyTermInfo,
+	TaxonomyTermCreateInput,
 	TaxonomyReadOptions,
+	RedirectAccess,
+	RedirectAccessWithWrite,
+	RedirectCreateInput,
+	RedirectInfo,
+	RedirectListOptions,
+	RedirectStatus,
+	RedirectUpdateInput,
+	VersionedRedirect,
 
 	// Hook types
 	PluginHooks,
@@ -156,7 +210,11 @@ export type {
 	ResolvedHook,
 	ResolvedPluginHooks,
 	ActorInfo,
+	ContentActionOrigin,
 	ContentHookEvent,
+	ContentPolicyDecision,
+	ContentPolicyEvent,
+	ContentSchedulePolicyEvent,
 	ContentDeleteEvent,
 	ContentPublishStateChangeEvent,
 	ContentRestoreStateChangeEvent,
@@ -182,6 +240,9 @@ export type {
 	ContentAfterSaveHandler,
 	ContentBeforeDeleteHandler,
 	ContentAfterDeleteHandler,
+	ContentBeforePublishHandler,
+	ContentBeforeScheduleHandler,
+	ContentBeforeUnpublishHandler,
 	ContentAfterRestoreHandler,
 	ContentAfterScheduleHandler,
 	ContentAfterUnscheduleHandler,
@@ -202,6 +263,11 @@ export type {
 	ModerationDecision,
 	CollectionCommentSettings,
 	StoredComment,
+	PluginComment,
+	PluginCommentStatus,
+	CommentAccess,
+	CommentListOptions,
+	CommentCountOptions,
 
 	// Request metadata types
 	RequestMeta,
@@ -215,6 +281,8 @@ export type {
 	PluginAdminConfig,
 	PluginAdminPage,
 	PluginDashboardWidget,
+	PluginEditorPanel,
+	PluginEditorAction,
 	PluginAdminExports,
 	FieldWidgetConfig,
 	PortableTextBlockConfig,

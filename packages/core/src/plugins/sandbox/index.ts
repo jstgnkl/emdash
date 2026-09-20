@@ -20,10 +20,13 @@ export {
 export type {
 	SandboxRunner,
 	SandboxedPluginInstance,
+	SandboxInvocationOptions,
 	SandboxRunnerFactory,
 	SandboxOptions,
 	SandboxEmailMessage,
 	SandboxEmailSendCallback,
+	SandboxCommentModerateCallback,
+	SandboxContentCreateCallback,
 	ResourceLimits,
 	PluginCodeStorage,
 	SerializedRequest,

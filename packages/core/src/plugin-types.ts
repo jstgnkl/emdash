@@ -39,6 +39,7 @@
  */
 
 import type { Permission } from "@emdash-cms/auth";
+import type { PluginUiContext } from "@emdash-cms/blocks/server";
 import type { ZodType } from "zod";
 
 import type { SandboxHookErrorEnvelope } from "./plugins/sandbox/hook-result.js";
@@ -59,6 +60,9 @@ import type {
 	ContentAfterScheduleHandler,
 	ContentAfterUnpublishHandler,
 	ContentAfterUnscheduleHandler,
+	ContentBeforePublishHandler,
+	ContentBeforeScheduleHandler,
+	ContentBeforeUnpublishHandler,
 	ContentBeforeDeleteHandler,
 	ContentBeforeSaveHandler,
 	ContentDeleteEvent,
@@ -78,6 +82,9 @@ import type {
 	LifecycleEvent,
 	LifecycleHandler,
 	MediaAfterUploadEvent,
+	MediaBytes,
+	MediaItem,
+	MediaMetadataPatch,
 	MediaAfterUploadHandler,
 	MediaBeforeUploadHandler,
 	MediaUploadEvent,
@@ -90,6 +97,8 @@ import type {
 	UninstallHandler,
 	UserInfo,
 } from "./plugins/types.js";
+
+export type { PluginUiContext } from "@emdash-cms/blocks/server";
 
 /**
  * Map from hook name to its handler signature. Adding or changing a
@@ -107,6 +116,9 @@ export interface HookHandlers {
 	"content:afterSave": ContentAfterSaveHandler;
 	"content:beforeDelete": ContentBeforeDeleteHandler;
 	"content:afterDelete": ContentAfterDeleteHandler;
+	"content:beforePublish": ContentBeforePublishHandler;
+	"content:beforeSchedule": ContentBeforeScheduleHandler;
+	"content:beforeUnpublish": ContentBeforeUnpublishHandler;
 	"content:afterPublish": ContentAfterPublishHandler;
 	"content:afterUnpublish": ContentAfterUnpublishHandler;
 	"content:afterRestore": ContentAfterRestoreHandler;
@@ -181,6 +193,8 @@ export interface SandboxedRouteContext {
 	input: unknown;
 	request: SandboxedRequest;
 	requestMeta?: unknown;
+	/** Host-attested context for a validated Block Kit request. */
+	ui?: PluginUiContext;
 	/**
 	 * Authenticated caller, if the route is private. Resolved and
 	 * authorized by the host before dispatch — trust it over any user id
@@ -291,6 +305,9 @@ export type {
 	EmailDeliverEvent,
 	LifecycleEvent,
 	MediaAfterUploadEvent,
+	MediaBytes,
+	MediaItem,
+	MediaMetadataPatch,
 	MediaUploadEvent,
 	PageFragmentEvent,
 	PageMetadataEvent,
@@ -299,7 +316,23 @@ export type {
 };
 
 export type {
+	PaginatedResult,
 	VersionedValue,
 	ConditionalWriteResult,
 	ConditionalDeleteResult,
+	SettingsAccess,
+	RedirectAccess,
+	RedirectAccessWithWrite,
+	RedirectCreateInput,
+	RedirectInfo,
+	RedirectListOptions,
+	RedirectStatus,
+	RedirectUpdateInput,
+	VersionedRedirect,
+} from "./plugins/types.js";
+export type {
+	ContentActionOrigin,
+	ContentPolicyDecision,
+	ContentPolicyEvent,
+	ContentSchedulePolicyEvent,
 } from "./plugins/types.js";
