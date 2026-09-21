@@ -17,6 +17,7 @@ import {
 	type BlockValidationPolicy,
 	type PluginUiContext,
 } from "@emdash-cms/blocks/server";
+import { isJsonPostRouteContract } from "@emdash-cms/plugin-types";
 import { Kysely, type Dialect } from "kysely";
 import virtualConfig from "virtual:emdash/config";
 import { z } from "zod";
@@ -121,7 +122,7 @@ import type {
 	PluginContentCreateCallback,
 	VersionedContentItem,
 } from "./plugins/types.js";
-import { normalizeCapabilities } from "./plugins/types.js";
+import { normalizePluginCapabilities } from "./plugins/types.js";
 import { recordSchedulerHeartbeatSafely } from "./scheduler-health.js";
 import { primeRegisteredCollections } from "./schema/collection-slugs-cache.js";
 import { isMissingTableError } from "./utils/db-errors.js";
@@ -249,6 +250,7 @@ import { disableRuntimePlugin, enableRuntimePlugin } from "./plugins/lifecycle.j
 import { HOOK_NAMES, normalizeManifestRoute } from "./plugins/manifest-schema.js";
 import { updatePluginMediaMetadata } from "./plugins/media.js";
 import { extractRequestMeta, sanitizeHeadersForSandbox } from "./plugins/request-meta.js";
+import { PluginRouteRequestError } from "./plugins/route-wire.js";
 import {
 	buildRouteMeta,
 	parseRouteInput,
@@ -2500,22 +2502,7 @@ export class EmDashRuntime {
 								: undefined,
 					}),
 				);
-				const capabilities = normalizeCapabilities(entry.capabilities ?? []);
-				if (capabilities.includes("content:write") && !capabilities.includes("content:read")) {
-					capabilities.push("content:read");
-				}
-				if (capabilities.includes("content:publish") && !capabilities.includes("content:read")) {
-					capabilities.push("content:read");
-				}
-				if (capabilities.includes("media:write") && !capabilities.includes("media:read")) {
-					capabilities.push("media:read");
-				}
-				if (
-					capabilities.includes("network:request:unrestricted") &&
-					!capabilities.includes("network:request")
-				) {
-					capabilities.push("network:request");
-				}
+				const capabilities = normalizePluginCapabilities(entry.capabilities ?? []);
 
 				// Build manifest from entry's declared config
 				const manifest: PluginManifest = {
@@ -5134,7 +5121,7 @@ export class EmDashRuntime {
 
 	async handlePluginApiRoute(
 		pluginId: string,
-		_method: string,
+		method: string,
 		path: string,
 		request: Request,
 		user?: RouteCallerInput | null,
@@ -5147,12 +5134,33 @@ export class EmDashRuntime {
 				error: { code: "NOT_FOUND", message: `Plugin not enabled: ${pluginId}` },
 			};
 		}
+		const normalizedMethod = method.toUpperCase();
+		const routeMeta = this.getPluginRouteMeta(pluginId, path);
+		if (routeMeta?.methods && !routeMeta.methods.some((allowed) => allowed === normalizedMethod)) {
+			return {
+				success: false,
+				status: 405,
+				error: { code: "METHOD_NOT_ALLOWED", message: "Method not allowed" },
+			};
+		}
 
 		// Authenticated caller for `ctx.user`. Undefined for public routes
 		// (the catch-all only forwards the caller after private-route auth)
 		// and for machine tokens with no bound user.
 		const caller = user ? toRouteCallerInfo(user) : undefined;
-		const body = await parseRouteInput(request);
+		let body: unknown;
+		try {
+			body = await parseRouteInput(request, routeMeta?.request);
+		} catch (error) {
+			if (error instanceof PluginRouteRequestError) {
+				return {
+					success: false,
+					status: error.status,
+					error: { code: "INVALID_PLUGIN_REQUEST", message: error.message },
+				};
+			}
+			throw error;
+		}
 		const routeKey = path.replace(LEADING_SLASH_PATTERN, "");
 		const adminDefinition =
 			!editorDispatch && routeKey === "admin" ? this.getSandboxedAdminDefinition(pluginId) : null;
@@ -5195,6 +5203,7 @@ export class EmDashRuntime {
 				path,
 				request,
 				body,
+				routeMeta ?? { public: false },
 				caller,
 				editorDispatch?.ui ?? uiResult.context,
 				invalidateContentCache,
@@ -5254,6 +5263,8 @@ export class EmDashRuntime {
 				if (
 					!route ||
 					route.public ||
+					route.response === "raw" ||
+					!isJsonPostRouteContract(route) ||
 					!route.permission ||
 					!Object.hasOwn(Permissions, route.permission)
 				)
@@ -5283,6 +5294,8 @@ export class EmDashRuntime {
 					seen.has(key) ||
 					!routeMeta ||
 					routeMeta.public ||
+					routeMeta.response === "raw" ||
+					!isJsonPostRouteContract(routeMeta) ||
 					routeMeta.permission !== tool.permission ||
 					!Object.hasOwn(Permissions, tool.permission)
 				) {
@@ -5726,6 +5739,7 @@ export class EmDashRuntime {
 		path: string,
 		request: Request,
 		body: unknown,
+		routeMeta: RouteMeta,
 		user?: UserInfo,
 		ui?: PluginUiContext,
 		invalidateContentCache?: PluginContentCacheInvalidator,
@@ -5738,7 +5752,8 @@ export class EmDashRuntime {
 		const routeName = path.replace(LEADING_SLASH_PATTERN, "");
 
 		try {
-			const headers = sanitizeHeadersForSandbox(request.headers);
+			const declaredHeaders = routeMeta.request ? (routeMeta.request.headers ?? []) : undefined;
+			const headers = sanitizeHeadersForSandbox(request.headers, declaredHeaders);
 			const meta = extractRequestMeta(request, this.config);
 			const result = await plugin.invokeRoute(
 				routeName,
@@ -5755,6 +5770,13 @@ export class EmDashRuntime {
 			);
 			return { success: true, data: result };
 		} catch (error) {
+			if (error instanceof PluginRouteRequestError) {
+				return {
+					success: false,
+					status: error.status,
+					error: { code: "INVALID_PLUGIN_REQUEST", message: error.message },
+				};
+			}
 			console.error(`EmDash: Sandboxed plugin route error:`, error);
 			const sandboxRouteError = getSandboxRouteErrorDetails(error);
 			if (sandboxRouteError) {

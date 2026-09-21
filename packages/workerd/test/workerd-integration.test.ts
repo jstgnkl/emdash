@@ -254,6 +254,62 @@ export default {
 };
 `;
 
+const BINARY_HTTP_PLUGIN = `
+export default {
+	hooks: {},
+	routes: {
+		"roundtrip": {
+			handler: async (route, ctx) => {
+				const response = await ctx.http.fetch(route.input.url, {
+					method: "POST",
+					headers: { "content-type": "application/octet-stream" },
+					body: new Uint8Array([0, 255, 195, 40])
+				});
+				const clone = response.clone();
+				return {
+					status: response.status,
+					statusText: response.statusText,
+					url: response.url,
+					redirected: response.redirected,
+					bytes: [...new Uint8Array(await response.arrayBuffer())],
+					cloneBytes: [...new Uint8Array(await clone.arrayBuffer())]
+				};
+			}
+		}
+	}
+};
+`;
+
+const RAW_ROUTE_PLUGIN = `
+export default {
+	routes: {
+		bytes: {
+			handler: async ({ input }) => ({
+				__emdashPluginResponse: true,
+				status: 206,
+				headers: [["content-type", "application/octet-stream"]],
+				body: { kind: "bytes", value: input }
+			})
+		},
+		multipart: {
+			handler: async ({ input }) => ({
+				__emdashPluginResponse: true,
+				status: 200,
+				headers: [],
+				body: { kind: "bytes", value: input.entries[1].bytes }
+			})
+		},
+		ordinary: {
+			handler: async () => ({
+				status: 201,
+				headers: [["x-test", "ordinary"]],
+				body: { kind: "text", value: "not raw" }
+			})
+		}
+	}
+};
+`;
+
 const SAVE_REJECTION_PLUGIN = `
 export default {
 	hooks: {
@@ -539,6 +595,171 @@ describe.skipIf(!workerdAvailable)("WorkerdSandboxRunner integration", () => {
 			storage_key: "private/original.bin",
 			content_hash: "sha1:original",
 		});
+	}, 30_000);
+
+	it("preserves concurrent binary HTTP through the real workerd bridge", async () => {
+		await runner.terminateAll();
+		const requests: Array<{ url: string; body: Uint8Array }> = [];
+		runner = new WorkerdSandboxRunner({
+			db,
+			httpFetch: async (input, init) => {
+				const request = new Request(input, init);
+				requests.push({
+					url: request.url,
+					body: new Uint8Array(await request.arrayBuffer()),
+				});
+				const second = request.url.endsWith("/second");
+				return new Response(
+					second ? new Uint8Array([137, 80, 78, 71]) : new Uint8Array([0, 255, 195, 40]),
+					{
+						status: second ? 200 : 206,
+						statusText: second ? "OK" : "Partial Content",
+						headers: { "content-type": "application/octet-stream" },
+					},
+				);
+			},
+		});
+		const plugin = await runner.load(
+			{
+				id: "binary-http",
+				version: "1.0.0",
+				capabilities: ["network:request"],
+				allowedHosts: ["93.184.216.34"],
+				storage: {},
+			},
+			BINARY_HTTP_PLUGIN,
+		);
+		const urls = ["https://93.184.216.34/first", "https://93.184.216.34/second"];
+		const results = await Promise.all(
+			urls.map((url) =>
+				plugin.invokeRoute(
+					"roundtrip",
+					{ url },
+					{ method: "POST", url: "/api/roundtrip", headers: {} },
+				),
+			),
+		);
+
+		expect(results).toEqual(
+			expect.arrayContaining([
+				expect.objectContaining({
+					status: 206,
+					statusText: "Partial Content",
+					url: urls[0],
+					bytes: [0, 255, 195, 40],
+					cloneBytes: [0, 255, 195, 40],
+				}),
+				expect.objectContaining({
+					status: 200,
+					url: urls[1],
+					bytes: [137, 80, 78, 71],
+					cloneBytes: [137, 80, 78, 71],
+				}),
+			]),
+		);
+		expect(requests).toEqual(
+			expect.arrayContaining(urls.map((url) => ({ url, body: new Uint8Array([0, 255, 195, 40]) }))),
+		);
+	}, 30_000);
+
+	it("preserves raw route and multipart bytes through the real workerd wrapper", async () => {
+		const bytes = new Uint8Array([0, 255, 195, 40]);
+		const plugin = await runner.load(
+			{
+				id: "raw-route-transport",
+				version: "1.0.0",
+				capabilities: [],
+				allowedHosts: [],
+				storage: {},
+			},
+			RAW_ROUTE_PLUGIN,
+		);
+		const request = { method: "POST", url: "/api/raw", headers: {} };
+
+		const concurrentBodies = [bytes, new Uint8Array([1, 2, 3]), new Uint8Array([254, 253])];
+		const concurrentResults = await Promise.all(
+			concurrentBodies.map((body) => plugin.invokeRoute("bytes", body, request)),
+		);
+		expect(concurrentResults).toEqual(
+			concurrentBodies.map((body) => ({
+				__emdashPluginResponse: true,
+				status: 206,
+				headers: [["content-type", "application/octet-stream"]],
+				body: { kind: "bytes", value: body },
+			})),
+		);
+
+		const multipart = {
+			entries: [
+				{ name: "caption", kind: "text", value: "binary" },
+				{
+					name: "upload",
+					kind: "file",
+					filename: "invalid.bin",
+					contentType: "application/octet-stream",
+					bytes,
+				},
+			],
+		};
+		await expect(plugin.invokeRoute("multipart", multipart, request)).resolves.toMatchObject({
+			__emdashPluginResponse: true,
+			body: { kind: "bytes", value: bytes },
+		});
+
+		await expect(plugin.invokeRoute("ordinary", {}, request)).resolves.toEqual({
+			status: 201,
+			headers: [["x-test", "ordinary"]],
+			body: { kind: "text", value: "not raw" },
+		});
+	}, 30_000);
+
+	it("drops cached network authority when a plugin version is replaced", async () => {
+		await runner.terminateAll();
+		const httpFetch = vi.fn<typeof fetch>().mockResolvedValue(
+			new Response(new Uint8Array([0, 255]), {
+				status: 206,
+				statusText: "Partial Content",
+				headers: { "content-type": "application/octet-stream" },
+			}),
+		);
+		runner = new WorkerdSandboxRunner({ db, httpFetch });
+		const unrestricted = await runner.load(
+			{
+				id: "authority-update",
+				version: "1.0.0",
+				capabilities: ["network:request:unrestricted"],
+				allowedHosts: [],
+				storage: {},
+			},
+			BINARY_HTTP_PLUGIN,
+		);
+		await expect(
+			unrestricted.invokeRoute(
+				"roundtrip",
+				{ url: "https://93.184.216.34/first" },
+				{ method: "POST", url: "/api/roundtrip", headers: {} },
+			),
+		).resolves.toMatchObject({ status: 206 });
+		await unrestricted.terminate();
+
+		const restricted = await runner.load(
+			{
+				id: "authority-update",
+				version: "2.0.0",
+				capabilities: ["network:request"],
+				allowedHosts: ["api.example.com"],
+				storage: {},
+			},
+			BINARY_HTTP_PLUGIN,
+		);
+		await expect(
+			restricted.invokeRoute(
+				"roundtrip",
+				{ url: "https://93.184.216.34/second" },
+				{ method: "POST", url: "/api/roundtrip", headers: {} },
+			),
+		).rejects.toThrow(/not allowed to fetch from host/i);
+		expect(httpFetch).toHaveBeenCalledOnce();
 	}, 30_000);
 
 	it("runs an equivalent runtime content and cold-restart journey through workerd", async () => {

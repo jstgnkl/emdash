@@ -51,7 +51,7 @@ import { createBackingServiceHandler } from "./backing-service.js";
 import type { BackingServiceHandler } from "./backing-service.js";
 import { generateCapnpConfig } from "./capnp.js";
 import { MiniflareDevRunner } from "./dev-runner.js";
-import { generatePluginWrapper } from "./wrapper.js";
+import { generatePluginWrapper, parseRouteTransport, stringifyRouteTransport } from "./wrapper.js";
 
 /** Replace non-alphanumeric chars for safe file/worker names */
 const SAFE_ID_RE = /[^a-z0-9_-]/gi;
@@ -362,6 +362,7 @@ export class WorkerdSandboxRunner implements SandboxRunner {
 
 	/** Serializes concurrent ensureRunning() calls */
 	private startupPromise: Promise<void> | null = null;
+	private stoppingPromise: Promise<void> | null = null;
 
 	/** Crash restart state */
 	private crashCount = 0;
@@ -588,7 +589,7 @@ export class WorkerdSandboxRunner implements SandboxRunner {
 		if (!entry) return;
 		this.plugins.delete(pluginId);
 		this.freePorts.push(entry.port);
-		this.backingService?.removePlugin(pluginId);
+		this.backingService?.removePlugin(entry.manifest.id, entry.manifest.version);
 		if (this.plugins.size === 0) {
 			void this.stopWorkerd();
 		} else {
@@ -846,8 +847,9 @@ export class WorkerdSandboxRunner implements SandboxRunner {
 	 * this, every intentional reload (plugin install/uninstall) would
 	 * cascade into a phantom crash-restart cycle.
 	 */
-	private async stopWorkerd(): Promise<void> {
-		if (!this.workerdProcess) return;
+	private stopWorkerd(): Promise<void> {
+		if (this.stoppingPromise) return this.stoppingPromise;
+		if (!this.workerdProcess) return Promise.resolve();
 		this.healthy = false;
 		this.intentionalStop = true;
 
@@ -855,14 +857,13 @@ export class WorkerdSandboxRunner implements SandboxRunner {
 		this.workerdProcess = null;
 
 		// Fast path: process already exited (exitCode is set after exit)
-		if (proc.exitCode !== null) {
-			return;
-		}
-
-		// Force kill after 5 seconds if SIGTERM was ignored. The fallback
-		// timer is cleared on clean exit so it doesn't keep the Node event
-		// loop alive for up to 5s past termination.
-		return waitForProcessExit(proc);
+		// waitForProcessExit force-kills after five seconds if SIGTERM is ignored.
+		const completion = proc.exitCode === null ? waitForProcessExit(proc) : Promise.resolve();
+		this.stoppingPromise = completion;
+		return completion.finally(() => {
+			this.intentionalStop = false;
+			if (this.stoppingPromise === completion) this.stoppingPromise = null;
+		});
 	}
 
 	/**
@@ -968,6 +969,10 @@ export class WorkerdSandboxRunner implements SandboxRunner {
 
 	get now() {
 		return this.options.now;
+	}
+
+	get httpFetch() {
+		return this.options.httpFetch;
 	}
 
 	/** Get the media storage adapter */
@@ -1091,7 +1096,7 @@ class WorkerdSandboxedPlugin implements SandboxedPluginInstance {
 						"Content-Type": "application/json",
 						Authorization: `Bearer ${this.runner.invokeAuthToken}`,
 					},
-					body: JSON.stringify({ input, request, invocationId }),
+					body: stringifyRouteTransport({ input, request, invocationId }),
 				});
 				if (!res.ok) {
 					const text = await res.text();
@@ -1106,7 +1111,7 @@ class WorkerdSandboxedPlugin implements SandboxedPluginInstance {
 					}
 					throw new Error(`Plugin ${this.id} route ${routeName} failed: ${text}`);
 				}
-				return res.json();
+				return parseRouteTransport(await res.text());
 			},
 			options,
 		);

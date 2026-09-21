@@ -33,7 +33,12 @@ import {
 	type ManifestRouteEntry,
 	type PluginMcpManifestConfig,
 	type PluginCapability,
+	type PluginFormData,
+	type PluginRouteBodyMode,
+	type PluginRouteQuery,
+	type PluginRouteRequest,
 	type PluginStorageConfig,
+	type RouteOptions,
 	type StorageCollectionConfig,
 } from "@emdash-cms/plugin-types";
 import type { JSX } from "astro/jsx-runtime";
@@ -71,6 +76,31 @@ export {
 	type PluginStorageConfig,
 	type StorageCollectionConfig,
 };
+
+export const PLUGIN_CAPABILITY_IMPLICATIONS: ReadonlyArray<
+	readonly [PluginCapability, PluginCapability]
+> = [
+	["content:write", "content:read"],
+	["content:revisions:read", "content:read"],
+	["taxonomies:write", "taxonomies:read"],
+	["content:publish", "content:read"],
+	["media:write", "media:read"],
+	["comments:moderate", "comments:read"],
+	["redirects:write", "redirects:read"],
+	["network:request:unrestricted", "network:request"],
+];
+
+export function normalizePluginCapabilities(
+	capabilities: readonly PluginCapability[],
+): PluginCapability[];
+export function normalizePluginCapabilities(capabilities: readonly string[]): string[];
+export function normalizePluginCapabilities(capabilities: readonly string[]): string[] {
+	const normalized = new Set(normalizeCapabilities(capabilities));
+	for (const [granted, implied] of PLUGIN_CAPABILITY_IMPLICATIONS) {
+		if (normalized.has(granted)) normalized.add(implied);
+	}
+	return [...normalized];
+}
 
 // =============================================================================
 // Storage Types
@@ -122,7 +152,8 @@ export type WhereClause = Record<string, WhereValue>;
 export interface QueryOptions {
 	where?: WhereClause;
 	orderBy?: Record<string, "asc" | "desc">;
-	limit?: number; // Default 50, max 1000
+	/** Default 50, max 100 */
+	limit?: number;
 	cursor?: string;
 }
 
@@ -807,9 +838,13 @@ export interface MediaAccessWithWrite extends MediaAccess {
 }
 
 /**
- * HTTP client interface - requires network:fetch capability
+ * HTTP client interface - requires network:request capability
  */
 export interface HttpAccess {
+	/**
+	 * Fetch an allowed external URL and return a buffered response.
+	 * Decoded request and response bodies are each limited to 8 MiB.
+	 */
 	fetch(url: string, init?: RequestInit): Promise<Response>;
 }
 
@@ -955,7 +990,7 @@ export interface PluginContext<TStorage extends PluginStorageConfig = PluginStor
 	/** Media access - only if read:media or write:media capability */
 	media?: MediaAccess | MediaAccessWithWrite;
 
-	/** HTTP client - only if network:fetch capability */
+	/** HTTP client - only if network:request capability */
 	http?: HttpAccess;
 
 	/** Logger - always available */
@@ -1725,7 +1760,7 @@ export interface RouteContext<TInput = unknown> extends PluginContext {
 /**
  * Route definition
  */
-export interface PluginRoute<TInput = unknown> {
+export interface PluginRoute<TInput = unknown> extends Omit<RouteOptions, "request"> {
 	/** Zod schema for input validation */
 	input?: z.ZodType<TInput>;
 	/**
@@ -1742,9 +1777,28 @@ export interface PluginRoute<TInput = unknown> {
 	 * keep the default `private, no-store`. Errors are never cached.
 	 */
 	cacheControl?: string;
+	/** Bounded request parsing and incoming-header declaration. */
+	request?: PluginRouteRequest;
 	/** Route handler */
-	handler: (ctx: RouteContext<TInput>) => Promise<unknown>;
+	handler: { bivarianceHack(ctx: RouteContext<TInput>): Promise<unknown> }["bivarianceHack"];
 }
+
+export type PluginRouteInput<TMode extends PluginRouteBodyMode> = TMode extends "none"
+	? PluginRouteQuery
+	: TMode extends "text"
+		? string
+		: TMode extends "bytes"
+			? Uint8Array
+			: TMode extends "form-data"
+				? PluginFormData
+				: unknown;
+
+export type PluginRouteDefinition<TMode extends PluginRouteBodyMode = PluginRouteBodyMode> = Omit<
+	PluginRoute<PluginRouteInput<TMode>>,
+	"request"
+> & {
+	request: PluginRouteRequest & { body: TMode };
+};
 
 export interface PluginMcpToolDefinition {
 	description: string;
@@ -1949,7 +2003,7 @@ export interface PluginDefinition<TStorage extends PluginStorageConfig = PluginS
 	/** Declared capabilities */
 	capabilities?: PluginCapability[];
 
-	/** Allowed hosts for network:fetch (wildcards supported: *.example.com) */
+	/** Allowed hosts for network:request (wildcards supported: *.example.com) */
 	allowedHosts?: string[];
 
 	/** Storage collections with indexes */

@@ -256,8 +256,10 @@ export type {
 } from "./object-cache/types.js";
 
 // Plugin system
+export { pluginResponse } from "./plugin-types.js";
 export {
 	definePlugin,
+	definePluginRoute,
 	adaptSandboxEntry,
 	pluginManifestSchema,
 	createHookPipeline,
@@ -288,6 +290,14 @@ export {
 	// HTTP access for plugins (shared between in-process, Cloudflare, and workerd runners)
 	createHttpAccess,
 	createUnrestrictedHttpAccess,
+	PLUGIN_HTTP_MAX_REQUEST_BYTES,
+	PLUGIN_HTTP_MAX_RESPONSE_BYTES,
+	bufferPluginHttpRequest,
+	pluginHttpRedirectAction,
+	pluginHttpResponseFromWire,
+	pluginHttpResponseToWire,
+	readPluginHttpBytes,
+	rewritePluginHttpRedirect,
 	createContentAccess,
 	createContentAccessWithWrite,
 	createSettingsAccess,
@@ -344,6 +354,8 @@ export type {
 	MediaBytes,
 	MediaMetadataPatch,
 	HttpAccess,
+	PluginHttpResponseWire,
+	PluginHttpRedirectAction,
 	LogAccess,
 	SiteInfo,
 	TaxonomyAccess,
@@ -381,6 +393,7 @@ export type {
 	MediaUploadEvent,
 	HookResult,
 	PluginRoute,
+	PluginRouteDefinition,
 	RouteContext,
 	PluginAdminConfig,
 	PluginAdminPage,
@@ -422,6 +435,7 @@ export type {
 	SandboxEmailSendCallback,
 	SandboxCommentModerateCallback,
 	SandboxContentCreateCallback,
+	SandboxHttpFetchCallback,
 	PluginManifest,
 	ValidatedPluginManifest,
 	SerializedRequest,
@@ -439,6 +453,7 @@ export {
 	isDeprecatedCapability,
 	normalizeCapability,
 	normalizeCapabilities,
+	normalizePluginCapabilities,
 } from "./plugins/index.js";
 export type { CurrentPluginCapability, DeprecatedPluginCapability } from "./plugins/index.js";
 
@@ -454,6 +469,7 @@ export type {
 	CollectionSource,
 	FieldValidation,
 	FieldWidgetOptions,
+	UnsupportedFieldType,
 	Collection,
 	Field,
 	CreateCollectionInput,

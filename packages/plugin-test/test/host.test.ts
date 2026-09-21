@@ -29,6 +29,62 @@ describe("runtime plugin test host", () => {
 		runtimeHost = undefined;
 	});
 
+	it("exercises declared raw routes through core and Worker Loader", async () => {
+		runtimeHost = await createPluginRuntimeTestHost();
+		const bytes = new Uint8Array([0xef, 0xbb, 0xbf, 0xff, 0, 13, 10, 128]);
+		const response = await runtimeHost.actions.routes.request("raw-download", {
+			method: "POST",
+			rawBody: bytes,
+		});
+		expect(response.status).toBe(202);
+		expect(new Uint8Array(await response.arrayBuffer())).toEqual(bytes);
+
+		const headers = await runtimeHost.actions.routes.request("declared-headers", {
+			method: "POST",
+			headers: {
+				"x-signature": "sha256=test",
+				"x-hidden": "secret",
+				cookie: "session=secret",
+			},
+		});
+		expect(await headers.json()).toEqual({
+			success: true,
+			data: { signature: "sha256=test", hidden: "missing" },
+		});
+
+		const disallowed = await runtimeHost.actions.routes.request("raw-download", {
+			method: "GET",
+		});
+		expect(disallowed.status).toBe(405);
+		expect(disallowed.headers.get("allow")).toBe("POST");
+	});
+
+	it("parses multipart fields and files through the runtime host", async () => {
+		runtimeHost = await createPluginRuntimeTestHost();
+		const form = new FormData();
+		form.append("title", "Report");
+		form.append("attachment", new File([new Uint8Array([0, 255])], "report.bin"));
+		const response = await runtimeHost.actions.routes.request("raw-form", {
+			method: "POST",
+			rawBody: form,
+		});
+		expect(await response.json()).toEqual({
+			success: true,
+			data: {
+				entries: [
+					{ name: "title", kind: "text", value: "Report" },
+					{
+						name: "attachment",
+						kind: "file",
+						filename: "report.bin",
+						contentType: "application/octet-stream",
+						bytes: [0, 255],
+					},
+				],
+			},
+		});
+	});
+
 	it("runs content actions through EmDashRuntime and preserves state across a cold restart", async () => {
 		runtimeHost = await createPluginRuntimeTestHost({
 			site: { url: "https://example.test", locale: "en", trailingSlash: "never" },
@@ -526,6 +582,70 @@ describe("runtime plugin test host", () => {
 				expect.objectContaining({ source: "/automatic-old", auto: true }),
 				expect.objectContaining({ source: "/concurrent", auto: false }),
 				expect.objectContaining({ source: "/old/[slug]", isPattern: true }),
+			]),
+		);
+	});
+
+	it("intercepts binary HTTP through the runtime and Worker Loader boundary", async () => {
+		runtimeHost = await createPluginRuntimeTestHost();
+		const admin = await runtimeHost.fixtures.user({
+			email: "http-admin@example.com",
+			role: "admin",
+		});
+		const firstUrl = "https://api.example.com/first";
+		const secondUrl = "https://api.example.com/second";
+		const firstBytes = new Uint8Array([0, 255, 195, 40]);
+		const secondBytes = new Uint8Array([137, 80, 78, 71]);
+		await runtimeHost.http.respond(
+			firstUrl,
+			new Response(firstBytes, {
+				status: 206,
+				statusText: "Partial Content",
+				headers: { "content-type": "application/octet-stream" },
+			}),
+		);
+		await runtimeHost.http.respond(
+			secondUrl,
+			new Response(secondBytes, {
+				status: 200,
+				headers: { "content-type": "image/png" },
+			}),
+		);
+
+		const results = await Promise.all(
+			[firstUrl, secondUrl].map(async (url) => {
+				const response = await runtimeHost!.actions.routes.request("http-roundtrip", {
+					user: admin,
+					headers: { "X-EmDash-Request": "1" },
+					body: { url },
+				});
+				expect(response.status).toBe(200);
+				return response.json() as Promise<{ data: Record<string, unknown> }>;
+			}),
+		);
+		const first = results[0];
+		const second = results[1];
+		if (!first || !second) throw new Error("Expected both HTTP route results");
+		expect(first.data).toMatchObject({
+			status: 206,
+			statusText: "Partial Content",
+			url: firstUrl,
+			redirected: false,
+			contentType: "application/octet-stream",
+			bytes: [...firstBytes],
+			cloneBytes: [...firstBytes],
+		});
+		expect(second.data).toMatchObject({
+			status: 200,
+			url: secondUrl,
+			contentType: "image/png",
+			bytes: [...secondBytes],
+			cloneBytes: [...secondBytes],
+		});
+		expect(runtimeHost.http.requests()).toEqual(
+			expect.arrayContaining([
+				expect.objectContaining({ url: firstUrl, method: "POST", body: firstBytes }),
+				expect.objectContaining({ url: secondUrl, method: "POST", body: firstBytes }),
 			]),
 		);
 	});
