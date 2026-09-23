@@ -349,11 +349,13 @@ export type ResolvedPluginEditorExtension =
 			kind: "panel";
 			extension: PluginEditorPanel;
 			policy: BlockValidationPolicy;
+			capabilities: readonly PluginCapability[];
 	  }
 	| {
 			kind: "action";
 			extension: PluginEditorAction;
 			policy: BlockValidationPolicy;
+			capabilities: readonly PluginCapability[];
 	  };
 
 export interface PluginEditorExtensionDispatch {
@@ -4718,8 +4720,13 @@ export class EmDashRuntime {
 		// live, matching the documented tool contract.
 		try {
 			const contentRepo = new ContentRepository(this.db);
-			const existing = await contentRepo.findById(revision.collection, revision.entryId);
-			if (!existing) {
+			const newDraftId = await contentRepo.restoreDraftRevision(
+				revision.collection,
+				revision.entryId,
+				revision.data,
+				callerUserId,
+			);
+			if (!newDraftId) {
 				return {
 					success: false as const,
 					error: {
@@ -4729,43 +4736,12 @@ export class EmDashRuntime {
 				};
 			}
 
-			const newDraft = await revisionRepo.create({
-				collection: revision.collection,
-				entryId: revision.entryId,
-				data: revision.data,
-				authorId: callerUserId,
-			});
-
-			try {
-				const staged = await contentRepo.replaceDraftRevision(
-					revision.collection,
-					revision.entryId,
-					newDraft.id,
-					existing,
-				);
-				if (!staged) throw new ContentMutationConflictError();
-			} catch (error) {
-				try {
-					await revisionRepo.deleteIfUnreferenced(
-						revision.collection,
-						revision.entryId,
-						newDraft.id,
-					);
-				} catch (cleanupError) {
-					console.error(
-						`[emdash] Failed to clean up unrestored revision ${newDraft.id}:`,
-						cleanupError,
-					);
-				}
-				throw error;
-			}
-
 			after(async () => {
 				try {
 					await revisionRepo.pruneQueuedEntry(
 						revision.collection,
 						revision.entryId,
-						newDraft.id,
+						newDraftId,
 						50,
 					);
 				} catch (error) {
@@ -5021,6 +4997,7 @@ export class EmDashRuntime {
 			}
 		}
 
+		const normalizedCapabilities = normalizePluginCapabilities(capabilities);
 		const policy = {
 			pluginPagePaths: pages,
 			allowedImageHosts: allowedBrowserImageHosts(capabilities, allowedHosts),
@@ -5035,7 +5012,7 @@ export class EmDashRuntime {
 			) {
 				return null;
 			}
-			return { kind, extension, policy };
+			return { kind, extension, policy, capabilities: normalizedCapabilities };
 		}
 		const matches = actions?.filter((action) => action.id === extensionId) ?? [];
 		const extension = matches[0];
@@ -5047,7 +5024,11 @@ export class EmDashRuntime {
 		) {
 			return null;
 		}
-		return { kind, extension, policy };
+		return { kind, extension, policy, capabilities: normalizedCapabilities };
+	}
+
+	async getPluginEditorDraftSchema(collection: string) {
+		return this.schemaRegistry.getCollectionWithFields(collection);
 	}
 
 	private validatePluginEditorExtensionResponse(

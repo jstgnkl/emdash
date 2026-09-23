@@ -1310,7 +1310,9 @@ export function createMcpServer(
 		"content_restore",
 		{
 			title: "Restore Content",
-			description: "Restore a soft-deleted content item from the trash back to its previous state.",
+			description:
+				"Restore a soft-deleted content item from the trash. It comes back as a draft " +
+				"with no schedule, even if it was published or scheduled before it was trashed.",
 			inputSchema: z.object({
 				collection: z.string().describe("Collection slug"),
 				id: z.string().describe("Content item ID or slug"),
@@ -1435,7 +1437,8 @@ export function createMcpServer(
 			title: "Unpublish Content",
 			description:
 				"Unpublish a content item, reverting it to draft status. It will no " +
-				"longer be visible on the live site, but its content and publication date are preserved.",
+				"longer be visible on the live site, but its content and publication date are preserved. " +
+				"Any pending schedule is cancelled.",
 			inputSchema: z.object({
 				collection: z.string().describe("Collection slug"),
 				id: z.string().describe("Content item ID or slug"),
@@ -1524,9 +1527,9 @@ export function createMcpServer(
 		{
 			title: "Cancel Scheduled Publication",
 			description:
-				"Cancel a previously scheduled publication. The item remains in its current " +
-				"status (typically 'draft' or 'scheduled'); only the scheduledAt timestamp is " +
-				"cleared. Idempotent — calling on an item that isn't scheduled is a no-op.",
+				"Cancel a previously scheduled publication. Scheduled drafts return to draft status; " +
+				"published items stay published. The scheduledAt timestamp is cleared. Idempotent — " +
+				"calling on an item that isn't scheduled is a no-op.",
 			inputSchema: z.object({
 				collection: z.string().describe("Collection slug"),
 				id: z.string().describe("Content item ID or slug"),
@@ -1584,8 +1587,8 @@ export function createMcpServer(
 		{
 			title: "Discard Draft",
 			description:
-				"Discard the current draft changes and revert to the last published " +
-				"version. Only works on items that have been published at least once.",
+				"Discard the current draft revision. Published content reverts to its live " +
+				"version; an item without a pending draft is unchanged.",
 			inputSchema: z.object({
 				collection: z.string().describe("Collection slug"),
 				id: z.string().describe("Content item ID or slug"),
