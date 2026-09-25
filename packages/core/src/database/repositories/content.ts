@@ -10,7 +10,7 @@ import { buildFtsPrefixMatch, buildSlugGlobPrefix } from "../../search/match.js"
 import { chunks, SQL_BATCH_SIZE } from "../../utils/chunks.js";
 import { isMissingTableError } from "../../utils/db-errors.js";
 import { slugify } from "../../utils/slugify.js";
-import { ContentDatetimeNormalizer } from "../content-datetime.js";
+import { ContentDatetimeNormalizer, type DatetimeContextCache } from "../content-datetime.js";
 import { executeAtomicBatchIfSupported } from "../dialect-helpers.js";
 import { withTransaction } from "../transaction.js";
 import type { Database } from "../types.js";
@@ -323,8 +323,11 @@ function escapeRegExp(s: string): string {
 export class ContentRepository {
 	private readonly datetimes: ContentDatetimeNormalizer;
 
-	constructor(private db: Kysely<Database>) {
-		this.datetimes = new ContentDatetimeNormalizer(db);
+	constructor(
+		private db: Kysely<Database>,
+		private readonly datetimeContexts?: DatetimeContextCache,
+	) {
+		this.datetimes = new ContentDatetimeNormalizer(db, datetimeContexts);
 	}
 
 	/**
@@ -573,6 +576,44 @@ export class ContentRepository {
 		}
 
 		return this.mapRow(type, row);
+	}
+
+	async findManyByIds(type: string, ids: string[]): Promise<Map<string, ContentItem>> {
+		const items = new Map<string, ContentItem>();
+		if (ids.length === 0) return items;
+		const tableName = getTableName(type);
+		for (const batch of chunks([...new Set(ids)], SQL_BATCH_SIZE)) {
+			const result = await sql<Record<string, unknown>>`
+				SELECT * FROM ${sql.ref(tableName)}
+				WHERE id IN (${sql.join(batch)}) AND deleted_at IS NULL
+			`.execute(this.db);
+			for (const row of result.rows) {
+				const item = this.mapRow(type, row);
+				items.set(item.id, item);
+			}
+		}
+		return items;
+	}
+
+	async findManyBySlugsInLocale(
+		type: string,
+		slugs: string[],
+		locale: string,
+	): Promise<Map<string, ContentItem>> {
+		const items = new Map<string, ContentItem>();
+		if (slugs.length === 0) return items;
+		const tableName = getTableName(type);
+		for (const batch of chunks([...new Set(slugs)], SQL_BATCH_SIZE)) {
+			const result = await sql<Record<string, unknown>>`
+				SELECT * FROM ${sql.ref(tableName)}
+				WHERE slug IN (${sql.join(batch)}) AND locale = ${locale} AND deleted_at IS NULL
+			`.execute(this.db);
+			for (const row of result.rows) {
+				const item = this.mapRow(type, row);
+				if (item.slug !== null) items.set(item.slug, item);
+			}
+		}
+		return items;
 	}
 
 	/**
@@ -1066,7 +1107,7 @@ export class ContentRepository {
 		const item = await this.findById(type, id);
 		if (!item) throw new Error("Content not found");
 
-		await new RevisionRepository(this.db).queuePruning(type, id, revisionId);
+		await new RevisionRepository(this.db, this.datetimeContexts).queuePruning(type, id, revisionId);
 		return { item, revisionId };
 	}
 
@@ -1136,7 +1177,7 @@ export class ContentRepository {
 		}
 
 		invalidateCollectionCache(type);
-		await new RevisionRepository(this.db).queuePruning(type, id, revisionId);
+		await new RevisionRepository(this.db, this.datetimeContexts).queuePruning(type, id, revisionId);
 		return revisionId;
 	}
 
@@ -1175,7 +1216,7 @@ export class ContentRepository {
 			collectionRows.map((row) => row.fieldSlug).filter((slug): slug is string => Boolean(slug)),
 		);
 
-		const revisionRepo = new RevisionRepository(this.db);
+		const revisionRepo = new RevisionRepository(this.db, this.datetimeContexts);
 		let existing = await this.findById(type, id);
 
 		// A key with no field is rejected unless the entry already stores it: deleting a field
@@ -1398,7 +1439,7 @@ export class ContentRepository {
 		usesRevisions: boolean,
 	): Promise<boolean> {
 		const tableName = getTableName(type);
-		const revisionRepo = new RevisionRepository(this.db);
+		const revisionRepo = new RevisionRepository(this.db, this.datetimeContexts);
 		let sibling: ContentItem | null = initial;
 
 		for (let attempt = 0; sibling && attempt < MAX_DRAFT_STAGE_ATTEMPTS; attempt++) {
@@ -2107,6 +2148,37 @@ export class ContentRepository {
 		return result.rows.map((row) => this.mapRow(type, row));
 	}
 
+	async findTranslationIds(type: string, translationGroup: string): Promise<string[]> {
+		const tableName = getTableName(type);
+		const result = await sql<{ id: string }>`
+			SELECT id FROM ${sql.ref(tableName)}
+			WHERE translation_group = ${translationGroup}
+			AND deleted_at IS NULL
+		`.execute(this.db);
+		return result.rows.map((row) => row.id);
+	}
+
+	async findTranslationIdsForGroups(
+		type: string,
+		translationGroups: string[],
+	): Promise<Map<string, string[]>> {
+		const ids = new Map<string, string[]>();
+		if (translationGroups.length === 0) return ids;
+		const tableName = getTableName(type);
+		for (const batch of chunks([...new Set(translationGroups)], SQL_BATCH_SIZE)) {
+			const result = await sql<{ id: string; translation_group: string }>`
+				SELECT id, translation_group FROM ${sql.ref(tableName)}
+				WHERE translation_group IN (${sql.join(batch)}) AND deleted_at IS NULL
+			`.execute(this.db);
+			for (const row of result.rows) {
+				const group = ids.get(row.translation_group) ?? [];
+				group.push(row.id);
+				ids.set(row.translation_group, group);
+			}
+		}
+		return ids;
+	}
+
 	/**
 	 * Find all translations in a translation group
 	 */
@@ -2306,7 +2378,7 @@ export class ContentRepository {
 		}
 
 		if (!promoteRevision) {
-			const revisionRepo = new RevisionRepository(this.db);
+			const revisionRepo = new RevisionRepository(this.db, this.datetimeContexts);
 			let provisionalRevisionId: string | null = null;
 			try {
 				let liveRevisionId = existing.liveRevisionId;
@@ -2399,7 +2471,7 @@ export class ContentRepository {
 			}
 		}
 
-		const revisionRepo = new RevisionRepository(this.db);
+		const revisionRepo = new RevisionRepository(this.db, this.datetimeContexts);
 		let provisionalRevisionId: string | null = null;
 		try {
 			let revisionToPublish = existing.draftRevisionId || existing.liveRevisionId;
@@ -2560,7 +2632,7 @@ export class ContentRepository {
 			return existing;
 		}
 
-		const revisionRepo = new RevisionRepository(this.db);
+		const revisionRepo = new RevisionRepository(this.db, this.datetimeContexts);
 		let provisionalRevisionId: string | null = null;
 		try {
 			let draftRevisionId = existing.draftRevisionId;
@@ -2632,7 +2704,7 @@ export class ContentRepository {
 			throw new EmDashValidationError("Content item not found");
 		}
 
-		const revisionRepo = new RevisionRepository(this.db);
+		const revisionRepo = new RevisionRepository(this.db, this.datetimeContexts);
 		const revision = await revisionRepo.findById(revisionId);
 		if (!revision) {
 			throw new EmDashValidationError("Revision not found");

@@ -28,7 +28,6 @@ import {
 	handleMediaUpload as uploadMedia,
 	type MediaUploadInput,
 } from "./api/handlers/media-upload.js";
-import { assertMediaUsageActivationWriteAllowed } from "./api/media-usage-write-fence.js";
 import { validateRev } from "./api/rev.js";
 import { getSiteBaseUrl } from "./api/site-url.js";
 import type {
@@ -58,6 +57,7 @@ import { CommentRepository } from "./database/repositories/comment.js";
 import type { CommentStatus } from "./database/repositories/comment.js";
 import { ContentRepository } from "./database/repositories/content.js";
 import { RevisionRepository } from "./database/repositories/revision.js";
+import { selectTaxonomyDefs } from "./database/repositories/taxonomy-def.js";
 import { ContentMutationConflictError } from "./database/repositories/types.js";
 import type {
 	ContentItem as ContentItemInternal,
@@ -82,7 +82,7 @@ import {
 	type ScheduledPolicyRejection,
 } from "./plugins/content-policy.js";
 import { createCommentAccess, createTaxonomyAccessWithWrite } from "./plugins/context.js";
-import type { ContentActionCallbacks } from "./plugins/context.js";
+import type { ContentActionCallbacks, ContentWriteGuard } from "./plugins/context.js";
 import type { PluginContentCacheInvalidator } from "./plugins/routes.js";
 import {
 	createSandboxedPluginProxy,
@@ -278,6 +278,7 @@ import { getRequestContext } from "./request-context.js";
 import { publishDueContent, type PublishedRef } from "./scheduled-publish.js";
 import { FTSManager } from "./search/fts-manager.js";
 import { invalidateSiteSettingsCache } from "./settings/index.js";
+import { assertSiteWriteAllowed } from "./transfer/fence.js";
 
 const DRAFT_ONLY_UPDATE_KEYS = new Set([
 	"data",
@@ -288,6 +289,9 @@ const DRAFT_ONLY_UPDATE_KEYS = new Set([
 	"migrateBlocks",
 	"replaceBlocks",
 ]);
+
+/** Field types whose schema is an array, so a stored blank string can never validate. */
+const ARRAY_FIELD_TYPES = new Set<string>(["portableText", "multiSelect", "repeater"]);
 const MAX_DRAFT_STAGE_ATTEMPTS = 32;
 const PLUGIN_INVOCATION_RELEASE_GRACE_MS = 60_000;
 
@@ -494,7 +498,7 @@ export interface EmDashRuntimeParts {
 	pipelineFactoryOptions: {
 		db: Kysely<Database>;
 		getDb?: () => Kysely<Database>;
-		beforeContentWrite?: () => Promise<void>;
+		beforeContentWrite?: ContentWriteGuard;
 		contentCreate?: PluginContentCreateCallback;
 		contentActions?: ContentActionCallbacks;
 		now?: () => Date;
@@ -781,7 +785,7 @@ export class EmDashRuntime {
 	private pipelineFactoryOptions: {
 		db: Kysely<Database>;
 		getDb?: () => Kysely<Database>;
-		beforeContentWrite?: () => Promise<void>;
+		beforeContentWrite?: ContentWriteGuard;
 		contentCreate?: PluginContentCreateCallback;
 		contentActions?: ContentActionCallbacks;
 		now?: () => Date;
@@ -877,9 +881,9 @@ export class EmDashRuntime {
 	private async publishScheduledWithFence(
 		onPublished?: (refs: PublishedRef[]) => Promise<void>,
 	): Promise<PublishedRef[]> {
-		await assertMediaUsageActivationWriteAllowed(this.db);
+		const recordWrite = await assertSiteWriteAllowed(this.db);
 		const currentTime = this.runtimeDeps.now?.() ?? new Date();
-		return publishDueContent(this.db, {
+		const published = await publishDueContent(this.db, {
 			publish: (collection, id, options) =>
 				this.handleContentPublish(collection, id, {
 					...options,
@@ -888,6 +892,8 @@ export class EmDashRuntime {
 			onPublished,
 			currentTime,
 		});
+		if (published.length > 0) await recordWrite();
+		return published;
 	}
 
 	/**
@@ -1757,8 +1763,9 @@ export class EmDashRuntime {
 		}
 
 		// Register built-in default comment moderator.
-		// Always present — auto-selected as the sole comment:moderate provider
-		// unless a plugin (e.g. AI moderation) provides its own.
+		// Always present as a fallback: exclusive hook resolution selects a
+		// single plugin moderator (e.g. AI moderation) over it unless the site
+		// has already stored a comment:moderate selection.
 		try {
 			const defaultModeratorPlugin = definePlugin({
 				id: DEFAULT_COMMENT_MODERATOR_PLUGIN_ID,
@@ -1961,7 +1968,7 @@ export class EmDashRuntime {
 		const pipelineFactoryOptions = {
 			db,
 			getDb: resolveDb,
-			beforeContentWrite: () => assertMediaUsageActivationWriteAllowed(resolveDb()),
+			beforeContentWrite: () => assertSiteWriteAllowed(resolveDb()),
 			contentActions,
 			now: deps.now,
 			storage: storage ?? undefined,
@@ -2085,8 +2092,8 @@ export class EmDashRuntime {
 							if (runtime) {
 								await runtime.publishScheduled();
 							} else {
-								await assertMediaUsageActivationWriteAllowed(db);
-								await publishDueContent(db);
+								const recordWrite = await assertSiteWriteAllowed(db);
+								if ((await publishDueContent(db)).length > 0) await recordWrite();
 							}
 						} catch (error) {
 							console.error("[scheduled-publish] Sweep failed:", error);
@@ -2447,7 +2454,7 @@ export class EmDashRuntime {
 				createSandboxRunnerOptions(
 					{
 						db,
-						beforeContentWrite: () => assertMediaUsageActivationWriteAllowed(db),
+						beforeContentWrite: () => assertSiteWriteAllowed(db),
 						taxonomyWrite: createTaxonomyAccessWithWrite(db),
 						now: deps.now,
 						mediaStorage: mediaStorage
@@ -2606,7 +2613,7 @@ export class EmDashRuntime {
 				createSandboxRunnerOptions(
 					{
 						db,
-						beforeContentWrite: () => assertMediaUsageActivationWriteAllowed(db),
+						beforeContentWrite: () => assertSiteWriteAllowed(db),
 						taxonomyWrite: createTaxonomyAccessWithWrite(db),
 						now: deps.now,
 						mediaStorage: {
@@ -2847,6 +2854,7 @@ export class EmDashRuntime {
 				await optionsRepo.delete(key);
 			},
 			preferredHints,
+			fallbackProviders: new Set([DEFAULT_COMMENT_MODERATOR_PLUGIN_ID]),
 		});
 	}
 
@@ -3024,11 +3032,7 @@ export class EmDashRuntime {
 		}> = [];
 		let taxonomyDefinitionLocales: string[] = [];
 		try {
-			const rows = await this.db
-				.selectFrom("_emdash_taxonomy_defs")
-				.selectAll()
-				.orderBy("name")
-				.execute();
+			const rows = await selectTaxonomyDefs(this.db).orderBy("d.name").execute();
 			taxonomyDefinitionLocales = rows.map((row) => row.locale);
 			manifestTaxonomies = rows.map((row) => ({
 				id: row.id,
@@ -3408,8 +3412,7 @@ export class EmDashRuntime {
 			}
 		}
 
-		// Normalize media fields (fill dimensions, storageKey, etc.)
-		processedData = await this.normalizeMediaFields(
+		processedData = await this.normalizeFieldValues(
 			collection,
 			processedData,
 			collectionInfo,
@@ -3553,8 +3556,7 @@ export class EmDashRuntime {
 				}
 			}
 
-			// Normalize media fields (fill dimensions, storageKey, etc.)
-			processedData = await this.normalizeMediaFields(
+			processedData = await this.normalizeFieldValues(
 				collection,
 				processedData!,
 				collectionInfo,
@@ -3592,7 +3594,7 @@ export class EmDashRuntime {
 							true,
 							resolvedBlockTypes,
 						);
-						processedData = await this.normalizeMediaFields(
+						processedData = await this.normalizeFieldValues(
 							collection,
 							processedData,
 							collectionInfo,
@@ -3651,7 +3653,7 @@ export class EmDashRuntime {
 							true,
 							resolvedBlockTypes,
 						);
-						attemptData = await this.normalizeMediaFields(
+						attemptData = await this.normalizeFieldValues(
 							collection,
 							attemptData,
 							collectionInfo,
@@ -3955,7 +3957,7 @@ export class EmDashRuntime {
 			}
 			invocationInvalidator = this.pluginInvocationCacheInvalidators.get(invocationKey);
 		}
-		await assertMediaUsageActivationWriteAllowed(this.db);
+		const recordWrite = await assertSiteWriteAllowed(this.db);
 		const repo = new ContentRepository(this.db);
 		const item =
 			action === "restore"
@@ -3971,6 +3973,7 @@ export class EmDashRuntime {
 		this.retainPluginContentAction(key);
 		try {
 			const result = await fn(resolvedId);
+			await recordWrite();
 			const invalidator =
 				invalidateContentCache ?? invocationInvalidator ?? this.pluginContentCacheInvalidator;
 			if (invalidator) {
@@ -4644,7 +4647,7 @@ export class EmDashRuntime {
 	}
 
 	async handleMediaDelete(id: string) {
-		const result = await handleMediaDelete(this.db, id);
+		const result = await handleMediaDelete(this.db, id, this.storage);
 		// Same reasoning as `handleMediaUpdate`: if the deleted media row
 		// was referenced by a setting, the cached resolved URL now points
 		// at a 404. Invalidation is unconditional on success — cheaper than
@@ -5616,10 +5619,11 @@ export class EmDashRuntime {
 	}
 
 	/**
-	 * Normalize image/file fields in content data.
-	 * Fills missing dimensions, storageKey, mimeType, and filename from providers.
+	 * Normalize field values in content data before validation.
+	 * Turns a blank string in an array-valued field into `null`, and fills
+	 * missing image/file dimensions, storageKey, mimeType, and filename from providers.
 	 */
-	private async normalizeMediaFields(
+	private async normalizeFieldValues(
 		collection: string,
 		data: Record<string, unknown>,
 		preloaded?: CollectionWithFields | null,
@@ -5636,6 +5640,14 @@ export class EmDashRuntime {
 		}
 		if (!collectionInfo?.fields) return data;
 
+		const result = { ...data };
+		for (const field of collectionInfo.fields) {
+			const value = result[field.slug];
+			if (ARRAY_FIELD_TYPES.has(field.type) && typeof value === "string" && !value.trim()) {
+				result[field.slug] = null;
+			}
+		}
+
 		const imageFields = collectionInfo.fields.filter(
 			(f) => f.type === "image" || f.type === "file",
 		);
@@ -5649,11 +5661,10 @@ export class EmDashRuntime {
 			? collectionInfo.fields.filter((field) => field.type === "blocks")
 			: [];
 		if (imageFields.length === 0 && repeaterFields.length === 0 && blockFields.length === 0) {
-			return data;
+			return result;
 		}
 
 		const getProvider = (id: string) => this.getMediaProvider(id);
-		const result = { ...data };
 
 		for (const field of imageFields) {
 			const value = result[field.slug];

@@ -16,6 +16,7 @@ import { Kysely, type RawBuilder, sql, type Dialect } from "kysely";
 
 import { buildStatusCondition, isPostgres } from "./database/dialect-helpers.js";
 import { kyselyLogOption } from "./database/instrumentation.js";
+import { selectTaxonomyDefs } from "./database/repositories/taxonomy-def.js";
 import { decodeCursor, encodeCursor } from "./database/repositories/types.js";
 import { validateIdentifier } from "./database/validate.js";
 import { getI18nConfig } from "./i18n/config.js";
@@ -375,10 +376,7 @@ async function getTaxonomyNames(db: Kysely<Database>, collection: string): Promi
 	}
 
 	try {
-		const defs = await db
-			.selectFrom("_emdash_taxonomy_defs")
-			.select(["name", "collections"])
-			.execute();
+		const defs = await selectTaxonomyDefs(db).execute();
 		const namesByCollection = new Map<string, Set<string>>();
 		for (const def of defs) {
 			let collections: unknown;
@@ -948,7 +946,13 @@ export function buildTaxonomyPivotQuery(
 		: sql``;
 
 	const firstGroupCond = pivotGroupCondition("ct.taxonomy_id", firstGroups);
-	const pivotContentJoin = isPostgres(db) ? sql`JOIN` : sql`CROSS JOIN`;
+	// A plain JOIN lets SQLite reorder the `picked` CTE. For indexed sorts
+	// (`published_at`/`created_at`) the planner can then drive from the
+	// `(deleted_at, <sort> DESC, id DESC)` index on `ec_*`, probe the pivot
+	// by primary key, and short-circuit at `LIMIT`. A `CROSS JOIN` pin would
+	// force `content_taxonomies` as the outer table and require a temp sort,
+	// producing a full nested loop over the collection on D1.
+	const pivotContentJoin = sql`JOIN`;
 	const {
 		terms: termsSelect,
 		bylines: bylinesSelect,
