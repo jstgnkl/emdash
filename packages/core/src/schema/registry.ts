@@ -22,6 +22,7 @@ import type { CollectionTable, Database, FieldTable } from "../database/types.js
 import { validateIdentifier } from "../database/validate.js";
 import {
 	canResumeMediaUsageCollectionCapture,
+	findResumableMediaUsageCollectionCaptureId,
 	finalizeMediaUsageCollectionCapture,
 	installPreparedMediaUsageCollectionCapture,
 	markMediaUsageCollectionCaptureReady,
@@ -71,6 +72,7 @@ import {
 	RESERVED_COLLECTION_SLUGS,
 	MAX_BLOCKS_ITEMS,
 } from "./types.js";
+import { compileUrlPattern } from "./url-pattern.js";
 
 // Regex patterns for schema registry
 const SLUG_VALIDATION_PATTERN = /^[a-z][a-z0-9_]*$/;
@@ -212,6 +214,7 @@ function parseCollectionAdmin(raw: string | null | undefined): CollectionAdminCo
 		listColumns: Array.isArray(listColumns)
 			? listColumns.filter((value): value is string => typeof value === "string")
 			: undefined,
+		quickCreate: typeof parsed.quickCreate === "boolean" ? parsed.quickCreate : undefined,
 	};
 }
 
@@ -329,7 +332,7 @@ export class SchemaRegistry {
 	 * Notify the dev typegen hook that the schema has changed.
 	 */
 	private notifyTypegen(): void {
-		refreshDevTypes(this.db);
+		refreshDevTypes();
 	}
 
 	// ============================================
@@ -492,6 +495,7 @@ export class SchemaRegistry {
 	async createCollection(input: CreateCollectionInput): Promise<Collection> {
 		// Validate slug
 		this.validateSlug(input.slug, "collection");
+		this.validateUrlPattern(input.urlPattern);
 		if (RESERVED_COLLECTION_SLUGS.includes(input.slug)) {
 			throw new SchemaError(`Collection slug "${input.slug}" is reserved`, "RESERVED_SLUG");
 		}
@@ -515,6 +519,19 @@ export class SchemaRegistry {
 		}
 
 		const proposedId = existing?.id ?? ulid();
+		const tableName = this.getTableName(input.slug);
+		if (
+			!existing &&
+			(await tableExists(this.db, tableName)) &&
+			!(await findResumableMediaUsageCollectionCaptureId(this.db, {
+				collectionSlug: input.slug,
+			}))
+		) {
+			throw new SchemaError(
+				`Collection table "${tableName}" exists but is not registered`,
+				"COLLECTION_TABLE_ORPHANED",
+			);
+		}
 
 		// Default `supports` to drafts + revisions when the caller didn't
 		// specify it. Explicit empty array (`[]`) is preserved as an opt-out
@@ -606,6 +623,7 @@ export class SchemaRegistry {
 		fields: readonly CreateFieldInput[],
 	): Promise<void> {
 		this.validateSlug(input.slug, "collection");
+		this.validateUrlPattern(input.urlPattern);
 		if (RESERVED_COLLECTION_SLUGS.includes(input.slug)) {
 			throw new SchemaError(`Collection slug "${input.slug}" is reserved`, "RESERVED_SLUG");
 		}
@@ -1049,6 +1067,7 @@ export class SchemaRegistry {
 			if (!existingRow) {
 				throw new SchemaError(`Collection "${slug}" not found`, "COLLECTION_NOT_FOUND");
 			}
+			if (input.urlPattern !== existingRow.url_pattern) this.validateUrlPattern(input.urlPattern);
 			const existing = this.mapCollectionRow(existingRow);
 			await this.validateTitleDateFields(
 				existing.id,
@@ -1064,7 +1083,7 @@ export class SchemaRegistry {
 			if (input.label !== undefined) updates.label = input.label;
 			if (input.labelSingular !== undefined) updates.label_singular = input.labelSingular;
 			if (input.description !== undefined) updates.description = input.description;
-			if (input.icon !== undefined) updates.icon = input.icon;
+			if (input.icon !== undefined) updates.icon = input.icon || null;
 			if (input.admin !== undefined) updates.admin_config = JSON.stringify(input.admin);
 			if (input.supports !== undefined) updates.supports = JSON.stringify(input.supports);
 			if (input.urlPattern !== undefined) updates.url_pattern = input.urlPattern;
@@ -2304,6 +2323,18 @@ export class SchemaRegistry {
 
 		if (slug.length > 63) {
 			throw new SchemaError(`${type} slug must be 63 characters or less`, "INVALID_SLUG");
+		}
+	}
+
+	private validateUrlPattern(urlPattern: string | null | undefined): void {
+		if (!urlPattern) return;
+		try {
+			compileUrlPattern(urlPattern);
+		} catch (error) {
+			throw new SchemaError(
+				error instanceof Error ? error.message : "Invalid URL pattern",
+				"INVALID_URL_PATTERN",
+			);
 		}
 	}
 
