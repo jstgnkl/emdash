@@ -185,7 +185,7 @@ msgstr "{0, plural, other {# izin}}"
 #. placeholder {0}: mapping.postCount
 #: packages/admin/src/components/WordPressImport.tsx:2509
 msgid "{0, plural, one {# post} other {# posts}}"
-msgstr "{0, plural, other {# pos}}"
+msgstr "{0, plural, other {# postingan}}"
 
 #. placeholder {0}: loopRedirectIds.size
 #: packages/admin/src/components/Redirects.tsx:461
@@ -2320,7 +2320,7 @@ msgstr "Dapat melihat konten"
 #: packages/admin/src/components/ContentSettingsPanel.tsx:1313
 #: packages/admin/src/components/editor/ImageDetailPanel.tsx:604
 #: packages/admin/src/components/editor/ImageDetailPanel.tsx:817
-#: packages/admin/src/components/editor/PluginBlockNode.tsx:406
+#: packages/admin/src/components/editor/PluginBlockNode.tsx:411
 #: packages/admin/src/components/EditorDraftPatchPreview.tsx:78
 #: packages/admin/src/components/FieldEditor.tsx:1315
 #: packages/admin/src/components/MediaDetailPanel.tsx:1847
@@ -2352,7 +2352,7 @@ msgstr "Dapat melihat konten"
 msgid "Cancel"
 msgstr "Batalkan"
 
-#: packages/admin/src/components/editor/PluginBlockNode.tsx:405
+#: packages/admin/src/components/editor/PluginBlockNode.tsx:410
 msgid "Cancel (Esc)"
 msgstr "Batalkan (Esc)"
 
@@ -3247,8 +3247,8 @@ msgstr "Salin token ini sekarang — tidak akan ditampilkan lagi."
 msgid "Copy token"
 msgstr "Salin token"
 
-#: packages/admin/src/components/editor/PluginBlockNode.tsx:322
-#: packages/admin/src/components/editor/PluginBlockNode.tsx:323
+#: packages/admin/src/components/editor/PluginBlockNode.tsx:327
+#: packages/admin/src/components/editor/PluginBlockNode.tsx:328
 #: packages/admin/src/components/MediaDetailPanel.tsx:1367
 msgid "Copy URL"
 msgstr "Salin URL"
@@ -3844,7 +3844,7 @@ msgstr "Didefinisikan dalam kode"
 #: packages/admin/src/components/ContentTypeEditor.tsx:853
 #: packages/admin/src/components/ContentTypeList.tsx:256
 #: packages/admin/src/components/editor/BlockMenu.tsx:318
-#: packages/admin/src/components/editor/PluginBlockNode.tsx:378
+#: packages/admin/src/components/editor/PluginBlockNode.tsx:383
 #: packages/admin/src/components/MediaDetailPanel.tsx:1816
 #: packages/admin/src/components/MediaDetailPanel.tsx:1920
 #: packages/admin/src/components/MenuEditor.tsx:555
@@ -3947,7 +3947,7 @@ msgstr "Hapus Komentar?"
 msgid "Delete Content Type?"
 msgstr "Hapus Tipe Konten?"
 
-#: packages/admin/src/components/editor/PluginBlockNode.tsx:379
+#: packages/admin/src/components/editor/PluginBlockNode.tsx:384
 msgid "Delete embed"
 msgstr "Hapus sematan"
 
@@ -4587,8 +4587,8 @@ msgstr "Setiap {linkingSideName} menautkan ke"
 msgid "Each path segment can contain at most one placeholder, e.g. {0}"
 msgstr "Setiap segmen jalur dapat berisi paling banyak satu pengganti, cth. {0}"
 
-#: packages/admin/src/components/editor/PluginBlockNode.tsx:367
-#: packages/admin/src/components/editor/PluginBlockNode.tsx:368
+#: packages/admin/src/components/editor/PluginBlockNode.tsx:372
+#: packages/admin/src/components/editor/PluginBlockNode.tsx:373
 #: packages/admin/src/components/MenuCard.tsx:59
 #: packages/admin/src/components/MenuEditor.tsx:550
 #: packages/admin/src/components/Sections.tsx:439
@@ -4730,8 +4730,8 @@ msgstr "Sunting pengalihan {0}"
 msgid "Edit role"
 msgstr "Sunting peran"
 
-#: packages/admin/src/components/editor/PluginBlockNode.tsx:367
-#: packages/admin/src/components/editor/PluginBlockNode.tsx:368
+#: packages/admin/src/components/editor/PluginBlockNode.tsx:372
+#: packages/admin/src/components/editor/PluginBlockNode.tsx:373
 msgid "Edit URL"
 msgstr "Sunting URL"
 
@@ -4837,19 +4837,19 @@ msgstr "Sematkan {0}"
 
 #: packages/admin/src/components/PortableTextEditor.tsx:1916
 msgid "Embed a page from another site"
-msgstr ""
+msgstr "Sematkan halaman dari situs lain"
 
 #: packages/admin/src/components/editor/IframeBlockNode.tsx:247
 msgid "Embed code"
-msgstr ""
+msgstr "Kode sematan"
 
 #: packages/admin/src/components/editor/IframeBlockNode.tsx:100
 msgid "Embedded content"
-msgstr ""
+msgstr "Konten tersemat"
 
 #: packages/admin/src/components/PortableTextEditor.tsx:3264
 msgid "Embeds"
-msgstr "Semat"
+msgstr "Sematan"
 
 #. placeholder {0}: plan.origin.createdByEmDashVersion
 #: packages/admin/src/components/settings/transfer/ImportReview.tsx:269
@@ -6574,11 +6574,11 @@ msgstr "Jika Anda tidak meminta ini, Anda dapat mengabaikan surel ini dengan ama
 
 #: packages/admin/src/components/PortableTextEditor.tsx:1915
 msgid "Iframe"
-msgstr ""
+msgstr "Iframe"
 
 #: packages/admin/src/components/editor/IframeBlockNode.tsx:211
 msgid "Iframe block options"
-msgstr ""
+msgstr "Opsi blok iframe"
 
 #. js-lingui-explicit-id
 #: packages/admin/src/locales/server.ts:63
@@ -7427,7 +7427,7 @@ msgstr "Muat lebih banyak map"
 
 #: packages/admin/src/components/editor/IframeBlockNode.tsx:230
 msgid "Load preview"
-msgstr ""
+msgstr "Muat pratinjau"
 
 #: packages/admin/src/components/calendar/CalendarToolbar.tsx:59
 #: packages/admin/src/router.tsx:3124
@@ -8635,7 +8635,7 @@ msgstr "Tidak ada judul di dokumen"
 
 #: packages/admin/src/components/editor/IframeBlockNode.tsx:45
 msgid "No iframe found in this code. For an embed that runs a script, use an HTML block."
-msgstr ""
+msgstr "Tidak ada iframe ditemukan dalam kode ini. Untuk sematan yang menjalankan skrip, gunakan blok HTML."
 
 #. js-lingui-explicit-id
 #: packages/admin/src/locales/server.ts:64
@@ -8988,7 +8988,7 @@ msgstr "Hanya alamat surel dari domain yang diizinkan yang dapat mendaftar."
 
 #: packages/admin/src/components/editor/IframeBlockNode.tsx:46
 msgid "Only https links can be embedded."
-msgstr ""
+msgstr "Hanya tautan https yang dapat disematkan."
 
 #: packages/admin/src/components/MediaUsedIn.tsx:216
 msgid "Only image and file fields, images in rich text, and site settings are tracked. Custom rich text blocks and template code aren’t checked."
@@ -8997,7 +8997,7 @@ msgstr "Hanya kolom gambar dan berkas, gambar dalam teks kaya, dan pengaturan si
 #: packages/admin/src/components/editor/ImageUploadExtension.ts:212
 #: packages/admin/src/components/media/ImageDropTarget.tsx:53
 msgid "Only image files can be uploaded here."
-msgstr ">>>>>>> upstream/main"
+msgstr "Hanya berkas gambar yang dapat diunggah di sini."
 
 #: packages/admin/src/components/MenuList.tsx:168
 msgid "Only lowercase letters, numbers, and hyphens"
@@ -9042,8 +9042,8 @@ msgstr "Buka di penyunting"
 #: packages/admin/src/components/editor/ImageDetailPanel.tsx:779
 #: packages/admin/src/components/editor/ImageDetailPanel.tsx:794
 #: packages/admin/src/components/editor/ImageDetailPanel.tsx:795
-#: packages/admin/src/components/editor/PluginBlockNode.tsx:333
-#: packages/admin/src/components/editor/PluginBlockNode.tsx:334
+#: packages/admin/src/components/editor/PluginBlockNode.tsx:338
+#: packages/admin/src/components/editor/PluginBlockNode.tsx:339
 msgid "Open in new tab"
 msgstr "Buka di tab baru"
 
@@ -9332,7 +9332,7 @@ msgstr "Kunci sandi memerlukan HTTPS atau http://localhost (dengan port Anda); n
 
 #: packages/admin/src/components/editor/IframeBlockNode.tsx:248
 msgid "Paste an embed code or an https link…"
-msgstr ""
+msgstr "Tempel kode tersemat atau tautan https…"
 
 #: packages/admin/src/components/WordPressImport.tsx:1059
 msgid "Paste your migration key"
@@ -10849,7 +10849,7 @@ msgid "Sample content"
 msgstr "Konten sampel"
 
 #: packages/admin/src/components/editor/ImageDetailPanel.tsx:820
-#: packages/admin/src/components/editor/PluginBlockNode.tsx:417
+#: packages/admin/src/components/editor/PluginBlockNode.tsx:422
 #: packages/admin/src/components/MediaDetailPanel.tsx:1878
 #: packages/admin/src/components/MediaFolderDialog.tsx:171
 #: packages/admin/src/components/MenuEditor.tsx:632
@@ -10860,7 +10860,7 @@ msgstr "Konten sampel"
 msgid "Save"
 msgstr "Simpan"
 
-#: packages/admin/src/components/editor/PluginBlockNode.tsx:416
+#: packages/admin/src/components/editor/PluginBlockNode.tsx:421
 msgid "Save (Enter)"
 msgstr "Simpan (Enter)"
 
