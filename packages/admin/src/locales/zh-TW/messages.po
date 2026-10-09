@@ -61,12 +61,12 @@ msgid "{0, plural, one {(# item)} other {(# items)}}"
 msgstr "{0, plural, one {(# 個項目)} other {(# 個項目)}}"
 
 #. placeholder {0}: bounds.max
-#: packages/admin/src/components/ContentEditor.tsx:2918
+#: packages/admin/src/components/ContentEditor.tsx:2921
 msgid "{0, plural, one {{counted} of # character, at least {min}} other {{counted} of # characters, at least {min}}}"
 msgstr "{0, plural, one {已輸入 {counted} 個字元，上限 # 個，至少 {min} 個} other {已輸入 {counted} 個字元，上限 # 個，至少 {min} 個}}"
 
 #. placeholder {0}: bounds.max
-#: packages/admin/src/components/ContentEditor.tsx:2923
+#: packages/admin/src/components/ContentEditor.tsx:2926
 msgid "{0, plural, one {{counted} of # character} other {{counted} of # characters}}"
 msgstr "{0, plural, one {已輸入 {counted} 個字元，上限 # 個} other {已輸入 {counted} 個字元，上限 # 個}}"
 
@@ -258,7 +258,7 @@ msgid "{0, plural, one {Add # video} other {Add # videos}}"
 msgstr ""
 
 #. placeholder {0}: bounds.min
-#: packages/admin/src/components/ContentEditor.tsx:2928
+#: packages/admin/src/components/ContentEditor.tsx:2931
 msgid "{0, plural, one {At least # character} other {At least # characters}}"
 msgstr "{0, plural, one {至少 # 個字元} other {至少 # 個字元}}"
 
@@ -1047,7 +1047,7 @@ msgstr "缺少套件檔案"
 msgid "A publication time has not been selected"
 msgstr "尚未選取發佈時間"
 
-#: packages/admin/src/components/ContentEditor.tsx:1243
+#: packages/admin/src/components/ContentEditor.tsx:1245
 msgid "A publishing action is already in progress"
 msgstr "已有發佈操作正在進行"
 
@@ -1241,7 +1241,7 @@ msgstr "新增要在內容中署名的人員或團隊。"
 msgid "Add another byline"
 msgstr "再新增一個署名"
 
-#: packages/admin/src/components/BlocksField.tsx:272
+#: packages/admin/src/components/BlocksField.tsx:275
 msgid "Add at least {minItems} blocks."
 msgstr "至少加入 {minItems} 個區塊。"
 
@@ -1249,7 +1249,7 @@ msgstr "至少加入 {minItems} 個區塊。"
 msgid "Add at least one sub-field to define the repeater structure."
 msgstr "新增至少一個子欄位，以定義重複欄位的結構。"
 
-#: packages/admin/src/components/BlocksField.tsx:173
+#: packages/admin/src/components/BlocksField.tsx:176
 msgid "Add block"
 msgstr "新增區塊"
 
@@ -1360,8 +1360,8 @@ msgstr "新增 noindex 中繼標籤"
 msgid "Add Passkey"
 msgstr "新增通行密鑰"
 
-#: packages/admin/src/components/ContentEditor.tsx:2840
-#: packages/admin/src/components/ContentEditor.tsx:2840
+#: packages/admin/src/components/ContentEditor.tsx:2843
+#: packages/admin/src/components/ContentEditor.tsx:2843
 msgid "Add reference"
 msgstr "新增參照"
 
@@ -1898,11 +1898,11 @@ msgstr "透過 MCP 連線的助理需要管理員核准才能開始匯出或匯�
 msgid "Astro"
 msgstr "Astro"
 
-#: packages/admin/src/components/ContentEditor.tsx:2951
+#: packages/admin/src/components/ContentEditor.tsx:2954
 msgid "At least {min}"
 msgstr "至少 {min}"
 
-#: packages/admin/src/components/ContentEditor.tsx:2948
+#: packages/admin/src/components/ContentEditor.tsx:2951
 msgid "At most {max}"
 msgstr "最多 {max}"
 
@@ -2070,7 +2070,7 @@ msgstr "返回"
 msgid "Back"
 msgstr "返回"
 
-#: packages/admin/src/components/ContentEditor.tsx:1470
+#: packages/admin/src/components/ContentEditor.tsx:1472
 msgid "Back to {collectionLabel} list"
 msgstr "返回 {collectionLabel} 清單"
 
@@ -2166,7 +2166,7 @@ msgstr "傳送前:"
 msgid "Before you continue:"
 msgstr "繼續之前："
 
-#: packages/admin/src/components/ContentEditor.tsx:2945
+#: packages/admin/src/components/ContentEditor.tsx:2948
 msgid "Between {min} and {max}"
 msgstr "介於 {min} 與 {max} 之間"
 
@@ -2184,7 +2184,7 @@ msgid "Block"
 msgstr ""
 
 #. placeholder {0}: index + 1
-#: packages/admin/src/components/BlocksField.tsx:406
+#: packages/admin/src/components/BlocksField.tsx:415
 msgid "Block {0}"
 msgstr "第 {0} 個區塊"
 
@@ -2924,7 +2924,7 @@ msgstr "關閉圖片設定"
 msgid "Close panel"
 msgstr "關閉面板"
 
-#: packages/admin/src/components/ContentEditor.tsx:2040
+#: packages/admin/src/components/ContentEditor.tsx:2042
 msgid "Close settings"
 msgstr "關閉設定"
 
@@ -2944,7 +2944,7 @@ msgstr "程式碼區塊"
 msgid "Code block actions"
 msgstr "程式碼區塊操作"
 
-#: packages/admin/src/components/BlocksField.tsx:347
+#: packages/admin/src/components/BlocksField.tsx:350
 msgid "Collapse block"
 msgstr "收合區塊"
 
@@ -3418,7 +3418,7 @@ msgstr "無法確認媒體項目或選取的資料夾是否仍存在。請再試
 msgid "Couldn't detect WordPress"
 msgstr "無法偵測 WordPress"
 
-#: packages/admin/src/components/ContentEditor.tsx:2819
+#: packages/admin/src/components/ContentEditor.tsx:2822
 msgid "Couldn't load all references."
 msgstr "無法載入所有參照。"
 
@@ -4001,7 +4001,7 @@ msgstr "要刪除 {0} 嗎？"
 msgid "Delete backup?"
 msgstr "要刪除備份嗎？"
 
-#: packages/admin/src/components/BlocksField.tsx:382
+#: packages/admin/src/components/BlocksField.tsx:391
 #: packages/admin/src/components/editor/EmbedBlockShell.tsx:358
 msgid "Delete block"
 msgstr "刪除區塊"
@@ -4414,7 +4414,7 @@ msgstr "顯示標籤雲"
 msgid "Displayed below the image as a visible caption."
 msgstr "顯示在圖片下方的可見圖說。"
 
-#: packages/admin/src/components/ContentEditor.tsx:1586
+#: packages/admin/src/components/ContentEditor.tsx:1588
 msgid "Distraction-free mode (⌘⇧\\)"
 msgstr "專注模式 (⌘⇧\\)"
 
@@ -4641,7 +4641,7 @@ msgstr "複製"
 msgid "Duplicate {title}"
 msgstr "複製 {title}"
 
-#: packages/admin/src/components/BlocksField.tsx:373
+#: packages/admin/src/components/BlocksField.tsx:382
 msgid "Duplicate block"
 msgstr "複製區塊"
 
@@ -4711,7 +4711,7 @@ msgstr "編輯 {0}"
 msgid "Edit {0} field"
 msgstr "編輯 {0} 欄位"
 
-#: packages/admin/src/components/ContentEditor.tsx:1323
+#: packages/admin/src/components/ContentEditor.tsx:1325
 msgid "Edit {itemLabel}"
 msgstr "編輯 {itemLabel}"
 
@@ -5056,7 +5056,7 @@ msgstr "請輸入可辨識的時區才能儲存"
 msgid "Enter a URL (https://…) or a relative path (/…)"
 msgstr "輸入 URL (https://…) 或相對路徑 (/…)"
 
-#: packages/admin/src/components/ContentEditor.tsx:2993
+#: packages/admin/src/components/ContentEditor.tsx:2996
 msgid "Enter a valid URL (e.g. https://example.com)"
 msgstr "輸入有效的網址 (例如 https://example.com)"
 
@@ -5064,7 +5064,7 @@ msgstr "輸入有效的網址 (例如 https://example.com)"
 msgid "Enter credentials manually"
 msgstr "手動輸入認證資訊"
 
-#: packages/admin/src/components/ContentEditor.tsx:1581
+#: packages/admin/src/components/ContentEditor.tsx:1583
 msgid "Enter distraction-free mode"
 msgstr "進入專注模式"
 
@@ -5072,7 +5072,7 @@ msgstr "進入專注模式"
 msgid "Enter email"
 msgstr "輸入電子郵件地址"
 
-#: packages/admin/src/components/ContentEditor.tsx:2337
+#: packages/admin/src/components/ContentEditor.tsx:2340
 msgid "Enter markdown content..."
 msgstr "輸入 Markdown 內容..."
 
@@ -5207,15 +5207,15 @@ msgstr "已索引現有內容。新的變更會自動追蹤。"
 msgid "Exists"
 msgstr "已存在"
 
-#: packages/admin/src/components/ContentEditor.tsx:1581
+#: packages/admin/src/components/ContentEditor.tsx:1583
 msgid "Exit distraction-free mode"
 msgstr "結束專注模式"
 
-#: packages/admin/src/components/ContentEditor.tsx:1585
+#: packages/admin/src/components/ContentEditor.tsx:1587
 msgid "Exit distraction-free mode (⌘⇧\\)"
 msgstr "離開專注模式 (⌘⇧\\)"
 
-#: packages/admin/src/components/BlocksField.tsx:347
+#: packages/admin/src/components/BlocksField.tsx:350
 msgid "Expand block"
 msgstr "展開區塊"
 
@@ -5655,7 +5655,7 @@ msgstr ""
 msgid "Failed to fetch API tokens"
 msgstr ""
 
-#: packages/admin/src/lib/api/client.ts:369
+#: packages/admin/src/lib/api/client.ts:371
 msgid "Failed to fetch auth mode"
 msgstr "無法擷取驗證模式"
 
@@ -5729,7 +5729,7 @@ msgstr "無法擷取內容項目的分類項目"
 msgid "Failed to fetch fields"
 msgstr ""
 
-#: packages/admin/src/lib/api/client.ts:352
+#: packages/admin/src/lib/api/client.ts:354
 msgid "Failed to fetch manifest"
 msgstr "無法擷取資訊清單"
 
@@ -6557,11 +6557,11 @@ msgstr "首次發佈"
 msgid "First-time commenters only"
 msgstr "僅限首次留言者"
 
-#: packages/admin/src/components/ContentEditor.tsx:1303
+#: packages/admin/src/components/ContentEditor.tsx:1305
 msgid "Fix invalid fields before changing the publication date"
 msgstr "請先修正無效的欄位，再變更發佈日期"
 
-#: packages/admin/src/components/ContentEditor.tsx:1247
+#: packages/admin/src/components/ContentEditor.tsx:1249
 msgid "Fix invalid fields before changing the schedule"
 msgstr "請先修正無效的欄位，再變更排程"
 
@@ -6909,7 +6909,7 @@ msgstr "命中次數"
 msgid "Hold an entry while someone is editing it, and refuse other writers"
 msgstr "有人編輯內容項目時將其鎖定，並拒絕其他人寫入"
 
-#: packages/admin/src/components/ContentEditor.tsx:2510
+#: packages/admin/src/components/ContentEditor.tsx:2513
 msgid "Holds an entry ID. Set a target collection under Content Types to pick entries instead."
 msgstr "儲存內容項目 ID。如要改為選取內容項目，請在 [內容類型] 中設定目標集合。"
 
@@ -7264,7 +7264,7 @@ msgstr "在回收桶中"
 msgid "In Windows Settings, open Accounts, then Sign-in options, and set up a PIN. Fingerprint and face recognition are optional."
 msgstr "在 Windows 設定中，開啟 [帳戶]，接著開啟 [登入選項] 並設定 PIN。指紋和臉部辨識為選用功能。"
 
-#: packages/admin/src/components/BlocksField.tsx:359
+#: packages/admin/src/components/BlocksField.tsx:364
 msgid "Inactive version"
 msgstr "非使用中版本"
 
@@ -7461,7 +7461,7 @@ msgstr "帳號代稱無效"
 msgid "Invalid invite link"
 msgstr "無效的邀請連結"
 
-#: packages/admin/src/components/ContentEditor.tsx:3064
+#: packages/admin/src/components/ContentEditor.tsx:3067
 msgid "Invalid JSON"
 msgstr "無效的 JSON"
 
@@ -7984,7 +7984,7 @@ msgstr "正在載入外掛…"
 msgid "Loading redirects..."
 msgstr "正在載入重新導向…"
 
-#: packages/admin/src/components/ContentEditor.tsx:2827
+#: packages/admin/src/components/ContentEditor.tsx:2830
 msgid "Loading references..."
 msgstr "正在載入參照項目..."
 
@@ -8595,7 +8595,7 @@ msgstr "要將「{title}」移至回收桶嗎？之後仍可還原。"
 #. placeholder {0}: blockType.label
 #. placeholder {0}: referenceRowLabel(row)
 #. placeholder {0}: term.label
-#: packages/admin/src/components/ContentEditor.tsx:2794
+#: packages/admin/src/components/ContentEditor.tsx:2797
 #: packages/admin/src/components/FieldEditor.tsx:1159
 #: packages/admin/src/components/TaxonomyManager.tsx:461
 msgid "Move {0} down"
@@ -8619,7 +8619,7 @@ msgstr "將 {0} 往後移"
 #. placeholder {0}: blockType.label
 #. placeholder {0}: referenceRowLabel(row)
 #. placeholder {0}: term.label
-#: packages/admin/src/components/ContentEditor.tsx:2783
+#: packages/admin/src/components/ContentEditor.tsx:2786
 #: packages/admin/src/components/FieldEditor.tsx:1142
 #: packages/admin/src/components/TaxonomyManager.tsx:448
 msgid "Move {0} up"
@@ -8807,7 +8807,7 @@ msgstr "新增"
 msgid "NEW"
 msgstr "新增"
 
-#: packages/admin/src/components/ContentEditor.tsx:1323
+#: packages/admin/src/components/ContentEditor.tsx:1325
 msgid "New {itemLabel}"
 msgstr "新增 {itemLabel}"
 
@@ -8977,7 +8977,7 @@ msgstr "尚無已核准的留言。"
 msgid "No block types defined"
 msgstr "尚未定義區塊類型"
 
-#: packages/admin/src/components/BlocksField.tsx:226
+#: packages/admin/src/components/BlocksField.tsx:229
 msgid "No blocks yet"
 msgstr "尚無區塊"
 
@@ -9163,7 +9163,7 @@ msgstr "沒有符合項目"
 msgid "No matches. Press Enter to use “{freeFormLanguage}”."
 msgstr "沒有符合的項目。按 Enter 使用「{freeFormLanguage}」。"
 
-#: packages/admin/src/components/BlocksField.tsx:217
+#: packages/admin/src/components/BlocksField.tsx:220
 msgid "No matching block types"
 msgstr "沒有符合的區塊類型"
 
@@ -9271,7 +9271,7 @@ msgstr "沒有近期活動"
 msgid "No redirects yet"
 msgstr "目前沒有重新導向"
 
-#: packages/admin/src/components/ContentEditor.tsx:2739
+#: packages/admin/src/components/ContentEditor.tsx:2742
 msgid "No references selected."
 msgstr "尚未選取參照項目。"
 
@@ -9497,7 +9497,7 @@ msgid "Open"
 msgstr "開啟"
 
 #. placeholder {0}: referenceRowLabel(row)
-#: packages/admin/src/components/ContentEditor.tsx:2772
+#: packages/admin/src/components/ContentEditor.tsx:2775
 msgid "Open {0} in a new tab"
 msgstr "在新分頁開啟 {0}"
 
@@ -9642,7 +9642,7 @@ msgstr "已裁切原始圖片。"
 msgid "Original:"
 msgstr "原始內容:"
 
-#: packages/admin/src/components/BlocksField.tsx:146
+#: packages/admin/src/components/BlocksField.tsx:149
 msgid "Other"
 msgstr "其他"
 
@@ -9964,7 +9964,7 @@ msgstr "外掛操作失敗"
 msgid "Plugin actions"
 msgstr "外掛操作"
 
-#: packages/admin/src/components/ContentEditor.tsx:1642
+#: packages/admin/src/components/ContentEditor.tsx:1644
 msgid "Plugin changes were not applied"
 msgstr "未套用外掛的變更"
 
@@ -10677,7 +10677,7 @@ msgstr "移除"
 
 #: packages/admin/src/components/BlockKitMediaPickerField.tsx:84
 #: packages/admin/src/components/BlockKitMediaPickerField.tsx:115
-#: packages/admin/src/components/ContentEditor.tsx:3225
+#: packages/admin/src/components/ContentEditor.tsx:3228
 #: packages/admin/src/components/editor/GalleryDetailPanel.tsx:473
 #: packages/admin/src/components/editor/ImageDetailPanel.tsx:357
 #: packages/admin/src/components/editor/ImageDetailPanel.tsx:813
@@ -10697,7 +10697,7 @@ msgstr "移除"
 #. placeholder {0}: job.file.name
 #. placeholder {0}: option.term.label
 #. placeholder {0}: passkey.name
-#: packages/admin/src/components/ContentEditor.tsx:2807
+#: packages/admin/src/components/ContentEditor.tsx:2810
 #: packages/admin/src/components/media/MediaBrowserItems.tsx:219
 #: packages/admin/src/components/MediaUploadDialog.tsx:144
 #: packages/admin/src/components/settings/PasskeyItem.tsx:161
@@ -10714,7 +10714,7 @@ msgstr "從選取項目中移除 {0}"
 msgid "Remove {entry}"
 msgstr "移除 {entry}"
 
-#: packages/admin/src/components/ContentEditor.tsx:3223
+#: packages/admin/src/components/ContentEditor.tsx:3226
 msgid "Remove {label}"
 msgstr "移除 {label}"
 
@@ -10825,7 +10825,7 @@ msgstr "調整順序"
 #. placeholder {0}: blockType?.label ?? block._type
 #. placeholder {0}: byline.displayName
 #. placeholder {0}: collection.label
-#: packages/admin/src/components/BlocksField.tsx:337
+#: packages/admin/src/components/BlocksField.tsx:340
 #: packages/admin/src/components/BylineCreditsEditor.tsx:836
 #: packages/admin/src/components/ContentTypeList.tsx:310
 msgid "Reorder {0}"
@@ -10844,8 +10844,8 @@ msgstr "重複欄位群組"
 msgid "visualEditing.replaceImage"
 msgstr "取代"
 
-#: packages/admin/src/components/ContentEditor.tsx:3215
-#: packages/admin/src/components/ContentEditor.tsx:3252
+#: packages/admin/src/components/ContentEditor.tsx:3218
+#: packages/admin/src/components/ContentEditor.tsx:3255
 #: packages/admin/src/components/editor/GalleryDetailPanel.tsx:449
 #: packages/admin/src/components/editor/GalleryDetailPanel.tsx:506
 #: packages/admin/src/components/editor/ImageDetailPanel.tsx:298
@@ -10861,7 +10861,7 @@ msgstr "取代"
 msgid "Replace"
 msgstr "取代"
 
-#: packages/admin/src/components/ContentEditor.tsx:3251
+#: packages/admin/src/components/ContentEditor.tsx:3254
 #: packages/admin/src/components/ImageFieldRenderer.tsx:578
 msgid "Replace {label}"
 msgstr "取代 {label}"
@@ -10896,7 +10896,7 @@ msgstr "要取代原始圖片嗎？"
 msgid "Replace original is available with the Original aspect ratio."
 msgstr "使用原始比例時，才能取代原始圖片。"
 
-#: packages/admin/src/components/ContentEditor.tsx:2840
+#: packages/admin/src/components/ContentEditor.tsx:2843
 msgid "Replace reference"
 msgstr "取代參照項目"
 
@@ -10937,7 +10937,7 @@ msgstr "程式碼儲存庫"
 msgid "Request a new link"
 msgstr "索取新連結"
 
-#: packages/admin/src/lib/api/client.ts:340
+#: packages/admin/src/lib/api/client.ts:342
 msgid "Request failed"
 msgstr "要求失敗"
 
@@ -11032,7 +11032,7 @@ msgstr "從左上角調整裁切範圍。使用方向鍵調整大小。"
 msgid "Resize crop from top-right corner. Use the Arrow keys to resize."
 msgstr "從右上角調整裁切範圍。使用方向鍵調整大小。"
 
-#: packages/admin/src/components/ContentEditor.tsx:1855
+#: packages/admin/src/components/ContentEditor.tsx:1857
 msgid "Resize settings panel"
 msgstr "調整設定面板大小"
 
@@ -11083,13 +11083,13 @@ msgstr "正在還原..."
 msgid "Results"
 msgstr "結果"
 
-#: packages/admin/src/components/BlocksField.tsx:360
+#: packages/admin/src/components/BlocksField.tsx:365
 #: packages/admin/src/components/FieldEditor.tsx:1126
 msgid "Retired"
 msgstr "已淘汰"
 
 #: packages/admin/src/components/BylineCreditsEditor.tsx:475
-#: packages/admin/src/components/ContentEditor.tsx:2821
+#: packages/admin/src/components/ContentEditor.tsx:2824
 #: packages/admin/src/components/ContentPickerModal.tsx:278
 #: packages/admin/src/components/MarketplaceBrowse.tsx:143
 #: packages/admin/src/components/media/MediaBrowserItems.tsx:217
@@ -11362,7 +11362,7 @@ msgstr "儲存 (Enter)"
 msgid "Save alt text"
 msgstr "儲存替代文字"
 
-#: packages/admin/src/components/ContentEditor.tsx:1668
+#: packages/admin/src/components/ContentEditor.tsx:1670
 msgid "Save anyway"
 msgstr "仍要儲存"
 
@@ -11608,11 +11608,11 @@ msgstr "搜尋 {label}"
 msgid "Search {label}…"
 msgstr "搜尋 {label}…"
 
-#: packages/admin/src/components/BlocksField.tsx:181
+#: packages/admin/src/components/BlocksField.tsx:184
 msgid "Search block types"
 msgstr "搜尋區塊類型"
 
-#: packages/admin/src/components/BlocksField.tsx:184
+#: packages/admin/src/components/BlocksField.tsx:187
 msgid "Search blocks"
 msgstr "搜尋區塊"
 
@@ -11873,8 +11873,8 @@ msgid "Select"
 msgstr "選取"
 
 #: packages/admin/src/components/BlockKitMediaPickerField.tsx:140
-#: packages/admin/src/components/ContentEditor.tsx:3235
-#: packages/admin/src/components/ContentEditor.tsx:3251
+#: packages/admin/src/components/ContentEditor.tsx:3238
+#: packages/admin/src/components/ContentEditor.tsx:3254
 #: packages/admin/src/components/ImageFieldRenderer.tsx:579
 msgid "Select {label}"
 msgstr "選取 {label}"
@@ -11920,7 +11920,7 @@ msgstr "全選"
 msgid "Select all on this page"
 msgstr "選取這個頁面上的全部項目"
 
-#: packages/admin/src/components/ContentEditor.tsx:2735
+#: packages/admin/src/components/ContentEditor.tsx:2738
 msgid "Select at least one entry."
 msgstr "請至少選取一個內容項目。"
 
@@ -11953,7 +11953,7 @@ msgstr "選取網站圖示"
 msgid "Select Favicon"
 msgstr "選取網站圖示"
 
-#: packages/admin/src/components/ContentEditor.tsx:3239
+#: packages/admin/src/components/ContentEditor.tsx:3242
 #: packages/admin/src/components/MediaPickerModal.tsx:232
 msgid "Select file"
 msgstr "選取檔案"
@@ -12176,8 +12176,8 @@ msgid "Setting up..."
 msgstr "正在設定…"
 
 #: packages/admin/src/components/AdminCommandPalette.tsx:247
-#: packages/admin/src/components/ContentEditor.tsx:1729
-#: packages/admin/src/components/ContentEditor.tsx:2026
+#: packages/admin/src/components/ContentEditor.tsx:1731
+#: packages/admin/src/components/ContentEditor.tsx:2028
 #: packages/admin/src/components/ContentTypeEditor.tsx:465
 #: packages/admin/src/components/Header.tsx:102
 #: packages/admin/src/components/PluginManager.tsx:530
@@ -12637,7 +12637,7 @@ msgstr "使用範本的範例文章與頁面。建議新網站選用。"
 msgid "Start writing with plain text"
 msgstr ""
 
-#: packages/admin/src/components/ContentEditor.tsx:2298
+#: packages/admin/src/components/ContentEditor.tsx:2301
 #: packages/admin/src/components/PortableTextEditor.tsx:3434
 msgid "Start writing, or type '/' for commands"
 msgstr "開始撰寫，或輸入「/」使用命令"
@@ -13227,8 +13227,8 @@ msgstr "無法轉譯外掛欄位小工具。"
 msgid "The plugin has not saved these changes. Review them before updating the editor."
 msgstr "外掛尚未儲存這些變更。更新編輯器前請先檢查。"
 
-#: packages/admin/src/components/ContentEditor.tsx:969
-#: packages/admin/src/components/ContentEditor.tsx:985
+#: packages/admin/src/components/ContentEditor.tsx:971
+#: packages/admin/src/components/ContentEditor.tsx:987
 msgid "The plugin result is stale because the editor changed while it was working."
 msgstr "外掛運作期間，編輯器已有變更，因此外掛結果已過時。"
 
@@ -13359,7 +13359,7 @@ msgstr "安裝後這些工具會維持停用狀態，直到您明確啟用 Agent
 msgid "This also removes:"
 msgstr "這也會移除："
 
-#: packages/admin/src/components/BlocksField.tsx:394
+#: packages/admin/src/components/BlocksField.tsx:403
 msgid "This block cannot be edited because its stored definition is unavailable."
 msgstr "這個區塊儲存的定義無法取得，因此無法編輯。"
 
@@ -13414,11 +13414,11 @@ msgstr "這個裝置要求使用下列權限："
 msgid "This doesn't look like a valid migration key. Generate a new one in the plugin and paste the full string starting with \"em1.\"."
 msgstr "這似乎不是有效的移轉金鑰。請在外掛中產生新的金鑰，並貼上以「em1.」開頭的完整字串。"
 
-#: packages/admin/src/components/ContentEditor.tsx:1664
+#: packages/admin/src/components/ContentEditor.tsx:1666
 msgid "This entry changed somewhere else after you opened it."
 msgstr "你開啟這個內容項目後，它已在其他地方變更。"
 
-#: packages/admin/src/components/ContentEditor.tsx:1253
+#: packages/admin/src/components/ContentEditor.tsx:1255
 #: packages/admin/src/router.tsx:1053
 msgid "This entry changed somewhere else. Save anyway, or reload to get the newer version."
 msgstr "這個內容項目已在其他地方變更。你可以選擇仍要儲存，或重新載入以取得較新的版本。"
@@ -13439,7 +13439,7 @@ msgstr "這個內容項目發佈前沒有網址。請改為貼上網址。"
 msgid "This entry is open somewhere else"
 msgstr "這個內容項目已在其他地方開啟"
 
-#: packages/admin/src/components/ContentEditor.tsx:1651
+#: packages/admin/src/components/ContentEditor.tsx:1653
 msgid "This entry is read-only because its schema uses field types this version of EmDash does not support."
 msgstr "這個內容項目的結構使用了這個版本的 EmDash 不支援的欄位類型，因此目前為唯讀狀態。"
 
@@ -13451,7 +13451,7 @@ msgstr "這個內容項目應於 {lateness} 發佈，但尚未發佈。排程發
 msgid "This export is large"
 msgstr "這次匯出的套件很大"
 
-#: packages/admin/src/components/ContentEditor.tsx:2127
+#: packages/admin/src/components/ContentEditor.tsx:2129
 msgid "This field cannot be edited by this version of EmDash."
 msgstr "這個版本的 EmDash 無法編輯此欄位。"
 
@@ -13476,7 +13476,7 @@ msgstr "這個欄位不接受 {mimeType} 檔案。"
 msgid "This field expects a list. The stored value stays unchanged until you replace it with an empty list, which deletes it. Copy anything you need from it first."
 msgstr "這個欄位需要清單。儲存的值會保持不變，直到你用空白清單取代它，這會刪除原本的值。請先複製需要保留的內容。"
 
-#: packages/admin/src/components/ContentEditor.tsx:3255
+#: packages/admin/src/components/ContentEditor.tsx:3258
 #: packages/admin/src/components/ImageFieldRenderer.tsx:598
 msgid "This field is required"
 msgstr "此欄位為必填"
@@ -14206,7 +14206,7 @@ msgstr "尚未儲存的內容可能會傳送到網站外"
 msgid "Unscheduled"
 msgstr "未排程"
 
-#: packages/admin/src/components/BlocksField.tsx:361
+#: packages/admin/src/components/BlocksField.tsx:366
 #: packages/admin/src/components/ContentTypeEditor.tsx:948
 msgid "Unsupported"
 msgstr "不支援"
@@ -14226,7 +14226,7 @@ msgstr "截至 {0}"
 msgid "Untitled"
 msgstr "未命名"
 
-#: packages/admin/src/components/ContentEditor.tsx:3157
+#: packages/admin/src/components/ContentEditor.tsx:3160
 msgid "Untitled file"
 msgstr "未命名檔案"
 
@@ -14557,7 +14557,7 @@ msgstr "當頁面沒有圖片時，用作備用 Open Graph 圖片。建議尺寸
 msgid "Used as the identifier. Lowercase letters, numbers, and underscores only."
 msgstr "用作識別碼。僅限小寫字母、數字及底線。"
 
-#: packages/admin/src/components/ContentEditor.tsx:2421
+#: packages/admin/src/components/ContentEditor.tsx:2424
 msgid "Used as the main visual for this post on listing pages and at the top of the post"
 msgstr "在清單頁面及文章頂端作為這篇文章的主要視覺"
 
@@ -14684,7 +14684,7 @@ msgstr "版本"
 #. placeholder {0}: block._version
 #. placeholder {0}: release.version
 #. placeholder {0}: version.version
-#: packages/admin/src/components/BlocksField.tsx:358
+#: packages/admin/src/components/BlocksField.tsx:363
 #: packages/admin/src/components/BlockTypeList.tsx:42
 #: packages/admin/src/components/RegistryPluginDetail.tsx:556
 msgid "Version {0}"
@@ -14876,7 +14876,7 @@ msgstr "將匯入的內容"
 msgid "What will happen when you import"
 msgstr "匯入後將進行的作業"
 
-#: packages/admin/src/components/ContentEditor.tsx:1665
+#: packages/admin/src/components/ContentEditor.tsx:1667
 msgid "What you typed is still here. Saving replaces the newer version."
 msgstr "你輸入的內容仍在這裡。儲存會取代較新的版本。"
 

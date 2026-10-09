@@ -61,12 +61,12 @@ msgid "{0, plural, one {(# item)} other {(# items)}}"
 msgstr "{0, plural, one {(# รายการ)} other {(# รายการ)}}"
 
 #. placeholder {0}: bounds.max
-#: packages/admin/src/components/ContentEditor.tsx:2918
+#: packages/admin/src/components/ContentEditor.tsx:2921
 msgid "{0, plural, one {{counted} of # character, at least {min}} other {{counted} of # characters, at least {min}}}"
 msgstr "{0, plural, one {{counted} จาก # อักขระ อย่างน้อย {min}} other {{counted} จาก # อักขระ อย่างน้อย {min}}}"
 
 #. placeholder {0}: bounds.max
-#: packages/admin/src/components/ContentEditor.tsx:2923
+#: packages/admin/src/components/ContentEditor.tsx:2926
 msgid "{0, plural, one {{counted} of # character} other {{counted} of # characters}}"
 msgstr "{0, plural, one {{counted} จาก # อักขระ} other {{counted} จาก # อักขระ}}"
 
@@ -258,7 +258,7 @@ msgid "{0, plural, one {Add # video} other {Add # videos}}"
 msgstr ""
 
 #. placeholder {0}: bounds.min
-#: packages/admin/src/components/ContentEditor.tsx:2928
+#: packages/admin/src/components/ContentEditor.tsx:2931
 msgid "{0, plural, one {At least # character} other {At least # characters}}"
 msgstr "{0, plural, one {อย่างน้อย # อักขระ} other {อย่างน้อย # อักขระ}}"
 
@@ -1047,7 +1047,7 @@ msgstr "ไฟล์ในแพ็กเกจหายไป"
 msgid "A publication time has not been selected"
 msgstr "ยังไม่ได้เลือกเวลาเผยแพร่"
 
-#: packages/admin/src/components/ContentEditor.tsx:1243
+#: packages/admin/src/components/ContentEditor.tsx:1245
 msgid "A publishing action is already in progress"
 msgstr "มีการดำเนินการเผยแพร่อยู่แล้ว"
 
@@ -1241,7 +1241,7 @@ msgstr "เพิ่มบุคคลหรือทีมที่จะให
 msgid "Add another byline"
 msgstr "เพิ่มชื่อผู้เขียนอีกรายการ"
 
-#: packages/admin/src/components/BlocksField.tsx:272
+#: packages/admin/src/components/BlocksField.tsx:275
 msgid "Add at least {minItems} blocks."
 msgstr "เพิ่มอย่างน้อย {minItems} บล็อก"
 
@@ -1249,7 +1249,7 @@ msgstr "เพิ่มอย่างน้อย {minItems} บล็อก"
 msgid "Add at least one sub-field to define the repeater structure."
 msgstr "เพิ่มฟิลด์ย่อยอย่างน้อยหนึ่งฟิลด์เพื่อกำหนดโครงสร้างของตัวทำซ้ำ"
 
-#: packages/admin/src/components/BlocksField.tsx:173
+#: packages/admin/src/components/BlocksField.tsx:176
 msgid "Add block"
 msgstr "เพิ่มบล็อก"
 
@@ -1360,8 +1360,8 @@ msgstr "เพิ่มแท็ก meta noindex"
 msgid "Add Passkey"
 msgstr "เพิ่ม Passkey"
 
-#: packages/admin/src/components/ContentEditor.tsx:2840
-#: packages/admin/src/components/ContentEditor.tsx:2840
+#: packages/admin/src/components/ContentEditor.tsx:2843
+#: packages/admin/src/components/ContentEditor.tsx:2843
 msgid "Add reference"
 msgstr "เพิ่มการอ้างอิง"
 
@@ -1898,11 +1898,11 @@ msgstr "ผู้ช่วยที่เชื่อมต่อผ่าน MC
 msgid "Astro"
 msgstr "Astro"
 
-#: packages/admin/src/components/ContentEditor.tsx:2951
+#: packages/admin/src/components/ContentEditor.tsx:2954
 msgid "At least {min}"
 msgstr "อย่างน้อย {min}"
 
-#: packages/admin/src/components/ContentEditor.tsx:2948
+#: packages/admin/src/components/ContentEditor.tsx:2951
 msgid "At most {max}"
 msgstr "ไม่เกิน {max}"
 
@@ -2070,7 +2070,7 @@ msgstr ""
 msgid "Back"
 msgstr "ย้อนกลับ"
 
-#: packages/admin/src/components/ContentEditor.tsx:1470
+#: packages/admin/src/components/ContentEditor.tsx:1472
 msgid "Back to {collectionLabel} list"
 msgstr "กลับไปยังรายการ {collectionLabel}"
 
@@ -2166,7 +2166,7 @@ msgstr "ก่อนส่ง:"
 msgid "Before you continue:"
 msgstr "ก่อนดำเนินการต่อ:"
 
-#: packages/admin/src/components/ContentEditor.tsx:2945
+#: packages/admin/src/components/ContentEditor.tsx:2948
 msgid "Between {min} and {max}"
 msgstr "ระหว่าง {min} ถึง {max}"
 
@@ -2184,7 +2184,7 @@ msgid "Block"
 msgstr ""
 
 #. placeholder {0}: index + 1
-#: packages/admin/src/components/BlocksField.tsx:406
+#: packages/admin/src/components/BlocksField.tsx:415
 msgid "Block {0}"
 msgstr "บล็อก {0}"
 
@@ -2924,7 +2924,7 @@ msgstr "ปิดการตั้งค่ารูปภาพ"
 msgid "Close panel"
 msgstr "ปิดแผง"
 
-#: packages/admin/src/components/ContentEditor.tsx:2040
+#: packages/admin/src/components/ContentEditor.tsx:2042
 msgid "Close settings"
 msgstr "ปิดการตั้งค่า"
 
@@ -2944,7 +2944,7 @@ msgstr "บล็อกโค้ด"
 msgid "Code block actions"
 msgstr "การดำเนินการกับบล็อกโค้ด"
 
-#: packages/admin/src/components/BlocksField.tsx:347
+#: packages/admin/src/components/BlocksField.tsx:350
 msgid "Collapse block"
 msgstr "ยุบบล็อก"
 
@@ -3418,7 +3418,7 @@ msgstr "ยืนยันไม่ได้ว่ารายการมีเ
 msgid "Couldn't detect WordPress"
 msgstr "ตรวจไม่พบ WordPress"
 
-#: packages/admin/src/components/ContentEditor.tsx:2819
+#: packages/admin/src/components/ContentEditor.tsx:2822
 msgid "Couldn't load all references."
 msgstr "โหลดการอ้างอิงทั้งหมดไม่สำเร็จ"
 
@@ -4001,7 +4001,7 @@ msgstr "ลบ {0} หรือไม่?"
 msgid "Delete backup?"
 msgstr "ลบข้อมูลสำรองหรือไม่?"
 
-#: packages/admin/src/components/BlocksField.tsx:382
+#: packages/admin/src/components/BlocksField.tsx:391
 #: packages/admin/src/components/editor/EmbedBlockShell.tsx:358
 msgid "Delete block"
 msgstr "ลบบล็อก"
@@ -4414,7 +4414,7 @@ msgstr "แสดงแท็กคลาวด์"
 msgid "Displayed below the image as a visible caption."
 msgstr "แสดงด้านล่างของรูปภาพเป็นคำบรรยายที่มองเห็นได้"
 
-#: packages/admin/src/components/ContentEditor.tsx:1586
+#: packages/admin/src/components/ContentEditor.tsx:1588
 msgid "Distraction-free mode (⌘⇧\\)"
 msgstr "โหมดไร้สิ่งรบกวน (⌘⇧\\)"
 
@@ -4641,7 +4641,7 @@ msgstr "ทำสำเนา"
 msgid "Duplicate {title}"
 msgstr "ทำสำเนา {title}"
 
-#: packages/admin/src/components/BlocksField.tsx:373
+#: packages/admin/src/components/BlocksField.tsx:382
 msgid "Duplicate block"
 msgstr "ทำสำเนาบล็อก"
 
@@ -4711,7 +4711,7 @@ msgstr "แก้ไข {0}"
 msgid "Edit {0} field"
 msgstr "แก้ไขฟิลด์ {0}"
 
-#: packages/admin/src/components/ContentEditor.tsx:1323
+#: packages/admin/src/components/ContentEditor.tsx:1325
 msgid "Edit {itemLabel}"
 msgstr "แก้ไข {itemLabel}"
 
@@ -5056,7 +5056,7 @@ msgstr "ป้อนเขตเวลาที่ถูกต้องเพื
 msgid "Enter a URL (https://…) or a relative path (/…)"
 msgstr "ป้อน URL (https://…) หรือพาธสัมพัทธ์ (/…)"
 
-#: packages/admin/src/components/ContentEditor.tsx:2993
+#: packages/admin/src/components/ContentEditor.tsx:2996
 msgid "Enter a valid URL (e.g. https://example.com)"
 msgstr "ป้อน URL ที่ถูกต้อง (เช่น https://example.com)"
 
@@ -5064,7 +5064,7 @@ msgstr "ป้อน URL ที่ถูกต้อง (เช่น https://ex
 msgid "Enter credentials manually"
 msgstr "ป้อนข้อมูลรับรองด้วยตนเอง"
 
-#: packages/admin/src/components/ContentEditor.tsx:1581
+#: packages/admin/src/components/ContentEditor.tsx:1583
 msgid "Enter distraction-free mode"
 msgstr "เข้าสู่โหมดไร้สิ่งรบกวน"
 
@@ -5072,7 +5072,7 @@ msgstr "เข้าสู่โหมดไร้สิ่งรบกวน"
 msgid "Enter email"
 msgstr "ป้อนอีเมล"
 
-#: packages/admin/src/components/ContentEditor.tsx:2337
+#: packages/admin/src/components/ContentEditor.tsx:2340
 msgid "Enter markdown content..."
 msgstr "ป้อนเนื้อหา Markdown..."
 
@@ -5207,15 +5207,15 @@ msgstr "ทำดัชนีเนื้อหาที่มีอยู่แ
 msgid "Exists"
 msgstr "มีอยู่"
 
-#: packages/admin/src/components/ContentEditor.tsx:1581
+#: packages/admin/src/components/ContentEditor.tsx:1583
 msgid "Exit distraction-free mode"
 msgstr "ออกจากโหมดไร้สิ่งรบกวน"
 
-#: packages/admin/src/components/ContentEditor.tsx:1585
+#: packages/admin/src/components/ContentEditor.tsx:1587
 msgid "Exit distraction-free mode (⌘⇧\\)"
 msgstr "ออกจากโหมดไร้สิ่งรบกวน (⌘⇧\\)"
 
-#: packages/admin/src/components/BlocksField.tsx:347
+#: packages/admin/src/components/BlocksField.tsx:350
 msgid "Expand block"
 msgstr "ขยายบล็อก"
 
@@ -5655,7 +5655,7 @@ msgstr ""
 msgid "Failed to fetch API tokens"
 msgstr ""
 
-#: packages/admin/src/lib/api/client.ts:369
+#: packages/admin/src/lib/api/client.ts:371
 msgid "Failed to fetch auth mode"
 msgstr "ดึงข้อมูลโหมดการยืนยันตัวตนไม่สำเร็จ"
 
@@ -5729,7 +5729,7 @@ msgstr "ดึงข้อมูลเทอมของรายการไม
 msgid "Failed to fetch fields"
 msgstr ""
 
-#: packages/admin/src/lib/api/client.ts:352
+#: packages/admin/src/lib/api/client.ts:354
 msgid "Failed to fetch manifest"
 msgstr "ดึงข้อมูล manifest ไม่สำเร็จ"
 
@@ -6557,11 +6557,11 @@ msgstr "การเผยแพร่ครั้งแรก"
 msgid "First-time commenters only"
 msgstr "เฉพาะผู้แสดงความคิดเห็นครั้งแรกเท่านั้น"
 
-#: packages/admin/src/components/ContentEditor.tsx:1303
+#: packages/admin/src/components/ContentEditor.tsx:1305
 msgid "Fix invalid fields before changing the publication date"
 msgstr "แก้ไขฟิลด์ที่ไม่ถูกต้องก่อนเปลี่ยนวันที่เผยแพร่"
 
-#: packages/admin/src/components/ContentEditor.tsx:1247
+#: packages/admin/src/components/ContentEditor.tsx:1249
 msgid "Fix invalid fields before changing the schedule"
 msgstr "แก้ไขฟิลด์ที่ไม่ถูกต้องก่อนเปลี่ยนกำหนดเวลา"
 
@@ -6909,7 +6909,7 @@ msgstr "การเข้าชม"
 msgid "Hold an entry while someone is editing it, and refuse other writers"
 msgstr "กันรายการไว้ขณะมีผู้แก้ไขอยู่ และปฏิเสธผู้เขียนรายอื่น"
 
-#: packages/admin/src/components/ContentEditor.tsx:2510
+#: packages/admin/src/components/ContentEditor.tsx:2513
 msgid "Holds an entry ID. Set a target collection under Content Types to pick entries instead."
 msgstr "เก็บ ID ของรายการ ตั้งค่าคอลเลกชันเป้าหมายในประเภทเนื้อหาเพื่อเลือกรายการแทน"
 
@@ -7264,7 +7264,7 @@ msgstr "อยู่ในถังขยะ"
 msgid "In Windows Settings, open Accounts, then Sign-in options, and set up a PIN. Fingerprint and face recognition are optional."
 msgstr "ในการตั้งค่า Windows ให้เปิด Accounts แล้วเลือก Sign-in options และตั้งค่า PIN การใช้ลายนิ้วมือและการจดจำใบหน้าเป็นตัวเลือกเสริม"
 
-#: packages/admin/src/components/BlocksField.tsx:359
+#: packages/admin/src/components/BlocksField.tsx:364
 msgid "Inactive version"
 msgstr "เวอร์ชันที่ไม่ได้ใช้งาน"
 
@@ -7461,7 +7461,7 @@ msgstr "HANDLE ไม่ถูกต้อง"
 msgid "Invalid invite link"
 msgstr "ลิงก์คำเชิญไม่ถูกต้อง"
 
-#: packages/admin/src/components/ContentEditor.tsx:3064
+#: packages/admin/src/components/ContentEditor.tsx:3067
 msgid "Invalid JSON"
 msgstr "JSON ไม่ถูกต้อง"
 
@@ -7984,7 +7984,7 @@ msgstr "กำลังโหลดปลั๊กอิน..."
 msgid "Loading redirects..."
 msgstr "กำลังโหลดการเปลี่ยนเส้นทาง..."
 
-#: packages/admin/src/components/ContentEditor.tsx:2827
+#: packages/admin/src/components/ContentEditor.tsx:2830
 msgid "Loading references..."
 msgstr "กำลังโหลดการอ้างอิง..."
 
@@ -8595,7 +8595,7 @@ msgstr "ย้าย \"{title}\" ไปยังถังขยะ? คุณส
 #. placeholder {0}: blockType.label
 #. placeholder {0}: referenceRowLabel(row)
 #. placeholder {0}: term.label
-#: packages/admin/src/components/ContentEditor.tsx:2794
+#: packages/admin/src/components/ContentEditor.tsx:2797
 #: packages/admin/src/components/FieldEditor.tsx:1159
 #: packages/admin/src/components/TaxonomyManager.tsx:461
 msgid "Move {0} down"
@@ -8619,7 +8619,7 @@ msgstr "ย้าย {0} ไปถัดไป"
 #. placeholder {0}: blockType.label
 #. placeholder {0}: referenceRowLabel(row)
 #. placeholder {0}: term.label
-#: packages/admin/src/components/ContentEditor.tsx:2783
+#: packages/admin/src/components/ContentEditor.tsx:2786
 #: packages/admin/src/components/FieldEditor.tsx:1142
 #: packages/admin/src/components/TaxonomyManager.tsx:448
 msgid "Move {0} up"
@@ -8807,7 +8807,7 @@ msgstr "ใหม่"
 msgid "NEW"
 msgstr "ใหม่"
 
-#: packages/admin/src/components/ContentEditor.tsx:1323
+#: packages/admin/src/components/ContentEditor.tsx:1325
 msgid "New {itemLabel}"
 msgstr "{itemLabel}ใหม่"
 
@@ -8977,7 +8977,7 @@ msgstr "ยังไม่มีความคิดเห็นที่อน
 msgid "No block types defined"
 msgstr "ยังไม่มีการกำหนดประเภทบล็อก"
 
-#: packages/admin/src/components/BlocksField.tsx:226
+#: packages/admin/src/components/BlocksField.tsx:229
 msgid "No blocks yet"
 msgstr "ยังไม่มีบล็อก"
 
@@ -9163,7 +9163,7 @@ msgstr "ไม่พบรายการที่ตรงกัน"
 msgid "No matches. Press Enter to use “{freeFormLanguage}”."
 msgstr "ไม่พบรายการที่ตรงกัน กด Enter เพื่อใช้ “{freeFormLanguage}”"
 
-#: packages/admin/src/components/BlocksField.tsx:217
+#: packages/admin/src/components/BlocksField.tsx:220
 msgid "No matching block types"
 msgstr "ไม่มีประเภทบล็อกที่ตรงกัน"
 
@@ -9271,7 +9271,7 @@ msgstr "ไม่มีกิจกรรมล่าสุด"
 msgid "No redirects yet"
 msgstr "ยังไม่มีการเปลี่ยนเส้นทาง"
 
-#: packages/admin/src/components/ContentEditor.tsx:2739
+#: packages/admin/src/components/ContentEditor.tsx:2742
 msgid "No references selected."
 msgstr "ยังไม่ได้เลือกการอ้างอิง"
 
@@ -9497,7 +9497,7 @@ msgid "Open"
 msgstr "เปิด"
 
 #. placeholder {0}: referenceRowLabel(row)
-#: packages/admin/src/components/ContentEditor.tsx:2772
+#: packages/admin/src/components/ContentEditor.tsx:2775
 msgid "Open {0} in a new tab"
 msgstr "เปิด {0} ในแท็บใหม่"
 
@@ -9642,7 +9642,7 @@ msgstr "ครอบตัดรูปภาพต้นฉบับแล้ว
 msgid "Original:"
 msgstr "ต้นฉบับ:"
 
-#: packages/admin/src/components/BlocksField.tsx:146
+#: packages/admin/src/components/BlocksField.tsx:149
 msgid "Other"
 msgstr "อื่น ๆ"
 
@@ -9964,7 +9964,7 @@ msgstr "การดำเนินการของปลั๊กอินล
 msgid "Plugin actions"
 msgstr "การดำเนินการของปลั๊กอิน"
 
-#: packages/admin/src/components/ContentEditor.tsx:1642
+#: packages/admin/src/components/ContentEditor.tsx:1644
 msgid "Plugin changes were not applied"
 msgstr "ไม่ได้นำการเปลี่ยนแปลงจากปลั๊กอินไปใช้"
 
@@ -10677,7 +10677,7 @@ msgstr ""
 
 #: packages/admin/src/components/BlockKitMediaPickerField.tsx:84
 #: packages/admin/src/components/BlockKitMediaPickerField.tsx:115
-#: packages/admin/src/components/ContentEditor.tsx:3225
+#: packages/admin/src/components/ContentEditor.tsx:3228
 #: packages/admin/src/components/editor/GalleryDetailPanel.tsx:473
 #: packages/admin/src/components/editor/ImageDetailPanel.tsx:357
 #: packages/admin/src/components/editor/ImageDetailPanel.tsx:813
@@ -10697,7 +10697,7 @@ msgstr "นำออก"
 #. placeholder {0}: job.file.name
 #. placeholder {0}: option.term.label
 #. placeholder {0}: passkey.name
-#: packages/admin/src/components/ContentEditor.tsx:2807
+#: packages/admin/src/components/ContentEditor.tsx:2810
 #: packages/admin/src/components/media/MediaBrowserItems.tsx:219
 #: packages/admin/src/components/MediaUploadDialog.tsx:144
 #: packages/admin/src/components/settings/PasskeyItem.tsx:161
@@ -10714,7 +10714,7 @@ msgstr "นำ {0} ออกจากรายการที่เลือก"
 msgid "Remove {entry}"
 msgstr "นำออก {entry}"
 
-#: packages/admin/src/components/ContentEditor.tsx:3223
+#: packages/admin/src/components/ContentEditor.tsx:3226
 msgid "Remove {label}"
 msgstr "นำออก {label}"
 
@@ -10825,7 +10825,7 @@ msgstr "จัดลำดับใหม่"
 #. placeholder {0}: blockType?.label ?? block._type
 #. placeholder {0}: byline.displayName
 #. placeholder {0}: collection.label
-#: packages/admin/src/components/BlocksField.tsx:337
+#: packages/admin/src/components/BlocksField.tsx:340
 #: packages/admin/src/components/BylineCreditsEditor.tsx:836
 #: packages/admin/src/components/ContentTypeList.tsx:310
 msgid "Reorder {0}"
@@ -10844,8 +10844,8 @@ msgstr "กลุ่มฟิลด์ที่ทำซ้ำได้"
 msgid "visualEditing.replaceImage"
 msgstr ""
 
-#: packages/admin/src/components/ContentEditor.tsx:3215
-#: packages/admin/src/components/ContentEditor.tsx:3252
+#: packages/admin/src/components/ContentEditor.tsx:3218
+#: packages/admin/src/components/ContentEditor.tsx:3255
 #: packages/admin/src/components/editor/GalleryDetailPanel.tsx:449
 #: packages/admin/src/components/editor/GalleryDetailPanel.tsx:506
 #: packages/admin/src/components/editor/ImageDetailPanel.tsx:298
@@ -10861,7 +10861,7 @@ msgstr ""
 msgid "Replace"
 msgstr "แทนที่"
 
-#: packages/admin/src/components/ContentEditor.tsx:3251
+#: packages/admin/src/components/ContentEditor.tsx:3254
 #: packages/admin/src/components/ImageFieldRenderer.tsx:578
 msgid "Replace {label}"
 msgstr "แทนที่ {label}"
@@ -10896,7 +10896,7 @@ msgstr "แทนที่รูปภาพต้นฉบับหรือไ
 msgid "Replace original is available with the Original aspect ratio."
 msgstr "แทนที่ต้นฉบับได้เมื่อใช้อัตราส่วนภาพแบบต้นฉบับ"
 
-#: packages/admin/src/components/ContentEditor.tsx:2840
+#: packages/admin/src/components/ContentEditor.tsx:2843
 msgid "Replace reference"
 msgstr "แทนที่การอ้างอิง"
 
@@ -10937,7 +10937,7 @@ msgstr "ที่เก็บข้อมูล"
 msgid "Request a new link"
 msgstr "ขอลิงก์ใหม่"
 
-#: packages/admin/src/lib/api/client.ts:340
+#: packages/admin/src/lib/api/client.ts:342
 msgid "Request failed"
 msgstr "คำขอไม่สำเร็จ"
 
@@ -11032,7 +11032,7 @@ msgstr "ปรับขนาดการครอบตัดจากมุม
 msgid "Resize crop from top-right corner. Use the Arrow keys to resize."
 msgstr "ปรับขนาดการครอบตัดจากมุมขวาบน ใช้ปุ่มลูกศรเพื่อปรับขนาด"
 
-#: packages/admin/src/components/ContentEditor.tsx:1855
+#: packages/admin/src/components/ContentEditor.tsx:1857
 msgid "Resize settings panel"
 msgstr "ปรับขนาดแผงการตั้งค่า"
 
@@ -11083,13 +11083,13 @@ msgstr "กำลังกู้คืน..."
 msgid "Results"
 msgstr "ผลลัพธ์"
 
-#: packages/admin/src/components/BlocksField.tsx:360
+#: packages/admin/src/components/BlocksField.tsx:365
 #: packages/admin/src/components/FieldEditor.tsx:1126
 msgid "Retired"
 msgstr "เลิกใช้แล้ว"
 
 #: packages/admin/src/components/BylineCreditsEditor.tsx:475
-#: packages/admin/src/components/ContentEditor.tsx:2821
+#: packages/admin/src/components/ContentEditor.tsx:2824
 #: packages/admin/src/components/ContentPickerModal.tsx:278
 #: packages/admin/src/components/MarketplaceBrowse.tsx:143
 #: packages/admin/src/components/media/MediaBrowserItems.tsx:217
@@ -11362,7 +11362,7 @@ msgstr "บันทึก (Enter)"
 msgid "Save alt text"
 msgstr "บันทึกข้อความแสดงแทน"
 
-#: packages/admin/src/components/ContentEditor.tsx:1668
+#: packages/admin/src/components/ContentEditor.tsx:1670
 msgid "Save anyway"
 msgstr "บันทึกต่อไป"
 
@@ -11608,11 +11608,11 @@ msgstr "ค้นหา {label}"
 msgid "Search {label}…"
 msgstr "ค้นหา {label}…"
 
-#: packages/admin/src/components/BlocksField.tsx:181
+#: packages/admin/src/components/BlocksField.tsx:184
 msgid "Search block types"
 msgstr "ค้นหาประเภทบล็อก"
 
-#: packages/admin/src/components/BlocksField.tsx:184
+#: packages/admin/src/components/BlocksField.tsx:187
 msgid "Search blocks"
 msgstr "ค้นหาบล็อก"
 
@@ -11873,8 +11873,8 @@ msgid "Select"
 msgstr "เลือก"
 
 #: packages/admin/src/components/BlockKitMediaPickerField.tsx:140
-#: packages/admin/src/components/ContentEditor.tsx:3235
-#: packages/admin/src/components/ContentEditor.tsx:3251
+#: packages/admin/src/components/ContentEditor.tsx:3238
+#: packages/admin/src/components/ContentEditor.tsx:3254
 #: packages/admin/src/components/ImageFieldRenderer.tsx:579
 msgid "Select {label}"
 msgstr "เลือก {label}"
@@ -11920,7 +11920,7 @@ msgstr "เลือกทั้งหมด"
 msgid "Select all on this page"
 msgstr "เลือกทั้งหมดในหน้านี้"
 
-#: packages/admin/src/components/ContentEditor.tsx:2735
+#: packages/admin/src/components/ContentEditor.tsx:2738
 msgid "Select at least one entry."
 msgstr "เลือกอย่างน้อยหนึ่งรายการ"
 
@@ -11953,7 +11953,7 @@ msgstr "เลือก Favicon"
 msgid "Select Favicon"
 msgstr "เลือก Favicon"
 
-#: packages/admin/src/components/ContentEditor.tsx:3239
+#: packages/admin/src/components/ContentEditor.tsx:3242
 #: packages/admin/src/components/MediaPickerModal.tsx:232
 msgid "Select file"
 msgstr "เลือกไฟล์"
@@ -12176,8 +12176,8 @@ msgid "Setting up..."
 msgstr "กำลังตั้งค่า..."
 
 #: packages/admin/src/components/AdminCommandPalette.tsx:247
-#: packages/admin/src/components/ContentEditor.tsx:1729
-#: packages/admin/src/components/ContentEditor.tsx:2026
+#: packages/admin/src/components/ContentEditor.tsx:1731
+#: packages/admin/src/components/ContentEditor.tsx:2028
 #: packages/admin/src/components/ContentTypeEditor.tsx:465
 #: packages/admin/src/components/Header.tsx:102
 #: packages/admin/src/components/PluginManager.tsx:530
@@ -12637,7 +12637,7 @@ msgstr "เริ่มต้นด้วยโพสต์และหน้า
 msgid "Start writing with plain text"
 msgstr ""
 
-#: packages/admin/src/components/ContentEditor.tsx:2298
+#: packages/admin/src/components/ContentEditor.tsx:2301
 #: packages/admin/src/components/PortableTextEditor.tsx:3434
 msgid "Start writing, or type '/' for commands"
 msgstr "เริ่มเขียน หรือพิมพ์ '/' เพื่อดูคำสั่ง"
@@ -13227,8 +13227,8 @@ msgstr "แสดงผลวิดเจ็ตฟิลด์ของปลั
 msgid "The plugin has not saved these changes. Review them before updating the editor."
 msgstr "ปลั๊กอินยังไม่ได้บันทึกการเปลี่ยนแปลงเหล่านี้ ตรวจสอบก่อนอัปเดตตัวแก้ไข"
 
-#: packages/admin/src/components/ContentEditor.tsx:969
-#: packages/admin/src/components/ContentEditor.tsx:985
+#: packages/admin/src/components/ContentEditor.tsx:971
+#: packages/admin/src/components/ContentEditor.tsx:987
 msgid "The plugin result is stale because the editor changed while it was working."
 msgstr "ผลลัพธ์ของปลั๊กอินล้าสมัยแล้ว เพราะตัวแก้ไขเปลี่ยนไประหว่างที่ปลั๊กอินทำงาน"
 
@@ -13359,7 +13359,7 @@ msgstr "เครื่องมือเหล่านี้จะยังป
 msgid "This also removes:"
 msgstr "การดำเนินการนี้จะนำสิ่งต่อไปนี้ออกด้วย:"
 
-#: packages/admin/src/components/BlocksField.tsx:394
+#: packages/admin/src/components/BlocksField.tsx:403
 msgid "This block cannot be edited because its stored definition is unavailable."
 msgstr "แก้ไขบล็อกนี้ไม่ได้ เพราะไม่มีคำจำกัดความที่จัดเก็บไว้ของบล็อก"
 
@@ -13414,11 +13414,11 @@ msgstr "อุปกรณ์นี้กำลังขอสิทธิ์ใ
 msgid "This doesn't look like a valid migration key. Generate a new one in the plugin and paste the full string starting with \"em1.\"."
 msgstr "นี่ไม่เหมือนคีย์การย้ายข้อมูลที่ถูกต้อง ให้สร้างคีย์ใหม่ในปลั๊กอิน แล้ววางสตริงเต็มที่ขึ้นต้นด้วย \"em1.\""
 
-#: packages/admin/src/components/ContentEditor.tsx:1664
+#: packages/admin/src/components/ContentEditor.tsx:1666
 msgid "This entry changed somewhere else after you opened it."
 msgstr "รายการนี้ถูกเปลี่ยนจากที่อื่นหลังจากที่คุณเปิด"
 
-#: packages/admin/src/components/ContentEditor.tsx:1253
+#: packages/admin/src/components/ContentEditor.tsx:1255
 #: packages/admin/src/router.tsx:1053
 msgid "This entry changed somewhere else. Save anyway, or reload to get the newer version."
 msgstr "รายการนี้ถูกเปลี่ยนจากที่อื่น บันทึกต่อไป หรือโหลดใหม่เพื่อรับเวอร์ชันที่ใหม่กว่า"
@@ -13439,7 +13439,7 @@ msgstr "รายการนี้ยังไม่มี URL จนกว่�
 msgid "This entry is open somewhere else"
 msgstr "รายการนี้เปิดอยู่ที่อื่น"
 
-#: packages/admin/src/components/ContentEditor.tsx:1651
+#: packages/admin/src/components/ContentEditor.tsx:1653
 msgid "This entry is read-only because its schema uses field types this version of EmDash does not support."
 msgstr "รายการนี้เป็นแบบอ่านอย่างเดียว เพราะสคีมาใช้ประเภทฟิลด์ที่ EmDash เวอร์ชันนี้ไม่รองรับ"
 
@@ -13451,7 +13451,7 @@ msgstr "รายการนี้ถึงกำหนด {lateness} แต่
 msgid "This export is large"
 msgstr "การส่งออกนี้มีขนาดใหญ่"
 
-#: packages/admin/src/components/ContentEditor.tsx:2127
+#: packages/admin/src/components/ContentEditor.tsx:2129
 msgid "This field cannot be edited by this version of EmDash."
 msgstr "EmDash เวอร์ชันนี้แก้ไขฟิลด์นี้ไม่ได้"
 
@@ -13476,7 +13476,7 @@ msgstr "ฟิลด์นี้ไม่รับไฟล์ {mimeType}"
 msgid "This field expects a list. The stored value stays unchanged until you replace it with an empty list, which deletes it. Copy anything you need from it first."
 msgstr "ฟิลด์นี้ต้องการรายการแบบลิสต์ ค่าที่จัดเก็บไว้จะไม่เปลี่ยนจนกว่าคุณจะแทนที่ด้วยลิสต์ว่าง ซึ่งจะลบค่านั้น คัดลอกสิ่งที่ต้องการออกมาก่อน"
 
-#: packages/admin/src/components/ContentEditor.tsx:3255
+#: packages/admin/src/components/ContentEditor.tsx:3258
 #: packages/admin/src/components/ImageFieldRenderer.tsx:598
 msgid "This field is required"
 msgstr "ฟิลด์นี้ต้องระบุ"
@@ -14206,7 +14206,7 @@ msgstr "เนื้อหาที่ยังไม่บันทึกอา
 msgid "Unscheduled"
 msgstr "ยกเลิกการกำหนดเวลาแล้ว"
 
-#: packages/admin/src/components/BlocksField.tsx:361
+#: packages/admin/src/components/BlocksField.tsx:366
 #: packages/admin/src/components/ContentTypeEditor.tsx:948
 msgid "Unsupported"
 msgstr "ไม่รองรับ"
@@ -14226,7 +14226,7 @@ msgstr "จนถึง {0}"
 msgid "Untitled"
 msgstr "ไม่มีชื่อ"
 
-#: packages/admin/src/components/ContentEditor.tsx:3157
+#: packages/admin/src/components/ContentEditor.tsx:3160
 msgid "Untitled file"
 msgstr "ไฟล์ไม่มีชื่อ"
 
@@ -14557,7 +14557,7 @@ msgstr "ใช้เป็นรูปภาพ Open Graph สำรองเม
 msgid "Used as the identifier. Lowercase letters, numbers, and underscores only."
 msgstr "ใช้เป็นตัวระบุ ใช้ได้เฉพาะตัวอักษรพิมพ์เล็ก ตัวเลข และขีดล่างเท่านั้น"
 
-#: packages/admin/src/components/ContentEditor.tsx:2421
+#: packages/admin/src/components/ContentEditor.tsx:2424
 msgid "Used as the main visual for this post on listing pages and at the top of the post"
 msgstr "ใช้เป็นภาพหลักของโพสต์นี้ในหน้ารายการและที่ส่วนบนของโพสต์"
 
@@ -14684,7 +14684,7 @@ msgstr "เวอร์ชัน"
 #. placeholder {0}: block._version
 #. placeholder {0}: release.version
 #. placeholder {0}: version.version
-#: packages/admin/src/components/BlocksField.tsx:358
+#: packages/admin/src/components/BlocksField.tsx:363
 #: packages/admin/src/components/BlockTypeList.tsx:42
 #: packages/admin/src/components/RegistryPluginDetail.tsx:556
 msgid "Version {0}"
@@ -14876,7 +14876,7 @@ msgstr "สิ่งที่จะถูกนำเข้า"
 msgid "What will happen when you import"
 msgstr "สิ่งที่จะเกิดขึ้นเมื่อคุณนำเข้า"
 
-#: packages/admin/src/components/ContentEditor.tsx:1665
+#: packages/admin/src/components/ContentEditor.tsx:1667
 msgid "What you typed is still here. Saving replaces the newer version."
 msgstr "ข้อความที่คุณพิมพ์ยังอยู่ การบันทึกจะแทนที่เวอร์ชันที่ใหม่กว่า"
 

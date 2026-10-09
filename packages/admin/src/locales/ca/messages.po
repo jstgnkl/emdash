@@ -61,12 +61,12 @@ msgid "{0, plural, one {(# item)} other {(# items)}}"
 msgstr "{0, plural, one {(# element)} other {(# elements)}}"
 
 #. placeholder {0}: bounds.max
-#: packages/admin/src/components/ContentEditor.tsx:2918
+#: packages/admin/src/components/ContentEditor.tsx:2921
 msgid "{0, plural, one {{counted} of # character, at least {min}} other {{counted} of # characters, at least {min}}}"
 msgstr "{0, plural, one {{counted} de # caràcter, com a mínim {min}} other {{counted} de # caràcters, com a mínim {min}}}"
 
 #. placeholder {0}: bounds.max
-#: packages/admin/src/components/ContentEditor.tsx:2923
+#: packages/admin/src/components/ContentEditor.tsx:2926
 msgid "{0, plural, one {{counted} of # character} other {{counted} of # characters}}"
 msgstr "{0, plural, one {{counted} de # caràcter} other {{counted} de # caràcters}}"
 
@@ -258,7 +258,7 @@ msgid "{0, plural, one {Add # video} other {Add # videos}}"
 msgstr ""
 
 #. placeholder {0}: bounds.min
-#: packages/admin/src/components/ContentEditor.tsx:2928
+#: packages/admin/src/components/ContentEditor.tsx:2931
 msgid "{0, plural, one {At least # character} other {At least # characters}}"
 msgstr "{0, plural, one {Com a mínim # caràcter} other {Com a mínim # caràcters}}"
 
@@ -1047,7 +1047,7 @@ msgstr "Falta un fitxer del paquet"
 msgid "A publication time has not been selected"
 msgstr "No s'ha seleccionat cap hora de publicació"
 
-#: packages/admin/src/components/ContentEditor.tsx:1243
+#: packages/admin/src/components/ContentEditor.tsx:1245
 msgid "A publishing action is already in progress"
 msgstr "Ja hi ha una acció de publicació en curs"
 
@@ -1241,7 +1241,7 @@ msgstr "Afegeix una persona o un equip per atribuir-li crèdit al teu contingut.
 msgid "Add another byline"
 msgstr "Afegeix una altra signatura"
 
-#: packages/admin/src/components/BlocksField.tsx:272
+#: packages/admin/src/components/BlocksField.tsx:275
 msgid "Add at least {minItems} blocks."
 msgstr "Afegeix com a mínim {minItems} blocs."
 
@@ -1249,7 +1249,7 @@ msgstr "Afegeix com a mínim {minItems} blocs."
 msgid "Add at least one sub-field to define the repeater structure."
 msgstr "Afegeix com a mínim un subcamp per definir l'estructura del repetidor."
 
-#: packages/admin/src/components/BlocksField.tsx:173
+#: packages/admin/src/components/BlocksField.tsx:176
 msgid "Add block"
 msgstr "Afegeix un bloc"
 
@@ -1360,8 +1360,8 @@ msgstr "Afegeix l'etiqueta meta noindex"
 msgid "Add Passkey"
 msgstr "Afegeix una clau d'accés"
 
-#: packages/admin/src/components/ContentEditor.tsx:2840
-#: packages/admin/src/components/ContentEditor.tsx:2840
+#: packages/admin/src/components/ContentEditor.tsx:2843
+#: packages/admin/src/components/ContentEditor.tsx:2843
 msgid "Add reference"
 msgstr "Afegeix una referència"
 
@@ -1898,11 +1898,11 @@ msgstr "Els assistents connectats mitjançant MCP necessiten l'aprovació d'un a
 msgid "Astro"
 msgstr "Astro"
 
-#: packages/admin/src/components/ContentEditor.tsx:2951
+#: packages/admin/src/components/ContentEditor.tsx:2954
 msgid "At least {min}"
 msgstr "Com a mínim {min}"
 
-#: packages/admin/src/components/ContentEditor.tsx:2948
+#: packages/admin/src/components/ContentEditor.tsx:2951
 msgid "At most {max}"
 msgstr "Com a màxim {max}"
 
@@ -2070,7 +2070,7 @@ msgstr "visualEditing.back"
 msgid "Back"
 msgstr "Enrere"
 
-#: packages/admin/src/components/ContentEditor.tsx:1470
+#: packages/admin/src/components/ContentEditor.tsx:1472
 msgid "Back to {collectionLabel} list"
 msgstr "Torna a la llista {collectionLabel}"
 
@@ -2166,7 +2166,7 @@ msgstr "Abans d'enviar:"
 msgid "Before you continue:"
 msgstr "Abans de continuar:"
 
-#: packages/admin/src/components/ContentEditor.tsx:2945
+#: packages/admin/src/components/ContentEditor.tsx:2948
 msgid "Between {min} and {max}"
 msgstr "Entre {min} i {max}"
 
@@ -2184,7 +2184,7 @@ msgid "Block"
 msgstr ""
 
 #. placeholder {0}: index + 1
-#: packages/admin/src/components/BlocksField.tsx:406
+#: packages/admin/src/components/BlocksField.tsx:415
 msgid "Block {0}"
 msgstr "Bloc {0}"
 
@@ -2924,7 +2924,7 @@ msgstr "Tanca la configuració de la imatge"
 msgid "Close panel"
 msgstr "Tanca el tauler"
 
-#: packages/admin/src/components/ContentEditor.tsx:2040
+#: packages/admin/src/components/ContentEditor.tsx:2042
 msgid "Close settings"
 msgstr "Tanca la configuració"
 
@@ -2944,7 +2944,7 @@ msgstr "Bloc de codi"
 msgid "Code block actions"
 msgstr "Accions del bloc de codi"
 
-#: packages/admin/src/components/BlocksField.tsx:347
+#: packages/admin/src/components/BlocksField.tsx:350
 msgid "Collapse block"
 msgstr "Replega el bloc"
 
@@ -3418,7 +3418,7 @@ msgstr "No s'ha pogut confirmar si l'element multimèdia o la carpeta selecciona
 msgid "Couldn't detect WordPress"
 msgstr "No s'ha pogut detectar WordPress"
 
-#: packages/admin/src/components/ContentEditor.tsx:2819
+#: packages/admin/src/components/ContentEditor.tsx:2822
 msgid "Couldn't load all references."
 msgstr "No s'han pogut carregar totes les referències."
 
@@ -4001,7 +4001,7 @@ msgstr "Vols eliminar {0}?"
 msgid "Delete backup?"
 msgstr "Vols eliminar la còpia de seguretat?"
 
-#: packages/admin/src/components/BlocksField.tsx:382
+#: packages/admin/src/components/BlocksField.tsx:391
 #: packages/admin/src/components/editor/EmbedBlockShell.tsx:358
 msgid "Delete block"
 msgstr "Elimina el bloc"
@@ -4414,7 +4414,7 @@ msgstr "Mostra el núvol d'etiquetes"
 msgid "Displayed below the image as a visible caption."
 msgstr "Es mostra sota la imatge com a llegenda visible."
 
-#: packages/admin/src/components/ContentEditor.tsx:1586
+#: packages/admin/src/components/ContentEditor.tsx:1588
 msgid "Distraction-free mode (⌘⇧\\)"
 msgstr "Mode sense distraccions (⌘⇧\\)"
 
@@ -4641,7 +4641,7 @@ msgstr "Duplica"
 msgid "Duplicate {title}"
 msgstr "Duplica {title}"
 
-#: packages/admin/src/components/BlocksField.tsx:373
+#: packages/admin/src/components/BlocksField.tsx:382
 msgid "Duplicate block"
 msgstr "Duplica el bloc"
 
@@ -4711,7 +4711,7 @@ msgstr "Edita {0}"
 msgid "Edit {0} field"
 msgstr "Edita el camp {0}"
 
-#: packages/admin/src/components/ContentEditor.tsx:1323
+#: packages/admin/src/components/ContentEditor.tsx:1325
 msgid "Edit {itemLabel}"
 msgstr "Edita {itemLabel}"
 
@@ -5056,7 +5056,7 @@ msgstr "Introdueix un fus horari reconegut per desar"
 msgid "Enter a URL (https://…) or a relative path (/…)"
 msgstr "Introdueix un URL (https://…) o una ruta relativa (/…)"
 
-#: packages/admin/src/components/ContentEditor.tsx:2993
+#: packages/admin/src/components/ContentEditor.tsx:2996
 msgid "Enter a valid URL (e.g. https://example.com)"
 msgstr "Introdueix un URL vàlid (p. ex. https://exemple.com)"
 
@@ -5064,7 +5064,7 @@ msgstr "Introdueix un URL vàlid (p. ex. https://exemple.com)"
 msgid "Enter credentials manually"
 msgstr "Introdueix les credencials manualment"
 
-#: packages/admin/src/components/ContentEditor.tsx:1581
+#: packages/admin/src/components/ContentEditor.tsx:1583
 msgid "Enter distraction-free mode"
 msgstr "Entra al mode sense distraccions"
 
@@ -5072,7 +5072,7 @@ msgstr "Entra al mode sense distraccions"
 msgid "Enter email"
 msgstr "Introdueix el correu electrònic"
 
-#: packages/admin/src/components/ContentEditor.tsx:2337
+#: packages/admin/src/components/ContentEditor.tsx:2340
 msgid "Enter markdown content..."
 msgstr "Introdueix contingut en Markdown..."
 
@@ -5207,15 +5207,15 @@ msgstr "El contingut existent està indexat. Els canvis nous es fan un seguiment
 msgid "Exists"
 msgstr "Existeix"
 
-#: packages/admin/src/components/ContentEditor.tsx:1581
+#: packages/admin/src/components/ContentEditor.tsx:1583
 msgid "Exit distraction-free mode"
 msgstr "Surt del mode sense distraccions"
 
-#: packages/admin/src/components/ContentEditor.tsx:1585
+#: packages/admin/src/components/ContentEditor.tsx:1587
 msgid "Exit distraction-free mode (⌘⇧\\)"
 msgstr "Surt del mode sense distraccions (⌘⇧\\)"
 
-#: packages/admin/src/components/BlocksField.tsx:347
+#: packages/admin/src/components/BlocksField.tsx:350
 msgid "Expand block"
 msgstr "Desplega el bloc"
 
@@ -5655,7 +5655,7 @@ msgstr ""
 msgid "Failed to fetch API tokens"
 msgstr ""
 
-#: packages/admin/src/lib/api/client.ts:369
+#: packages/admin/src/lib/api/client.ts:371
 msgid "Failed to fetch auth mode"
 msgstr "No s'ha pogut obtenir el mode d'autenticació"
 
@@ -5729,7 +5729,7 @@ msgstr "No s'han pogut obtenir els termes de l'entrada"
 msgid "Failed to fetch fields"
 msgstr ""
 
-#: packages/admin/src/lib/api/client.ts:352
+#: packages/admin/src/lib/api/client.ts:354
 msgid "Failed to fetch manifest"
 msgstr "No s'ha pogut obtenir el manifest"
 
@@ -6557,11 +6557,11 @@ msgstr "Primera publicació"
 msgid "First-time commenters only"
 msgstr "Només els qui comenten per primera vegada"
 
-#: packages/admin/src/components/ContentEditor.tsx:1303
+#: packages/admin/src/components/ContentEditor.tsx:1305
 msgid "Fix invalid fields before changing the publication date"
 msgstr "Corregeix els camps no vàlids abans de canviar la data de publicació"
 
-#: packages/admin/src/components/ContentEditor.tsx:1247
+#: packages/admin/src/components/ContentEditor.tsx:1249
 msgid "Fix invalid fields before changing the schedule"
 msgstr "Corregeix els camps no vàlids abans de canviar la programació"
 
@@ -6909,7 +6909,7 @@ msgstr "Coincidències"
 msgid "Hold an entry while someone is editing it, and refuse other writers"
 msgstr "Reté una entrada mentre algú l'edita i rebutja els altres escriptors"
 
-#: packages/admin/src/components/ContentEditor.tsx:2510
+#: packages/admin/src/components/ContentEditor.tsx:2513
 msgid "Holds an entry ID. Set a target collection under Content Types to pick entries instead."
 msgstr "Conté un ID d'entrada. Defineix una col·lecció de destinació a Tipus de contingut per triar entrades."
 
@@ -7264,7 +7264,7 @@ msgstr "A la paperera"
 msgid "In Windows Settings, open Accounts, then Sign-in options, and set up a PIN. Fingerprint and face recognition are optional."
 msgstr "A Configuració de Windows, obre Comptes i després Opcions d'inici de sessió, i configura un PIN. L'empremta i el reconeixement facial són opcionals."
 
-#: packages/admin/src/components/BlocksField.tsx:359
+#: packages/admin/src/components/BlocksField.tsx:364
 msgid "Inactive version"
 msgstr "Versió inactiva"
 
@@ -7461,7 +7461,7 @@ msgstr "IDENTIFICADOR NO VÀLID"
 msgid "Invalid invite link"
 msgstr "Enllaç d'invitació no vàlid"
 
-#: packages/admin/src/components/ContentEditor.tsx:3064
+#: packages/admin/src/components/ContentEditor.tsx:3067
 msgid "Invalid JSON"
 msgstr "JSON no vàlid"
 
@@ -7984,7 +7984,7 @@ msgstr "S'estan carregant els connectors..."
 msgid "Loading redirects..."
 msgstr "S'estan carregant les redireccions..."
 
-#: packages/admin/src/components/ContentEditor.tsx:2827
+#: packages/admin/src/components/ContentEditor.tsx:2830
 msgid "Loading references..."
 msgstr "S'estan carregant les referències..."
 
@@ -8595,7 +8595,7 @@ msgstr "Vols moure \"{title}\" a la paperera? El podràs restaurar més tard."
 #. placeholder {0}: blockType.label
 #. placeholder {0}: referenceRowLabel(row)
 #. placeholder {0}: term.label
-#: packages/admin/src/components/ContentEditor.tsx:2794
+#: packages/admin/src/components/ContentEditor.tsx:2797
 #: packages/admin/src/components/FieldEditor.tsx:1159
 #: packages/admin/src/components/TaxonomyManager.tsx:461
 msgid "Move {0} down"
@@ -8619,7 +8619,7 @@ msgstr "Mou {0} després"
 #. placeholder {0}: blockType.label
 #. placeholder {0}: referenceRowLabel(row)
 #. placeholder {0}: term.label
-#: packages/admin/src/components/ContentEditor.tsx:2783
+#: packages/admin/src/components/ContentEditor.tsx:2786
 #: packages/admin/src/components/FieldEditor.tsx:1142
 #: packages/admin/src/components/TaxonomyManager.tsx:448
 msgid "Move {0} up"
@@ -8807,7 +8807,7 @@ msgstr "nou"
 msgid "NEW"
 msgstr "NOU"
 
-#: packages/admin/src/components/ContentEditor.tsx:1323
+#: packages/admin/src/components/ContentEditor.tsx:1325
 msgid "New {itemLabel}"
 msgstr "Nou {itemLabel}"
 
@@ -8977,7 +8977,7 @@ msgstr "Encara no hi ha cap comentari aprovat."
 msgid "No block types defined"
 msgstr "No hi ha tipus de bloc definits"
 
-#: packages/admin/src/components/BlocksField.tsx:226
+#: packages/admin/src/components/BlocksField.tsx:229
 msgid "No blocks yet"
 msgstr "Encara no hi ha blocs"
 
@@ -9163,7 +9163,7 @@ msgstr "Cap coincidència"
 msgid "No matches. Press Enter to use “{freeFormLanguage}”."
 msgstr "Cap coincidència. Prem Enter per fer servir “{freeFormLanguage}”."
 
-#: packages/admin/src/components/BlocksField.tsx:217
+#: packages/admin/src/components/BlocksField.tsx:220
 msgid "No matching block types"
 msgstr "Cap tipus de bloc coincident"
 
@@ -9271,7 +9271,7 @@ msgstr "No hi ha activitat recent"
 msgid "No redirects yet"
 msgstr "Encara no hi ha cap redirecció"
 
-#: packages/admin/src/components/ContentEditor.tsx:2739
+#: packages/admin/src/components/ContentEditor.tsx:2742
 msgid "No references selected."
 msgstr "No s'ha seleccionat cap referència."
 
@@ -9497,7 +9497,7 @@ msgid "Open"
 msgstr "Obre"
 
 #. placeholder {0}: referenceRowLabel(row)
-#: packages/admin/src/components/ContentEditor.tsx:2772
+#: packages/admin/src/components/ContentEditor.tsx:2775
 msgid "Open {0} in a new tab"
 msgstr "Obre {0} en una pestanya nova"
 
@@ -9642,7 +9642,7 @@ msgstr "Imatge original retallada."
 msgid "Original:"
 msgstr "Original:"
 
-#: packages/admin/src/components/BlocksField.tsx:146
+#: packages/admin/src/components/BlocksField.tsx:149
 msgid "Other"
 msgstr "Altres"
 
@@ -9964,7 +9964,7 @@ msgstr "L'acció del connector ha fallat"
 msgid "Plugin actions"
 msgstr "Accions del connector"
 
-#: packages/admin/src/components/ContentEditor.tsx:1642
+#: packages/admin/src/components/ContentEditor.tsx:1644
 msgid "Plugin changes were not applied"
 msgstr "Els canvis del connector no s'han aplicat"
 
@@ -10677,7 +10677,7 @@ msgstr "visualEditing.removeImage"
 
 #: packages/admin/src/components/BlockKitMediaPickerField.tsx:84
 #: packages/admin/src/components/BlockKitMediaPickerField.tsx:115
-#: packages/admin/src/components/ContentEditor.tsx:3225
+#: packages/admin/src/components/ContentEditor.tsx:3228
 #: packages/admin/src/components/editor/GalleryDetailPanel.tsx:473
 #: packages/admin/src/components/editor/ImageDetailPanel.tsx:357
 #: packages/admin/src/components/editor/ImageDetailPanel.tsx:813
@@ -10697,7 +10697,7 @@ msgstr "Treu"
 #. placeholder {0}: job.file.name
 #. placeholder {0}: option.term.label
 #. placeholder {0}: passkey.name
-#: packages/admin/src/components/ContentEditor.tsx:2807
+#: packages/admin/src/components/ContentEditor.tsx:2810
 #: packages/admin/src/components/media/MediaBrowserItems.tsx:219
 #: packages/admin/src/components/MediaUploadDialog.tsx:144
 #: packages/admin/src/components/settings/PasskeyItem.tsx:161
@@ -10714,7 +10714,7 @@ msgstr "Treu {0} de la selecció"
 msgid "Remove {entry}"
 msgstr "Treu {entry}"
 
-#: packages/admin/src/components/ContentEditor.tsx:3223
+#: packages/admin/src/components/ContentEditor.tsx:3226
 msgid "Remove {label}"
 msgstr "Treu {label}"
 
@@ -10825,7 +10825,7 @@ msgstr "Reordena"
 #. placeholder {0}: blockType?.label ?? block._type
 #. placeholder {0}: byline.displayName
 #. placeholder {0}: collection.label
-#: packages/admin/src/components/BlocksField.tsx:337
+#: packages/admin/src/components/BlocksField.tsx:340
 #: packages/admin/src/components/BylineCreditsEditor.tsx:836
 #: packages/admin/src/components/ContentTypeList.tsx:310
 msgid "Reorder {0}"
@@ -10844,8 +10844,8 @@ msgstr "Grup de camps repetible"
 msgid "visualEditing.replaceImage"
 msgstr "visualEditing.replaceImage"
 
-#: packages/admin/src/components/ContentEditor.tsx:3215
-#: packages/admin/src/components/ContentEditor.tsx:3252
+#: packages/admin/src/components/ContentEditor.tsx:3218
+#: packages/admin/src/components/ContentEditor.tsx:3255
 #: packages/admin/src/components/editor/GalleryDetailPanel.tsx:449
 #: packages/admin/src/components/editor/GalleryDetailPanel.tsx:506
 #: packages/admin/src/components/editor/ImageDetailPanel.tsx:298
@@ -10861,7 +10861,7 @@ msgstr "visualEditing.replaceImage"
 msgid "Replace"
 msgstr "Substitueix"
 
-#: packages/admin/src/components/ContentEditor.tsx:3251
+#: packages/admin/src/components/ContentEditor.tsx:3254
 #: packages/admin/src/components/ImageFieldRenderer.tsx:578
 msgid "Replace {label}"
 msgstr "Substitueix {label}"
@@ -10896,7 +10896,7 @@ msgstr "Vols substituir la imatge original?"
 msgid "Replace original is available with the Original aspect ratio."
 msgstr "Substituir l'original està disponible amb la relació d'aspecte Original."
 
-#: packages/admin/src/components/ContentEditor.tsx:2840
+#: packages/admin/src/components/ContentEditor.tsx:2843
 msgid "Replace reference"
 msgstr "Substitueix la referència"
 
@@ -10937,7 +10937,7 @@ msgstr "Dipòsit"
 msgid "Request a new link"
 msgstr "Sol·licita un enllaç nou"
 
-#: packages/admin/src/lib/api/client.ts:340
+#: packages/admin/src/lib/api/client.ts:342
 msgid "Request failed"
 msgstr "Ha fallat la sol·licitud"
 
@@ -11032,7 +11032,7 @@ msgstr "Redimensiona el retall des de la cantonada superior esquerra. Fes servir
 msgid "Resize crop from top-right corner. Use the Arrow keys to resize."
 msgstr "Redimensiona el retall des de la cantonada superior dreta. Fes servir les tecles de fletxa per redimensionar."
 
-#: packages/admin/src/components/ContentEditor.tsx:1855
+#: packages/admin/src/components/ContentEditor.tsx:1857
 msgid "Resize settings panel"
 msgstr "Redimensiona el tauler de configuració"
 
@@ -11083,13 +11083,13 @@ msgstr "S'està restaurant..."
 msgid "Results"
 msgstr "Resultats"
 
-#: packages/admin/src/components/BlocksField.tsx:360
+#: packages/admin/src/components/BlocksField.tsx:365
 #: packages/admin/src/components/FieldEditor.tsx:1126
 msgid "Retired"
 msgstr "Retirat"
 
 #: packages/admin/src/components/BylineCreditsEditor.tsx:475
-#: packages/admin/src/components/ContentEditor.tsx:2821
+#: packages/admin/src/components/ContentEditor.tsx:2824
 #: packages/admin/src/components/ContentPickerModal.tsx:278
 #: packages/admin/src/components/MarketplaceBrowse.tsx:143
 #: packages/admin/src/components/media/MediaBrowserItems.tsx:217
@@ -11362,7 +11362,7 @@ msgstr "Desa (Retorn)"
 msgid "Save alt text"
 msgstr "Desa el text alternatiu"
 
-#: packages/admin/src/components/ContentEditor.tsx:1668
+#: packages/admin/src/components/ContentEditor.tsx:1670
 msgid "Save anyway"
 msgstr "Desa igualment"
 
@@ -11608,11 +11608,11 @@ msgstr "Cerca {label}"
 msgid "Search {label}…"
 msgstr "Cerca {label}…"
 
-#: packages/admin/src/components/BlocksField.tsx:181
+#: packages/admin/src/components/BlocksField.tsx:184
 msgid "Search block types"
 msgstr "Cerca tipus de bloc"
 
-#: packages/admin/src/components/BlocksField.tsx:184
+#: packages/admin/src/components/BlocksField.tsx:187
 msgid "Search blocks"
 msgstr "Cerca blocs"
 
@@ -11873,8 +11873,8 @@ msgid "Select"
 msgstr "Selecciona"
 
 #: packages/admin/src/components/BlockKitMediaPickerField.tsx:140
-#: packages/admin/src/components/ContentEditor.tsx:3235
-#: packages/admin/src/components/ContentEditor.tsx:3251
+#: packages/admin/src/components/ContentEditor.tsx:3238
+#: packages/admin/src/components/ContentEditor.tsx:3254
 #: packages/admin/src/components/ImageFieldRenderer.tsx:579
 msgid "Select {label}"
 msgstr "Selecciona {label}"
@@ -11920,7 +11920,7 @@ msgstr "Selecciona-ho tot"
 msgid "Select all on this page"
 msgstr "Selecciona-ho tot en aquesta pàgina"
 
-#: packages/admin/src/components/ContentEditor.tsx:2735
+#: packages/admin/src/components/ContentEditor.tsx:2738
 msgid "Select at least one entry."
 msgstr "Selecciona com a mínim una entrada."
 
@@ -11953,7 +11953,7 @@ msgstr "Selecciona el favicon"
 msgid "Select Favicon"
 msgstr "Selecciona la icona del lloc"
 
-#: packages/admin/src/components/ContentEditor.tsx:3239
+#: packages/admin/src/components/ContentEditor.tsx:3242
 #: packages/admin/src/components/MediaPickerModal.tsx:232
 msgid "Select file"
 msgstr "Selecciona un fitxer"
@@ -12176,8 +12176,8 @@ msgid "Setting up..."
 msgstr "S'està configurant..."
 
 #: packages/admin/src/components/AdminCommandPalette.tsx:247
-#: packages/admin/src/components/ContentEditor.tsx:1729
-#: packages/admin/src/components/ContentEditor.tsx:2026
+#: packages/admin/src/components/ContentEditor.tsx:1731
+#: packages/admin/src/components/ContentEditor.tsx:2028
 #: packages/admin/src/components/ContentTypeEditor.tsx:465
 #: packages/admin/src/components/Header.tsx:102
 #: packages/admin/src/components/PluginManager.tsx:530
@@ -12637,7 +12637,7 @@ msgstr "Comença amb les entrades i pàgines d'exemple de la plantilla. Recomana
 msgid "Start writing with plain text"
 msgstr ""
 
-#: packages/admin/src/components/ContentEditor.tsx:2298
+#: packages/admin/src/components/ContentEditor.tsx:2301
 #: packages/admin/src/components/PortableTextEditor.tsx:3434
 msgid "Start writing, or type '/' for commands"
 msgstr "Comença a escriure o escriu «/» per als ordres"
@@ -13227,8 +13227,8 @@ msgstr "El giny de camp del connector no s'ha pogut renderitzar."
 msgid "The plugin has not saved these changes. Review them before updating the editor."
 msgstr "El connector no ha desat aquests canvis. Revisa'ls abans d'actualitzar l'editor."
 
-#: packages/admin/src/components/ContentEditor.tsx:969
-#: packages/admin/src/components/ContentEditor.tsx:985
+#: packages/admin/src/components/ContentEditor.tsx:971
+#: packages/admin/src/components/ContentEditor.tsx:987
 msgid "The plugin result is stale because the editor changed while it was working."
 msgstr "El resultat del connector està obsolet perquè l'editor ha canviat mentre treballava."
 
@@ -13359,7 +13359,7 @@ msgstr "Aquestes eines continuen desactivades després de la instal·lació fins
 msgid "This also removes:"
 msgstr "Això també treu:"
 
-#: packages/admin/src/components/BlocksField.tsx:394
+#: packages/admin/src/components/BlocksField.tsx:403
 msgid "This block cannot be edited because its stored definition is unavailable."
 msgstr "Aquest bloc no es pot editar perquè la seva definició emmagatzemada no està disponible."
 
@@ -13414,11 +13414,11 @@ msgstr "Aquest dispositiu sol·licita permís per utilitzar:"
 msgid "This doesn't look like a valid migration key. Generate a new one in the plugin and paste the full string starting with \"em1.\"."
 msgstr "Això no sembla una clau de migració vàlida. Genera'n una de nova al connector i enganxa la cadena completa que comença per \"em1.\"."
 
-#: packages/admin/src/components/ContentEditor.tsx:1664
+#: packages/admin/src/components/ContentEditor.tsx:1666
 msgid "This entry changed somewhere else after you opened it."
 msgstr "Aquesta entrada ha canviat en un altre lloc després que l'obrissis."
 
-#: packages/admin/src/components/ContentEditor.tsx:1253
+#: packages/admin/src/components/ContentEditor.tsx:1255
 #: packages/admin/src/router.tsx:1053
 msgid "This entry changed somewhere else. Save anyway, or reload to get the newer version."
 msgstr "Aquesta entrada ha canviat en un altre lloc. Desa igualment o recarrega per obtenir la versió més nova."
@@ -13439,7 +13439,7 @@ msgstr "Aquesta entrada no té URL fins que es publiqui. Enganxa una URL en lloc
 msgid "This entry is open somewhere else"
 msgstr "Aquesta entrada està oberta en un altre lloc"
 
-#: packages/admin/src/components/ContentEditor.tsx:1651
+#: packages/admin/src/components/ContentEditor.tsx:1653
 msgid "This entry is read-only because its schema uses field types this version of EmDash does not support."
 msgstr "Aquesta entrada és de només lectura perquè el seu esquema utilitza tipus de camp que aquesta versió d'EmDash no admet."
 
@@ -13451,7 +13451,7 @@ msgstr "Aquesta entrada havia de publicar-se {lateness} però no s'ha publicat. 
 msgid "This export is large"
 msgstr "Aquesta exportació és gran"
 
-#: packages/admin/src/components/ContentEditor.tsx:2127
+#: packages/admin/src/components/ContentEditor.tsx:2129
 msgid "This field cannot be edited by this version of EmDash."
 msgstr "Aquesta versió d'EmDash no pot editar aquest camp."
 
@@ -13476,7 +13476,7 @@ msgstr "Aquest camp no accepta fitxers {mimeType}."
 msgid "This field expects a list. The stored value stays unchanged until you replace it with an empty list, which deletes it. Copy anything you need from it first."
 msgstr "Aquest camp espera una llista. El valor emmagatzemat es manté sense canvis fins que el substitueixis per una llista buida, cosa que l'elimina. Copia primer tot el que necessitis."
 
-#: packages/admin/src/components/ContentEditor.tsx:3255
+#: packages/admin/src/components/ContentEditor.tsx:3258
 #: packages/admin/src/components/ImageFieldRenderer.tsx:598
 msgid "This field is required"
 msgstr "Aquest camp és obligatori"
@@ -14206,7 +14206,7 @@ msgstr "El contingut no desat pot sortir del teu lloc"
 msgid "Unscheduled"
 msgstr "Programació anul·lada"
 
-#: packages/admin/src/components/BlocksField.tsx:361
+#: packages/admin/src/components/BlocksField.tsx:366
 #: packages/admin/src/components/ContentTypeEditor.tsx:948
 msgid "Unsupported"
 msgstr "No admès"
@@ -14226,7 +14226,7 @@ msgstr "Fins a {0}"
 msgid "Untitled"
 msgstr "Sense títol"
 
-#: packages/admin/src/components/ContentEditor.tsx:3157
+#: packages/admin/src/components/ContentEditor.tsx:3160
 msgid "Untitled file"
 msgstr "Fitxer sense títol"
 
@@ -14557,7 +14557,7 @@ msgstr "S'utilitza com a imatge Open Graph alternativa quan una pàgina no en t�
 msgid "Used as the identifier. Lowercase letters, numbers, and underscores only."
 msgstr "S'utilitza com a identificador. Només lletres minúscules, números i guions baixos."
 
-#: packages/admin/src/components/ContentEditor.tsx:2421
+#: packages/admin/src/components/ContentEditor.tsx:2424
 msgid "Used as the main visual for this post on listing pages and at the top of the post"
 msgstr "S'utilitza com a element visual principal d'aquesta entrada a les pàgines de llista i a la part superior de l'entrada"
 
@@ -14684,7 +14684,7 @@ msgstr "Versió"
 #. placeholder {0}: block._version
 #. placeholder {0}: release.version
 #. placeholder {0}: version.version
-#: packages/admin/src/components/BlocksField.tsx:358
+#: packages/admin/src/components/BlocksField.tsx:363
 #: packages/admin/src/components/BlockTypeList.tsx:42
 #: packages/admin/src/components/RegistryPluginDetail.tsx:556
 msgid "Version {0}"
@@ -14876,7 +14876,7 @@ msgstr "Què s'importarà"
 msgid "What will happen when you import"
 msgstr "Què passarà quan importis"
 
-#: packages/admin/src/components/ContentEditor.tsx:1665
+#: packages/admin/src/components/ContentEditor.tsx:1667
 msgid "What you typed is still here. Saving replaces the newer version."
 msgstr "El que has escrit encara és aquí. Desar substitueix la versió més nova."
 
