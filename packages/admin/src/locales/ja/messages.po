@@ -34,17 +34,17 @@ msgstr ""
 #. placeholder {0}: item.filename
 #: packages/admin/src/components/MediaDetailPanel.tsx:1924
 msgid "\"{0}\" will be deleted from {providerName}."
-msgstr ""
+msgstr "「{0}」を{providerName}から削除します。"
 
 #. placeholder {0}: item.filename
 #: packages/admin/src/components/MediaDetailPanel.tsx:1925
 msgid "\"{0}\" will be deleted from its media provider."
-msgstr ""
+msgstr "「{0}」をメディアの連携先から削除します。"
 
 #. placeholder {0}: item.filename
 #: packages/admin/src/components/MediaDetailPanel.tsx:1926
 msgid "\"{0}\" will be permanently deleted."
-msgstr ""
+msgstr "「{0}」を完全に削除します。"
 
 #: packages/admin/src/components/OptionalLabel.tsx:13
 msgid "(optional)"
@@ -148,7 +148,7 @@ msgstr "{0, plural, one {#件} other {#件}}"
 #: packages/admin/src/components/RelationList.tsx:215
 #: packages/admin/src/components/RelationsPanel.tsx:195
 msgid "{0, plural, one {# link} other {# links}}"
-msgstr ""
+msgstr "{0, plural, one {#件のリンク} other {#件のリンク}}"
 
 #. placeholder {0}: tagMatches?.matchCount ?? 0
 #: packages/admin/src/components/TaxonomyManager.tsx:1388
@@ -1721,7 +1721,7 @@ msgstr "プラグインが保存したデータも削除する"
 
 #: packages/admin/src/components/ContentTypeEditor.tsx:882
 msgid "Also delete the relationship this field uses"
-msgstr ""
+msgstr "このフィールドが使用する関連付けも削除する"
 
 #: packages/admin/src/components/BylineFilter.tsx:183
 msgid "Also match the byline linked to an entry's author when it has none assigned."
@@ -3420,7 +3420,7 @@ msgstr ""
 
 #: packages/admin/src/components/MediaDetailPanel.tsx:1944
 msgid "Content using this media item may show a broken reference."
-msgstr ""
+msgstr "このメディアを使用しているコンテンツで、参照先が見つからなくなる場合があります。"
 
 #: packages/admin/src/components/WordPressImport.tsx:2364
 msgid "Content was skipped because it already exists"
@@ -3941,7 +3941,7 @@ msgstr "コンテンツタイプとフィールドを作成中…"
 
 #: packages/admin/src/components/MediaDetailPanel.tsx:961
 msgid "Creating cropped copy..."
-msgstr ""
+msgstr "切り抜いたコピーを作成中…"
 
 #: packages/admin/src/components/MenuList.tsx:187
 #: packages/admin/src/components/Redirects.tsx:191
@@ -4152,7 +4152,7 @@ msgstr "削除"
 #. placeholder {0}: relation.slug
 #: packages/admin/src/components/RelationDeleteDialog.tsx:38
 msgid "Delete \"{0}\"?"
-msgstr ""
+msgstr "「{0}」を削除しますか？"
 
 #. placeholder {0}: folder.name
 #: packages/admin/src/components/MediaFolderDialog.tsx:182
@@ -4260,7 +4260,7 @@ msgstr "画像を削除"
 
 #: packages/admin/src/components/MediaDetailPanel.tsx:1918
 msgid "Delete media?"
-msgstr ""
+msgstr "メディアを削除しますか？"
 
 #: packages/admin/src/components/MenuList.tsx:233
 msgid "Delete menu"
@@ -5209,11 +5209,11 @@ msgstr ""
 
 #: packages/admin/src/components/MediaDetailPanel.tsx:1980
 msgid "EmDash does not keep the previous image."
-msgstr ""
+msgstr "EmDashには置き換え前の画像は保存されません。"
 
 #: packages/admin/src/components/MediaDetailPanel.tsx:2014
 msgid "EmDash does not keep the uncropped image."
-msgstr ""
+msgstr "EmDashには切り抜き前の画像は保存されません。"
 
 #: packages/admin/src/components/WordPressImport.tsx:1361
 msgid "EmDash Exporter plugin detected! You can import directly."
@@ -5434,11 +5434,11 @@ msgstr ""
 
 #: packages/admin/src/components/MediaDetailPanel.tsx:1996
 msgid "Every place using this image will update to the cropped version."
-msgstr ""
+msgstr "この画像を使用しているすべての箇所が、切り抜いた画像に更新されます。"
 
 #: packages/admin/src/components/MediaDetailPanel.tsx:1961
 msgid "Every place using this image will update to the selected version."
-msgstr ""
+msgstr "この画像を使用しているすべての箇所が、選択した画像に更新されます。"
 
 #: packages/admin/src/components/RegistryPluginDetail.tsx:680
 msgid "Every published release of this plugin has been withdrawn or could not be verified. Check back later, or contact the publisher."
@@ -5446,7 +5446,7 @@ msgstr "このプラグインのリリースはすべて撤回されたか、確
 
 #: packages/admin/src/components/ContentTypeList.tsx:270
 msgid "Every relationship this content type takes part in goes too:"
-msgstr ""
+msgstr "このコンテンツタイプが含まれるすべての関連付けも削除されます："
 
 #: packages/admin/src/components/settings/GeneralSettings.tsx:501
 msgid "Example: {pattern} → {preview}"
@@ -5816,7 +5816,7 @@ msgstr "リダイレクトの削除に失敗しました"
 
 #: packages/admin/src/lib/api/relations.ts:146
 msgid "Failed to delete relation"
-msgstr ""
+msgstr "関連付けの削除に失敗しました"
 
 #: packages/admin/src/lib/api/sections.ts:110
 msgid "Failed to delete section"
@@ -11320,12 +11320,12 @@ msgstr "画像を置き換え"
 #: packages/admin/src/components/MediaDetailPanel.tsx:1868
 #: packages/admin/src/components/MediaDetailPanel.tsx:2000
 msgid "Replace original"
-msgstr ""
+msgstr "元の画像を置き換え"
 
 #: packages/admin/src/components/MediaDetailPanel.tsx:1957
 #: packages/admin/src/components/MediaDetailPanel.tsx:1992
 msgid "Replace original image?"
-msgstr ""
+msgstr "元の画像を置き換えますか？"
 
 #: packages/admin/src/components/MediaDetailPanel.tsx:1756
 msgid "Replace original is available with the Original aspect ratio."
@@ -11356,13 +11356,13 @@ msgstr ""
 #: packages/admin/src/components/MediaDetailPanel.tsx:942
 #: packages/admin/src/components/MediaDetailPanel.tsx:1966
 msgid "Replacing image..."
-msgstr ""
+msgstr "画像を置き換え中…"
 
 #: packages/admin/src/components/MediaDetailPanel.tsx:961
 #: packages/admin/src/components/MediaDetailPanel.tsx:2001
 #: packages/admin/src/components/MediaDetailPanel.tsx:2021
 msgid "Replacing original..."
-msgstr ""
+msgstr "元の画像を置き換え中…"
 
 #: packages/admin/src/components/comments/CommentDetail.tsx:120
 msgid "Reply to:"
@@ -13403,13 +13403,13 @@ msgstr ""
 #. placeholder {1}: bound.collectionSlug
 #: packages/admin/src/components/RelationImpact.tsx:59
 msgid "the {0} field on {1}, which lists entries that link to it"
-msgstr ""
+msgstr "「{1}」の「{0}」フィールド（参照元のコンテンツを一覧表示）"
 
 #. placeholder {0}: bound.fieldSlug
 #. placeholder {1}: bound.collectionSlug
 #: packages/admin/src/components/RelationImpact.tsx:58
 msgid "the {0} field on {1}, which picks entries it links to"
-msgstr ""
+msgstr "「{1}」の「{0}」フィールド（参照先のコンテンツを選択）"
 
 #: packages/admin/src/components/editor/HtmlBlockPreview.tsx:201
 msgid "The admin's security policy blocked some resources this block loads, such as external scripts, fonts or frames. Your site may still load them."
@@ -13844,7 +13844,7 @@ msgstr "これらのツールは、インストール後もエージェントア
 
 #: packages/admin/src/components/ContentTypeEditor.tsx:886
 msgid "This also removes:"
-msgstr ""
+msgstr "次の項目も削除されます："
 
 #: packages/admin/src/components/BlocksField.tsx:403
 msgid "This block cannot be edited because its stored definition is unavailable."
@@ -13867,7 +13867,7 @@ msgstr ""
 #: packages/admin/src/components/MediaDetailPanel.tsx:1977
 #: packages/admin/src/components/MediaDetailPanel.tsx:2011
 msgid "This cannot be undone"
-msgstr ""
+msgstr "この操作は取り消せません"
 
 #: packages/admin/src/components/DeviceAuthorizePage.tsx:350
 msgid "This code has expired. Start the sign-in again from your terminal to get a new one."
@@ -14139,7 +14139,7 @@ msgstr "この執筆者情報を削除します。コンテンツとの関連付
 
 #: packages/admin/src/components/RelationDeleteDialog.tsx:39
 msgid "This removes the relationship, every link stored under it, and the reference fields that use it:"
-msgstr ""
+msgstr "この関連付けと保存済みのすべてのリンク、およびこの関連付けを使用する参照フィールドを削除します："
 
 #: packages/admin/src/components/ContentSettingsPanel.tsx:512
 msgid "This removes the schedule and publishes immediately."
