@@ -97,7 +97,7 @@ msgid "{0, plural, one {# comment imported} other {# comments imported}}"
 msgstr "{0, plural, one {# комментарий импортирован} few {# комментария импортировано} many {# комментариев импортировано} other {# комментариев импортировано}}"
 
 #. placeholder {0}: result.affected
-#: packages/admin/src/router.tsx:2445
+#: packages/admin/src/router.tsx:2446
 msgid "{0, plural, one {# comment updated} other {# comments updated}}"
 msgstr "{0, plural, one {# комментарий обновлён} few {# комментария обновлено} many {# комментариев обновлено} other {# комментариев обновлено}}"
 
@@ -282,12 +282,12 @@ msgid "{0, plural, one {field} other {fields}}"
 msgstr "{0, plural, one {поле} few {поля} many {полей} other {полей}}"
 
 #. placeholder {0}: stats.mediaCount
-#: packages/admin/src/components/Dashboard.tsx:411
+#: packages/admin/src/components/Dashboard.tsx:416
 msgid "{0, plural, one {Media file} other {Media files}}"
 msgstr "{0, plural, one {Медиафайл} few {Медиафайла} many {Медиафайлов} other {Медиафайлов}}"
 
 #. placeholder {0}: policyRejected - policyRejections.length
-#: packages/admin/src/components/Dashboard.tsx:211
+#: packages/admin/src/components/Dashboard.tsx:214
 msgid "{0, plural, one {One more blocked entry is not shown.} other {# more blocked entries are not shown.}}"
 msgstr "{0, plural, one {Ещё одна заблокированная запись не показана.} few {Ещё # заблокированные записи не показаны.} many {Ещё # заблокированных записей не показано.} other {Ещё # заблокированных записей не показано.}}"
 
@@ -302,7 +302,7 @@ msgid "{0, plural, one {Show # more} other {Show # more}}"
 msgstr "{0, plural, one {Показать ещё #} few {Показать ещё #} many {Показать ещё #} other {Показать ещё #}}"
 
 #. placeholder {0}: stats.userCount
-#: packages/admin/src/components/Dashboard.tsx:419
+#: packages/admin/src/components/Dashboard.tsx:424
 msgid "{0, plural, one {User} other {Users}}"
 msgstr "{0, plural, one {Пользователь} few {Пользователя} many {Пользователей} other {Пользователей}}"
 
@@ -704,11 +704,11 @@ msgstr "{origin} перенаправляет на другой адрес"
 msgid "{origin} redirects to {target}. Enter that address instead."
 msgstr "{origin} перенаправляет на {target}. Введите этот адрес."
 
-#: packages/admin/src/components/Dashboard.tsx:151
+#: packages/admin/src/components/Dashboard.tsx:154
 msgid "{overdueCount, plural, one {One scheduled item is overdue and the scheduler heartbeat is stale. Run `npx emdash doctor` and verify the deployed Cron Trigger.} other {# scheduled items are overdue and the scheduler heartbeat is stale. Run `npx emdash doctor` and verify the deployed Cron Trigger.}}"
 msgstr "{overdueCount, plural, one {Один запланированный материал просрочен, а пульс планировщика устарел. Запустите `npx emdash doctor` и проверьте развёрнутый Cron Trigger.} few {# запланированных материала просрочены, а пульс планировщика устарел. Запустите `npx emdash doctor` и проверьте развёрнутый Cron Trigger.} many {# запланированных материалов просрочены, а пульс планировщика устарел. Запустите `npx emdash doctor` и проверьте развёрнутый Cron Trigger.} other {# запланированных материалов просрочены, а пульс планировщика устарел. Запустите `npx emdash doctor` и проверьте развёрнутый Cron Trigger.}}"
 
-#: packages/admin/src/components/Dashboard.tsx:146
+#: packages/admin/src/components/Dashboard.tsx:149
 msgid "{overdueCount, plural, one {One scheduled item is overdue, but no scheduler run has completed. Run `npx emdash doctor` and verify the deployed Cron Trigger.} other {# scheduled items are overdue, but no scheduler run has completed. Run `npx emdash doctor` and verify the deployed Cron Trigger.}}"
 msgstr "{overdueCount, plural, one {Один запланированный материал просрочен, но планировщик ещё ни разу не отработал. Запустите `npx emdash doctor` и проверьте развёрнутый Cron Trigger.} few {# запланированных материала просрочены, но планировщик ещё ни разу не отработал. Запустите `npx emdash doctor` и проверьте развёрнутый Cron Trigger.} many {# запланированных материалов просрочены, но планировщик ещё ни разу не отработал. Запустите `npx emdash doctor` и проверьте развёрнутый Cron Trigger.} other {# запланированных материалов просрочены, но планировщик ещё ни разу не отработал. Запустите `npx emdash doctor` и проверьте развёрнутый Cron Trigger.}}"
 
@@ -734,7 +734,7 @@ msgstr "Настройки {pluginName}"
 msgid "{plural} go live now; draft edits stay unpublished."
 msgstr "{plural} применяются сразу; правки черновиков остаются неопубликованными."
 
-#: packages/admin/src/components/Dashboard.tsx:165
+#: packages/admin/src/components/Dashboard.tsx:168
 msgid "{policyRejected, plural, one {Open the affected entry, resolve the policy reason, and schedule it again. A successful schedule or publish clears this notice.} other {Open the affected entries, resolve the policy reasons, and schedule them again. A successful schedule or publish clears each notice.}}"
 msgstr "{policyRejected, plural, one {Откройте затронутую запись, устраните причину отказа политики и запланируйте её снова. Успешное планирование или публикация снимет это уведомление.} few {Откройте затронутые записи, устраните причины отказа политики и запланируйте их снова. Успешное планирование или публикация снимет каждое уведомление.} many {Откройте затронутые записи, устраните причины отказа политики и запланируйте их снова. Успешное планирование или публикация снимет каждое уведомление.} other {Откройте затронутые записи, устраните причины отказа политики и запланируйте их снова. Успешное планирование или публикация снимет каждое уведомление.}}"
 
@@ -832,11 +832,11 @@ msgstr "Запись «{title}» теперь выйдет {when}."
 msgid "{total, plural, one {# item} other {# items}}"
 msgstr "{total, plural, one {# элемент} few {# элемента} many {# элементов} other {# элементов}}"
 
-#: packages/admin/src/components/Dashboard.tsx:395
+#: packages/admin/src/components/Dashboard.tsx:400
 msgid "{totalDrafts, plural, one {Draft} other {Drafts}}"
 msgstr "{totalDrafts, plural, one {Черновик} few {Черновика} many {Черновиков} other {Черновиков}}"
 
-#: packages/admin/src/components/Dashboard.tsx:401
+#: packages/admin/src/components/Dashboard.tsx:406
 msgid "{totalScheduled, plural, one {Scheduled} other {Scheduled}}"
 msgstr "{totalScheduled, plural, one {Запланирован} few {Запланировано} many {Запланировано} other {Запланировано}}"
 
@@ -1172,7 +1172,7 @@ msgstr "Принять приглашение"
 msgid "Access denied"
 msgstr "Доступ запрещён"
 
-#: packages/admin/src/router.tsx:2465
+#: packages/admin/src/router.tsx:2466
 msgid "Access Denied"
 msgstr "Доступ запрещён"
 
@@ -1552,16 +1552,16 @@ msgid "admin"
 msgstr "администратор"
 
 #: packages/admin/src/components/settings/ApiTokenSettings.tsx:117
-#: packages/admin/src/components/Sidebar.tsx:640
+#: packages/admin/src/components/Sidebar.tsx:692
 #: packages/admin/src/components/users/roleDefinitions.ts:42
 msgid "Admin"
 msgstr "Администратор"
 
-#: packages/admin/src/components/Sidebar.tsx:582
+#: packages/admin/src/components/Sidebar.tsx:634
 msgid "Admin navigation"
 msgstr "Навигация админки"
 
-#: packages/admin/src/components/WelcomeModal.tsx:25
+#: packages/admin/src/components/WelcomeModal.tsx:26
 msgid "Administrator"
 msgstr "Администратор"
 
@@ -1829,11 +1829,11 @@ msgstr "Зашифрованный цифровой ключ, который в�
 #: packages/admin/src/router.tsx:1593
 #: packages/admin/src/router.tsx:1626
 #: packages/admin/src/router.tsx:1647
-#: packages/admin/src/router.tsx:2410
-#: packages/admin/src/router.tsx:2426
-#: packages/admin/src/router.tsx:2451
-#: packages/admin/src/router.tsx:2877
-#: packages/admin/src/router.tsx:3062
+#: packages/admin/src/router.tsx:2411
+#: packages/admin/src/router.tsx:2427
+#: packages/admin/src/router.tsx:2452
+#: packages/admin/src/router.tsx:2878
+#: packages/admin/src/router.tsx:3063
 #: packages/admin/src/routes/byline-schema.tsx:103
 #: packages/admin/src/routes/byline-schema.tsx:123
 #: packages/admin/src/routes/byline-schema.tsx:139
@@ -1984,7 +1984,7 @@ msgstr "Удалить поле «{0}»?"
 msgid "Are you sure you want to delete this menu? This will also delete all menu items. This action cannot be undone."
 msgstr "Удалить это меню? Все его пункты тоже будут удалены. Это нельзя отменить."
 
-#: packages/admin/src/components/WelcomeModal.tsx:59
+#: packages/admin/src/components/WelcomeModal.tsx:60
 msgid "As an administrator, you can invite other users from the Users section."
 msgstr "Как администратор, вы можете приглашать пользователей в разделе «Пользователи»."
 
@@ -2058,7 +2058,7 @@ msgstr "Вход отменён или истекло время ожидани�
 #: packages/admin/src/components/ContentSettingsPanel.tsx:1418
 #: packages/admin/src/components/RelationForm.tsx:315
 #: packages/admin/src/components/users/roleDefinitions.ts:30
-#: packages/admin/src/components/WelcomeModal.tsx:27
+#: packages/admin/src/components/WelcomeModal.tsx:28
 msgid "Author"
 msgstr "Автор"
 
@@ -2452,7 +2452,7 @@ msgstr "Поля подписи"
 msgid "Byline schema"
 msgstr "Схема подписи"
 
-#: packages/admin/src/components/Sidebar.tsx:484
+#: packages/admin/src/components/Sidebar.tsx:526
 msgid "Byline Schema"
 msgstr "Схема подписи"
 
@@ -2466,7 +2466,7 @@ msgstr "Подпись обновлена"
 #: packages/admin/src/components/ContentSettingsPanel.tsx:1148
 #: packages/admin/src/components/settings/transfer/labels.ts:19
 #: packages/admin/src/components/settings/transfer/labels.ts:79
-#: packages/admin/src/components/Sidebar.tsx:454
+#: packages/admin/src/components/Sidebar.tsx:492
 #: packages/admin/src/routes/bylines.tsx:285
 msgid "Bylines"
 msgstr "Подписи"
@@ -2483,9 +2483,9 @@ msgstr "C#"
 msgid "C++"
 msgstr "C++"
 
-#: packages/admin/src/components/AdminCommandPalette.tsx:142
+#: packages/admin/src/components/AdminCommandPalette.tsx:143
 #: packages/admin/src/components/ContentTypeEditor.tsx:568
-#: packages/admin/src/components/Sidebar.tsx:614
+#: packages/admin/src/components/Sidebar.tsx:666
 #: packages/admin/src/routes/calendar.tsx:277
 msgid "Calendar"
 msgstr "Календарь"
@@ -2617,7 +2617,7 @@ msgstr "Субтитры"
 msgid "Capture is being prepared. Keep editing paused until setup is complete."
 msgstr "Подготовка снимка. Не возобновляйте редактирование, пока настройка не завершится."
 
-#: packages/admin/src/components/AdminCommandPalette.tsx:205
+#: packages/admin/src/components/AdminCommandPalette.tsx:206
 #: packages/admin/src/components/Widgets.tsx:136
 msgid "Categories"
 msgstr "Рубрики"
@@ -3096,7 +3096,7 @@ msgstr "Перейдите по этой ссылке, чтобы войти н�
 #: packages/admin/src/components/users/InviteUserModal.tsx:88
 #: packages/admin/src/components/users/InviteUserModal.tsx:94
 #: packages/admin/src/components/users/InviteUserModal.tsx:98
-#: packages/admin/src/components/WelcomeModal.tsx:60
+#: packages/admin/src/components/WelcomeModal.tsx:61
 #: packages/admin/src/components/Widgets.tsx:414
 #: packages/admin/src/components/Widgets.tsx:420
 #: packages/admin/src/components/Widgets.tsx:424
@@ -3249,7 +3249,7 @@ msgstr "Реакции на комментарии"
 #: packages/admin/src/components/ContentTypeEditor.tsx:661
 #: packages/admin/src/components/settings/transfer/labels.ts:34
 #: packages/admin/src/components/settings/transfer/labels.ts:88
-#: packages/admin/src/components/Sidebar.tsx:440
+#: packages/admin/src/components/Sidebar.tsx:456
 msgid "Comments"
 msgstr "Комментарии"
 
@@ -3334,12 +3334,12 @@ msgstr "Связывает"
 msgid "content"
 msgstr "материал"
 
-#: packages/admin/src/components/AdminCommandPalette.tsx:400
+#: packages/admin/src/components/AdminCommandPalette.tsx:403
 #: packages/admin/src/components/comments/CommentDetail.tsx:106
 #: packages/admin/src/components/comments/CommentInbox.tsx:331
-#: packages/admin/src/components/Dashboard.tsx:489
+#: packages/admin/src/components/Dashboard.tsx:494
 #: packages/admin/src/components/SectionEditor.tsx:215
-#: packages/admin/src/components/Sidebar.tsx:624
+#: packages/admin/src/components/Sidebar.tsx:676
 #: packages/admin/src/components/Widgets.tsx:903
 msgid "Content"
 msgstr "Материал"
@@ -3414,9 +3414,9 @@ msgstr "Материалы для импорта"
 msgid "Content types"
 msgstr "Типы материалов"
 
-#: packages/admin/src/components/AdminCommandPalette.tsx:197
+#: packages/admin/src/components/AdminCommandPalette.tsx:198
 #: packages/admin/src/components/ContentTypeList.tsx:131
-#: packages/admin/src/components/Sidebar.tsx:480
+#: packages/admin/src/components/Sidebar.tsx:522
 msgid "Content Types"
 msgstr "Типы материалов"
 
@@ -3482,7 +3482,7 @@ msgid "Continue with security key"
 msgstr "Продолжить с ключом безопасности"
 
 #: packages/admin/src/components/users/roleDefinitions.ts:24
-#: packages/admin/src/components/WelcomeModal.tsx:28
+#: packages/admin/src/components/WelcomeModal.tsx:29
 msgid "Contributor"
 msgstr "Участник"
 
@@ -3570,7 +3570,7 @@ msgstr "Не удалось вставить раздел"
 msgid "Could not load {pluralLower}."
 msgstr "Не удалось загрузить: {pluralLower}."
 
-#: packages/admin/src/components/Dashboard.tsx:307
+#: packages/admin/src/components/Dashboard.tsx:310
 msgid "Could not load dashboard data"
 msgstr "Не удалось загрузить данные обзора"
 
@@ -4050,11 +4050,11 @@ msgstr "Ежедневные автоматические копии"
 msgid "Dark mode variant"
 msgstr "Вариант для тёмной темы"
 
-#: packages/admin/src/components/AdminCommandPalette.tsx:135
+#: packages/admin/src/components/AdminCommandPalette.tsx:136
 #: packages/admin/src/components/ContentTypeList.tsx:394
 #: packages/admin/src/components/Dashboard.tsx:71
-#: packages/admin/src/components/Sidebar.tsx:415
-#: packages/admin/src/components/Sidebar.tsx:609
+#: packages/admin/src/components/Sidebar.tsx:426
+#: packages/admin/src/components/Sidebar.tsx:661
 msgid "Dashboard"
 msgstr "Обзор"
 
@@ -4573,7 +4573,7 @@ msgid "Discarding..."
 msgstr "Отмена..."
 
 #: packages/admin/src/components/CoreUpdateBanner.tsx:76
-#: packages/admin/src/components/Dashboard.tsx:201
+#: packages/admin/src/components/Dashboard.tsx:204
 #: packages/admin/src/components/editor/ImageUploadExtension.ts:117
 #: packages/admin/src/components/settings/ApiTokenSettings.tsx:282
 msgid "Dismiss"
@@ -4584,7 +4584,7 @@ msgstr "Скрыть"
 msgid "Dismiss completed {0}"
 msgstr "Скрыть завершённое: {0}"
 
-#: packages/admin/src/components/Dashboard.tsx:291
+#: packages/admin/src/components/Dashboard.tsx:294
 msgid "Dismiss import suggestion"
 msgstr "Скрыть предложение импорта"
 
@@ -4780,7 +4780,7 @@ msgid "draft, published, or archived"
 msgstr "черновик, опубликовано или в архиве"
 
 #: packages/admin/src/components/ContentTypeEditor.tsx:91
-#: packages/admin/src/components/Dashboard.tsx:523
+#: packages/admin/src/components/Dashboard.tsx:528
 msgid "Drafts"
 msgstr "Черновики"
 
@@ -4902,7 +4902,7 @@ msgstr ""
 #: packages/admin/src/components/MenuCard.tsx:59
 #: packages/admin/src/components/MenuEditor.tsx:667
 #: packages/admin/src/components/Sections.tsx:439
-#: packages/admin/src/components/Shell.tsx:86
+#: packages/admin/src/components/Shell.tsx:87
 #: packages/admin/src/components/TranslationsPanel.tsx:95
 msgid "Edit"
 msgstr "Изменить"
@@ -5111,7 +5111,7 @@ msgid "visualEditing.sessionExpired"
 msgstr "Сеанс редактирования истёк. Обновите страницу, чтобы продолжить."
 
 #: packages/admin/src/components/users/roleDefinitions.ts:36
-#: packages/admin/src/components/WelcomeModal.tsx:26
+#: packages/admin/src/components/WelcomeModal.tsx:27
 msgid "Editor"
 msgstr "Редактор"
 
@@ -5413,7 +5413,7 @@ msgstr "запись на ссылающейся стороне"
 #: packages/admin/src/components/SetupWizard.tsx:607
 #: packages/admin/src/components/TaxonomyManager.tsx:1210
 #: packages/admin/src/components/Widgets.tsx:773
-#: packages/admin/src/router.tsx:3337
+#: packages/admin/src/router.tsx:3338
 msgid "Error"
 msgstr "Ошибка"
 
@@ -5790,7 +5790,7 @@ msgid "Failed to delete collection"
 msgstr "Не удалось удалить коллекцию"
 
 #: packages/admin/src/lib/api/comments.ts:114
-#: packages/admin/src/router.tsx:2425
+#: packages/admin/src/router.tsx:2426
 msgid "Failed to delete comment"
 msgstr "Не удалось удалить комментарий"
 
@@ -5880,12 +5880,12 @@ msgstr "Не удалось отменить изменения"
 msgid "Failed to discard draft"
 msgstr "Не удалось отменить черновик"
 
-#: packages/admin/src/components/Dashboard.tsx:220
+#: packages/admin/src/components/Dashboard.tsx:223
 #: packages/admin/src/lib/api/dashboard.ts:73
 msgid "Failed to dismiss scheduled publication rejection"
 msgstr "Не удалось скрыть отказ запланированной публикации"
 
-#: packages/admin/src/components/WelcomeModal.tsx:76
+#: packages/admin/src/components/WelcomeModal.tsx:78
 msgid "Failed to dismiss welcome"
 msgstr "Не удалось скрыть приветствие"
 
@@ -5934,7 +5934,7 @@ msgstr "Не удалось получить разрешённые домены
 msgid "Failed to fetch API tokens"
 msgstr "Не удалось получить токены API"
 
-#: packages/admin/src/lib/api/client.ts:371
+#: packages/admin/src/lib/api/client.ts:373
 msgid "Failed to fetch auth mode"
 msgstr "Не удалось получить режим входа"
 
@@ -6008,7 +6008,7 @@ msgstr "Не удалось получить термины записи"
 msgid "Failed to fetch fields"
 msgstr "Не удалось получить поля"
 
-#: packages/admin/src/lib/api/client.ts:354
+#: packages/admin/src/lib/api/client.ts:356
 msgid "Failed to fetch manifest"
 msgstr "Не удалось получить манифест"
 
@@ -6155,7 +6155,7 @@ msgstr "Не удалось получить статус обновления"
 #: packages/admin/src/lib/api/current-user.ts:22
 #: packages/admin/src/lib/api/users.ts:91
 #: packages/admin/src/lib/api/users.ts:96
-#: packages/admin/src/router.tsx:2356
+#: packages/admin/src/router.tsx:2357
 msgid "Failed to fetch user"
 msgstr "Не удалось получить пользователя"
 
@@ -6344,7 +6344,7 @@ msgid "Failed to lock the entry"
 msgstr "Не удалось заблокировать запись"
 
 #: packages/admin/src/lib/api/comments.ts:131
-#: packages/admin/src/router.tsx:2450
+#: packages/admin/src/router.tsx:2451
 msgid "Failed to perform bulk action"
 msgstr "Не удалось выполнить массовое действие"
 
@@ -6374,7 +6374,7 @@ msgstr "Не удалось опубликовать материал"
 msgid "Failed to read byline field usage"
 msgstr "Не удалось прочитать использование поля подписи"
 
-#: packages/admin/src/router.tsx:2876
+#: packages/admin/src/router.tsx:2877
 msgid "Failed to register {slug}"
 msgstr ""
 
@@ -6457,7 +6457,7 @@ msgstr "Не удалось переписать URL"
 
 #: packages/admin/src/router.tsx:910
 #: packages/admin/src/router.tsx:1313
-#: packages/admin/src/router.tsx:3061
+#: packages/admin/src/router.tsx:3062
 msgid "Failed to save"
 msgstr "Не удалось сохранить"
 
@@ -6627,7 +6627,7 @@ msgstr "Не удалось обновить раздел"
 msgid "Failed to update settings"
 msgstr "Не удалось обновить настройки"
 
-#: packages/admin/src/router.tsx:2409
+#: packages/admin/src/router.tsx:2410
 msgid "Failed to update status"
 msgstr "Не удалось обновить статус"
 
@@ -6873,7 +6873,7 @@ msgstr "Папка удалена"
 msgid "Folder name must be between 1 and 200 characters"
 msgstr "Имя папки должно быть от 1 до 200 символов"
 
-#: packages/admin/src/router.tsx:2079
+#: packages/admin/src/router.tsx:2080
 msgid "Folder no longer exists"
 msgstr "Папки больше нет"
 
@@ -6991,7 +6991,7 @@ msgstr "Общие настройки"
 msgid "Genres"
 msgstr "Жанры"
 
-#: packages/admin/src/components/WelcomeModal.tsx:154
+#: packages/admin/src/components/WelcomeModal.tsx:156
 msgid "Get Started"
 msgstr "Начать"
 
@@ -7020,7 +7020,7 @@ msgid "Go live {countdown}"
 msgstr "Выйдет {countdown}"
 
 #: packages/admin/src/components/WordPressImport.tsx:2477
-#: packages/admin/src/router.tsx:3357
+#: packages/admin/src/router.tsx:3358
 msgid "Go to Dashboard"
 msgstr "К обзору"
 
@@ -7179,7 +7179,7 @@ msgstr "Скрыть токен"
 msgid "visualEditing.hideToolbar"
 msgstr "Скрыть панель"
 
-#: packages/admin/src/components/Shell.tsx:86
+#: packages/admin/src/components/Shell.tsx:87
 msgid "Hide toolbar"
 msgstr "Скрыть панель"
 
@@ -7416,9 +7416,9 @@ msgstr "URL изображения"
 msgid "Images"
 msgstr "Изображения"
 
-#: packages/admin/src/components/AdminCommandPalette.tsx:239
+#: packages/admin/src/components/AdminCommandPalette.tsx:240
 #: packages/admin/src/components/settings/transfer/ImportSection.tsx:210
-#: packages/admin/src/components/Sidebar.tsx:506
+#: packages/admin/src/components/Sidebar.tsx:548
 #: packages/admin/src/components/WordPressImport.tsx:783
 msgid "Import"
 msgstr "Импорт"
@@ -7428,7 +7428,7 @@ msgstr "Импорт"
 msgid "Import {0}"
 msgstr "Импортировать {0}"
 
-#: packages/admin/src/components/Dashboard.tsx:283
+#: packages/admin/src/components/Dashboard.tsx:286
 msgid "Import a site package"
 msgstr "Импортировать пакет сайта"
 
@@ -8207,7 +8207,7 @@ msgid "Load preview"
 msgstr "Загрузить предпросмотр"
 
 #: packages/admin/src/components/calendar/CalendarToolbar.tsx:59
-#: packages/admin/src/router.tsx:3312
+#: packages/admin/src/router.tsx:3313
 msgid "Loading"
 msgstr "Загрузка"
 
@@ -8236,8 +8236,8 @@ msgstr "Загрузка коллекций..."
 msgid "Loading comments..."
 msgstr "Загрузка комментариев..."
 
-#: packages/admin/src/router.tsx:3314
-#: packages/admin/src/router.tsx:3326
+#: packages/admin/src/router.tsx:3315
+#: packages/admin/src/router.tsx:3327
 msgid "Loading configuration..."
 msgstr "Загрузка конфигурации..."
 
@@ -8463,7 +8463,7 @@ msgstr "Основная библиотека"
 msgid "Main Sidebar"
 msgstr "Главная боковая панель"
 
-#: packages/admin/src/components/Sidebar.tsx:632
+#: packages/admin/src/components/Sidebar.tsx:684
 msgid "Manage"
 msgstr "Управлять"
 
@@ -8549,11 +8549,11 @@ msgstr "Markdown"
 msgid "Marketplace"
 msgstr "Каталог"
 
-#: packages/admin/src/router.tsx:2713
+#: packages/admin/src/router.tsx:2714
 msgid "Marketplace browsing is no longer available."
 msgstr "Просмотр каталога больше недоступен."
 
-#: packages/admin/src/router.tsx:2688
+#: packages/admin/src/router.tsx:2689
 msgid "Marketplace browsing is no longer available. Manage installed plugins from Plugins."
 msgstr "Просмотр каталога больше недоступен. Установленными плагинами управляйте в разделе «Плагины»."
 
@@ -8601,7 +8601,7 @@ msgstr "MDX"
 #: packages/admin/src/components/Settings.tsx:72
 #: packages/admin/src/components/settings/transfer/labels.ts:17
 #: packages/admin/src/components/settings/transfer/labels.ts:84
-#: packages/admin/src/components/Sidebar.tsx:428
+#: packages/admin/src/components/Sidebar.tsx:441
 #: packages/admin/src/components/WordPressImport.tsx:797
 #: packages/admin/src/components/WordPressImport.tsx:1195
 #: packages/admin/src/components/WordPressImport.tsx:1388
@@ -8643,7 +8643,7 @@ msgstr "Медиа из этой папки вернётся в основную
 msgid "visualEditing.mediaLibrary"
 msgstr "Медиатека"
 
-#: packages/admin/src/components/AdminCommandPalette.tsx:166
+#: packages/admin/src/components/AdminCommandPalette.tsx:167
 #: packages/admin/src/components/MediaLibrary.tsx:755
 #: packages/admin/src/components/MediaLibrary.tsx:770
 msgid "Media Library"
@@ -8752,10 +8752,10 @@ msgstr "Порядок меню обновлён."
 msgid "Menu renamed"
 msgstr "Меню переименовано"
 
-#: packages/admin/src/components/AdminCommandPalette.tsx:173
+#: packages/admin/src/components/AdminCommandPalette.tsx:174
 #: packages/admin/src/components/MenuList.tsx:101
 #: packages/admin/src/components/settings/transfer/labels.ts:28
-#: packages/admin/src/components/Sidebar.tsx:445
+#: packages/admin/src/components/Sidebar.tsx:464
 #: packages/admin/src/components/WordPressImport.tsx:1199
 msgid "Menus"
 msgstr "Меню"
@@ -9093,7 +9093,7 @@ msgstr "Перемещение {label} на позицию {0} из {1}."
 msgid "Moving {label} was cancelled."
 msgstr "Перемещение {label} отменено."
 
-#: packages/admin/src/components/Dashboard.tsx:273
+#: packages/admin/src/components/Dashboard.tsx:276
 msgid "Moving from another EmDash site?"
 msgstr "Переезжаете с другого сайта на EmDash?"
 
@@ -9144,7 +9144,7 @@ msgstr "Назовите раздел, затем добавьте его сод
 msgid "Navigate"
 msgstr "Навигация"
 
-#: packages/admin/src/components/AdminCommandPalette.tsx:362
+#: packages/admin/src/components/AdminCommandPalette.tsx:365
 #: packages/admin/src/components/ContentTypeEditor.tsx:562
 msgid "Navigation"
 msgstr "Навигация"
@@ -9239,7 +9239,7 @@ msgstr "Новый переиспользуемый профиль"
 msgid "New section"
 msgstr "Новый раздел"
 
-#: packages/admin/src/components/AdminCommandPalette.tsx:501
+#: packages/admin/src/components/AdminCommandPalette.tsx:504
 msgid "new tab"
 msgstr "новая вкладка"
 
@@ -9387,7 +9387,7 @@ msgstr "Подписей пока нет"
 msgid "No changes"
 msgstr ""
 
-#: packages/admin/src/components/Dashboard.tsx:495
+#: packages/admin/src/components/Dashboard.tsx:500
 msgid "No collections configured"
 msgstr "Коллекции не настроены"
 
@@ -9633,7 +9633,7 @@ msgstr "Нет плагинов по запросу «{debouncedQuery}»."
 msgid "No public URL available"
 msgstr "Публичный URL недоступен"
 
-#: packages/admin/src/components/Dashboard.tsx:574
+#: packages/admin/src/components/Dashboard.tsx:579
 msgid "No recent activity"
 msgstr "Нет недавней активности"
 
@@ -9668,7 +9668,7 @@ msgstr "Нет результатов по запросу «{activeSearch}»"
 msgid "No results for \"{debouncedQuery}\". Try a different search term."
 msgstr "Нет результатов по запросу «{debouncedQuery}». Попробуйте другой запрос."
 
-#: packages/admin/src/components/AdminCommandPalette.tsx:487
+#: packages/admin/src/components/AdminCommandPalette.tsx:490
 #: packages/admin/src/components/Settings.tsx:166
 msgid "No results found"
 msgstr "Ничего не найдено"
@@ -10068,7 +10068,7 @@ msgstr "Хеш пакета"
 msgid "Package downloaded"
 msgstr "Пакет скачан"
 
-#: packages/admin/src/router.tsx:3352
+#: packages/admin/src/router.tsx:3353
 msgid "Page Not Found"
 msgstr "Страница не найдена"
 
@@ -10422,8 +10422,8 @@ msgstr "Реестр плагинов"
 msgid "Plugin registry configuration error"
 msgstr "Ошибка настройки реестра плагинов"
 
-#: packages/admin/src/router.tsx:2648
-#: packages/admin/src/router.tsx:2679
+#: packages/admin/src/router.tsx:2649
+#: packages/admin/src/router.tsx:2680
 msgid "Plugin registry is not configured."
 msgstr "Реестр плагинов не настроен."
 
@@ -10455,12 +10455,12 @@ msgstr "Плагин обновлён"
 msgid "Plugin widget error"
 msgstr "Ошибка виджета плагина"
 
-#: packages/admin/src/components/AdminCommandPalette.tsx:231
+#: packages/admin/src/components/AdminCommandPalette.tsx:232
 #: packages/admin/src/components/PluginManager.tsx:173
 #: packages/admin/src/components/PluginManager.tsx:182
 #: packages/admin/src/components/PluginManager.tsx:192
-#: packages/admin/src/components/Sidebar.tsx:488
-#: packages/admin/src/components/Sidebar.tsx:648
+#: packages/admin/src/components/Sidebar.tsx:530
+#: packages/admin/src/components/Sidebar.tsx:700
 msgid "Plugins"
 msgstr "Плагины"
 
@@ -10638,7 +10638,7 @@ msgstr "Публичные маршруты"
 msgid "Publication date"
 msgstr "Дата публикации"
 
-#: packages/admin/src/components/Dashboard.tsx:164
+#: packages/admin/src/components/Dashboard.tsx:167
 msgid "Publication policy blocked scheduled content"
 msgstr "Политика публикации заблокировала запланированный материал"
 
@@ -10685,7 +10685,7 @@ msgstr "Публиковать, снимать с публикации, план
 #: packages/admin/src/components/ContentList.tsx:1024
 #: packages/admin/src/components/ContentList.tsx:1035
 #: packages/admin/src/components/ContentStatusBadge.tsx:59
-#: packages/admin/src/components/Dashboard.tsx:517
+#: packages/admin/src/components/Dashboard.tsx:522
 #: packages/admin/src/components/revisions/RevisionList.tsx:266
 #: packages/admin/src/components/revisions/RevisionViewBar.tsx:161
 #: packages/admin/src/router.tsx:1463
@@ -10850,7 +10850,7 @@ msgid "Read your taxonomies and terms"
 msgstr "Читать ваши таксономии и термины"
 
 #: packages/admin/src/components/EntryLockNotice.tsx:70
-#: packages/admin/src/router.tsx:2012
+#: packages/admin/src/router.tsx:2013
 msgid "Read-only"
 msgstr "Только чтение"
 
@@ -10886,7 +10886,7 @@ msgstr "Перестроение поиска и кешей"
 msgid "Receipt digest"
 msgstr "Хеш квитанции"
 
-#: packages/admin/src/components/Dashboard.tsx:568
+#: packages/admin/src/components/Dashboard.tsx:573
 msgid "Recent Activity"
 msgstr "Недавняя активность"
 
@@ -10940,7 +10940,7 @@ msgstr "Переход ко входу..."
 #: packages/admin/src/components/Redirects.tsx:424
 #: packages/admin/src/components/settings/transfer/labels.ts:33
 #: packages/admin/src/components/settings/transfer/labels.ts:90
-#: packages/admin/src/components/Sidebar.tsx:448
+#: packages/admin/src/components/Sidebar.tsx:471
 msgid "Redirects"
 msgstr "Перенаправления"
 
@@ -10986,7 +10986,7 @@ msgstr "Обновить статус"
 msgid "Refresh status before continuing."
 msgstr "Обновите статус, прежде чем продолжить."
 
-#: packages/admin/src/components/Dashboard.tsx:308
+#: packages/admin/src/components/Dashboard.tsx:311
 msgid "Refresh the page or try again."
 msgstr "Обновите страницу или попробуйте снова."
 
@@ -11013,7 +11013,7 @@ msgstr "Регистрация отменена или истекло время
 
 #: packages/admin/src/components/PluginManager.tsx:210
 #: packages/admin/src/components/PluginManager.tsx:453
-#: packages/admin/src/components/Sidebar.tsx:497
+#: packages/admin/src/components/Sidebar.tsx:539
 msgid "Registry"
 msgstr "Реестр"
 
@@ -11402,7 +11402,7 @@ msgstr "Репозиторий"
 msgid "Request a new link"
 msgstr "Запросить новую ссылку"
 
-#: packages/admin/src/lib/api/client.ts:342
+#: packages/admin/src/lib/api/client.ts:344
 msgid "Request failed"
 msgstr "Запрос не удался"
 
@@ -11573,7 +11573,7 @@ msgstr "Выведен из использования"
 #: packages/admin/src/components/Sections.tsx:281
 #: packages/admin/src/components/ThemeMarketplaceBrowse.tsx:122
 #: packages/admin/src/lib/content-editor-panels.tsx:201
-#: packages/admin/src/router.tsx:3340
+#: packages/admin/src/router.tsx:3341
 #: packages/admin/src/routes/byline-schema.tsx:280
 #: packages/admin/src/routes/calendar.tsx:345
 msgid "Retry"
@@ -11991,7 +11991,7 @@ msgstr "Запланировано на {0}"
 msgid "Scheduled publication"
 msgstr "Запланированная публикация"
 
-#: packages/admin/src/components/Dashboard.tsx:228
+#: packages/admin/src/components/Dashboard.tsx:231
 msgid "Scheduled publishing needs attention"
 msgstr "Запланированной публикации нужно внимание"
 
@@ -12166,7 +12166,7 @@ msgstr "Поиск медиа"
 msgid "Search or type a URL"
 msgstr "Найдите или введите URL"
 
-#: packages/admin/src/components/AdminCommandPalette.tsx:460
+#: packages/admin/src/components/AdminCommandPalette.tsx:463
 msgid "Search pages and content..."
 msgstr "Поиск страниц и материалов..."
 
@@ -12268,11 +12268,11 @@ msgstr "Раздел не найден"
 msgid "Section title"
 msgstr "Заголовок раздела"
 
-#: packages/admin/src/components/AdminCommandPalette.tsx:189
+#: packages/admin/src/components/AdminCommandPalette.tsx:190
 #: packages/admin/src/components/Sections.tsx:150
 #: packages/admin/src/components/settings/transfer/labels.ts:32
 #: packages/admin/src/components/settings/transfer/labels.ts:93
-#: packages/admin/src/components/Sidebar.tsx:453
+#: packages/admin/src/components/Sidebar.tsx:485
 msgid "Sections"
 msgstr "Разделы"
 
@@ -12322,7 +12322,7 @@ msgstr "Контакты по безопасности"
 msgid "Security error. Make sure you're on a secure connection."
 msgstr "Ошибка безопасности. Убедитесь, что соединение защищено."
 
-#: packages/admin/src/components/AdminCommandPalette.tsx:263
+#: packages/admin/src/components/AdminCommandPalette.tsx:264
 #: packages/admin/src/components/Header.tsx:96
 #: packages/admin/src/components/Settings.tsx:83
 #: packages/admin/src/components/settings/SecuritySettings.tsx:93
@@ -12648,14 +12648,14 @@ msgstr "Настройка"
 msgid "Setting up..."
 msgstr "Настройка..."
 
-#: packages/admin/src/components/AdminCommandPalette.tsx:247
+#: packages/admin/src/components/AdminCommandPalette.tsx:248
 #: packages/admin/src/components/ContentEditor.tsx:1883
 #: packages/admin/src/components/ContentEditor.tsx:2207
 #: packages/admin/src/components/ContentTypeEditor.tsx:467
 #: packages/admin/src/components/Header.tsx:104
 #: packages/admin/src/components/PluginManager.tsx:536
 #: packages/admin/src/components/Settings.tsx:46
-#: packages/admin/src/components/Sidebar.tsx:510
+#: packages/admin/src/components/Sidebar.tsx:553
 #: packages/admin/src/components/WordPressImport.tsx:1868
 msgid "Settings"
 msgstr "Настройки"
@@ -12889,7 +12889,7 @@ msgstr "Название и слоган сайта"
 msgid "Site title is required"
 msgstr "Нужно название сайта"
 
-#: packages/admin/src/components/AdminCommandPalette.tsx:255
+#: packages/admin/src/components/AdminCommandPalette.tsx:256
 msgid "Site Transfer"
 msgstr "Перенос сайта"
 
@@ -13160,7 +13160,7 @@ msgstr "Статус"
 msgid "Status code"
 msgstr "Код статуса"
 
-#: packages/admin/src/components/Dashboard.tsx:621
+#: packages/admin/src/components/Dashboard.tsx:626
 msgid "Status: {status}"
 msgstr "Статус: {status}"
 
@@ -13220,7 +13220,7 @@ msgid "Sub-Fields"
 msgstr "Вложенные поля"
 
 #: packages/admin/src/components/users/roleDefinitions.ts:18
-#: packages/admin/src/components/WelcomeModal.tsx:29
+#: packages/admin/src/components/WelcomeModal.tsx:30
 msgid "Subscriber"
 msgstr "Подписчик"
 
@@ -13303,7 +13303,7 @@ msgstr "Таблицу нельзя вставить внутрь списка �
 msgid "Tagline"
 msgstr "Слоган"
 
-#: packages/admin/src/components/AdminCommandPalette.tsx:214
+#: packages/admin/src/components/AdminCommandPalette.tsx:215
 #: packages/admin/src/components/Widgets.tsx:144
 msgid "Tags"
 msgstr "Метки"
@@ -13708,7 +13708,7 @@ msgstr "Материалы пакета записываются на этот �
 msgid "The package’s file index is not valid."
 msgstr "Файловый индекс пакета недействителен."
 
-#: packages/admin/src/router.tsx:3354
+#: packages/admin/src/router.tsx:3355
 msgid "The page you're looking for doesn't exist."
 msgstr "Страница, которую вы ищете, не существует."
 
@@ -13940,11 +13940,11 @@ msgstr "Эта запись изменилась в другом месте по
 msgid "This entry changed somewhere else. Save anyway, or reload to get the newer version."
 msgstr "Эта запись изменилась в другом месте. Сохраните всё равно или перезагрузите, чтобы получить более новую версию."
 
-#: packages/admin/src/router.tsx:1949
+#: packages/admin/src/router.tsx:1950
 msgid "This entry doesn't exist or isn't published. Your role can only view published content."
 msgstr "Этой записи не существует, или она не опубликована. Ваша роль позволяет просматривать только опубликованные материалы."
 
-#: packages/admin/src/router.tsx:1950
+#: packages/admin/src/router.tsx:1951
 msgid "This entry doesn't exist or was deleted."
 msgstr "Этой записи не существует, или она удалена."
 
@@ -14221,7 +14221,7 @@ msgstr "Импорт на этот сайт невозможен"
 msgid "This site has no content yet, so it can receive an import. Choose a .emdash package file. It is checked in your browser and uploaded in parts; nothing on this site changes until you review and confirm the import."
 msgstr "На сайте пока нет материалов, поэтому в него можно выполнить импорт. Выберите файл пакета .emdash. Он проверяется в браузере и загружается частями; на сайте ничего не изменится, пока вы не просмотрите и не подтвердите импорт."
 
-#: packages/admin/src/components/Dashboard.tsx:274
+#: packages/admin/src/components/Dashboard.tsx:277
 msgid "This site has no content yet, so you can import a .emdash package exported from another EmDash site."
 msgstr "На сайте пока нет материалов, поэтому можно импортировать пакет .emdash, экспортированный с другого сайта EmDash."
 
@@ -14332,7 +14332,7 @@ msgstr "Заголовок (подсказка)"
 msgid "Title Separator"
 msgstr "Разделитель заголовка"
 
-#: packages/admin/src/components/AdminCommandPalette.tsx:505
+#: packages/admin/src/components/AdminCommandPalette.tsx:508
 msgid "to close"
 msgstr "чтобы закрыть"
 
@@ -14340,7 +14340,7 @@ msgstr "чтобы закрыть"
 msgid "To move a site to another EmDash installation, use <0>Transfer</0>."
 msgstr "Чтобы переместить сайт в другую установку EmDash, используйте <0>Перенос</0>."
 
-#: packages/admin/src/components/AdminCommandPalette.tsx:495
+#: packages/admin/src/components/AdminCommandPalette.tsx:498
 msgid "to select"
 msgstr "чтобы выбрать"
 
@@ -14761,7 +14761,7 @@ msgstr "Неподдерживаемый тип элемента виджета:
 msgid "Until {0}"
 msgstr "До {0}"
 
-#: packages/admin/src/components/Dashboard.tsx:588
+#: packages/admin/src/components/Dashboard.tsx:593
 #: packages/admin/src/components/MediaUsedIn.tsx:320
 msgid "Untitled"
 msgstr "Без названия"
@@ -14922,7 +14922,7 @@ msgstr "Загрузить файлы"
 msgid "Upload images, videos, and documents to keep reusable assets in one place."
 msgstr "Загружайте изображения, видео и документы, чтобы хранить переиспользуемые файлы в одном месте."
 
-#: packages/admin/src/components/Dashboard.tsx:348
+#: packages/admin/src/components/Dashboard.tsx:352
 msgid "Upload Media"
 msgstr "Загрузить медиа"
 
@@ -15153,8 +15153,8 @@ msgstr "Пользователь для {0}"
 msgid "User not found"
 msgstr "Пользователь не найден"
 
-#: packages/admin/src/components/AdminCommandPalette.tsx:223
-#: packages/admin/src/components/Sidebar.tsx:485
+#: packages/admin/src/components/AdminCommandPalette.tsx:224
+#: packages/admin/src/components/Sidebar.tsx:527
 #: packages/admin/src/components/users/UserList.tsx:55
 msgid "Users"
 msgstr "Пользователи"
@@ -15390,11 +15390,11 @@ msgstr "Сайт"
 msgid "Website URL"
 msgstr "URL сайта"
 
-#: packages/admin/src/components/WelcomeModal.tsx:102
+#: packages/admin/src/components/WelcomeModal.tsx:104
 msgid "Welcome to EmDash, {firstName}!"
 msgstr "Добро пожаловать в EmDash, {firstName}!"
 
-#: packages/admin/src/components/WelcomeModal.tsx:102
+#: packages/admin/src/components/WelcomeModal.tsx:104
 msgid "Welcome to EmDash!"
 msgstr "Добро пожаловать в EmDash!"
 
@@ -15544,11 +15544,11 @@ msgstr "Заголовок виджета"
 msgid "Widget updated"
 msgstr "Виджет обновлён"
 
-#: packages/admin/src/components/AdminCommandPalette.tsx:181
+#: packages/admin/src/components/AdminCommandPalette.tsx:182
 #: packages/admin/src/components/PluginManager.tsx:484
 #: packages/admin/src/components/settings/transfer/labels.ts:31
 #: packages/admin/src/components/settings/transfer/labels.ts:91
-#: packages/admin/src/components/Sidebar.tsx:452
+#: packages/admin/src/components/Sidebar.tsx:478
 #: packages/admin/src/components/Widgets.tsx:389
 #: packages/admin/src/components/WordPressImport.tsx:1207
 msgid "Widgets"
@@ -15666,11 +15666,11 @@ msgstr "Yoast/RankMath"
 msgid "You can close this page and return to your terminal."
 msgstr "Можно закрыть страницу и вернуться в терминал."
 
-#: packages/admin/src/components/WelcomeModal.tsx:49
+#: packages/admin/src/components/WelcomeModal.tsx:50
 msgid "You can create and edit your own content."
 msgstr "Вы можете создавать и редактировать свои материалы."
 
-#: packages/admin/src/components/WelcomeModal.tsx:48
+#: packages/admin/src/components/WelcomeModal.tsx:49
 msgid "You can manage content, media, menus, and taxonomies."
 msgstr "Вы можете управлять материалами, медиа, меню и таксономиями."
 
@@ -15678,7 +15678,7 @@ msgstr "Вы можете управлять материалами, медиа,
 msgid "You can still edit the fixed fields above. Saving will not touch any stored custom-field values."
 msgstr "Фиксированные поля выше по-прежнему можно редактировать. Сохранение не затронет сохранённые значения дополнительных полей."
 
-#: packages/admin/src/components/WelcomeModal.tsx:50
+#: packages/admin/src/components/WelcomeModal.tsx:51
 msgid "You can view and contribute to the site."
 msgstr "Вы можете просматривать сайт и участвовать в нём."
 
@@ -15703,7 +15703,7 @@ msgstr "У вас нет права перемещать этот файл."
 msgid "You don't have permission to view the calendar."
 msgstr "У вас нет прав на просмотр календаря."
 
-#: packages/admin/src/components/WelcomeModal.tsx:47
+#: packages/admin/src/components/WelcomeModal.tsx:48
 msgid "You have full access to manage this site, including users, settings, and all content."
 msgstr "У вас полный доступ к сайту: пользователи, настройки и все материалы."
 
@@ -15719,7 +15719,7 @@ msgstr "Для учёта использования медиа нужны пр�
 msgid "You need Admin permissions to transfer this site."
 msgstr "Для переноса этого сайта нужны права администратора."
 
-#: packages/admin/src/router.tsx:2466
+#: packages/admin/src/router.tsx:2467
 msgid "You need Editor permissions to moderate comments."
 msgstr "Для модерации комментариев нужны права редактора."
 
@@ -15782,7 +15782,7 @@ msgstr "you@company.com"
 msgid "you@example.com"
 msgstr "you@example.com"
 
-#: packages/admin/src/components/WelcomeModal.tsx:45
+#: packages/admin/src/components/WelcomeModal.tsx:46
 msgid "Your account has been created successfully."
 msgstr "Учётная запись создана."
 
@@ -15856,15 +15856,15 @@ msgstr "Ваше имя"
 msgid "Your name (optional)"
 msgstr "Ваше имя (необязательно)"
 
-#: packages/admin/src/components/WelcomeModal.tsx:46
+#: packages/admin/src/components/WelcomeModal.tsx:47
 msgid "Your Role"
 msgstr "Ваша роль"
 
-#: packages/admin/src/router.tsx:2017
+#: packages/admin/src/router.tsx:2018
 msgid "Your role can edit your own entries only while they are drafts."
 msgstr ""
 
-#: packages/admin/src/router.tsx:2018
+#: packages/admin/src/router.tsx:2019
 msgid "Your role can't edit this entry."
 msgstr ""
 
