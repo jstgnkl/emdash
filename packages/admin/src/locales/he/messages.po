@@ -76,7 +76,7 @@ msgstr "(חדש מדי)"
 #. placeholder {0}: items.length
 #. placeholder {0}: orphan.rowCount
 #: packages/admin/src/components/ContentTypeList.tsx:169
-#: packages/admin/src/components/RepeaterField.tsx:154
+#: packages/admin/src/components/RepeaterField.tsx:157
 msgid "{0, plural, one {(# item)} other {(# items)}}"
 msgstr "{0, plural, one {(פריט אחד)} two {(שני פריטים)} other {(# פריטים)}}"
 
@@ -1359,7 +1359,7 @@ msgstr "הוספת שדות להגדרת מבנה התוכן שלכם"
 msgid "Add First Field"
 msgstr "הוספת השדה הראשון"
 
-#: packages/admin/src/components/RepeaterField.tsx:176
+#: packages/admin/src/components/RepeaterField.tsx:179
 msgid "Add First Item"
 msgstr "הוספת הפריט הראשון"
 
@@ -1375,7 +1375,7 @@ msgstr "הוספת תמונות לגלריה"
 msgid "Add item"
 msgstr "הוספת פריט"
 
-#: packages/admin/src/components/RepeaterField.tsx:160
+#: packages/admin/src/components/RepeaterField.tsx:163
 msgid "Add Item"
 msgstr "הוספת פריט"
 
@@ -7858,7 +7858,7 @@ msgstr "נטוי"
 
 #. placeholder {0}: index + 1
 #: packages/admin/src/components/PortableTextEditor.tsx:3098
-#: packages/admin/src/components/RepeaterField.tsx:247
+#: packages/admin/src/components/RepeaterField.tsx:250
 msgid "Item {0}"
 msgstr "פריט {0}"
 
@@ -9544,7 +9544,7 @@ msgid "No invite token provided"
 msgstr "לא סופק אסימון הזמנה"
 
 #: packages/admin/src/components/PortableTextEditor.tsx:3021
-#: packages/admin/src/components/RepeaterField.tsx:167
+#: packages/admin/src/components/RepeaterField.tsx:170
 #: packages/admin/src/components/settings/BackupSettings.tsx:298
 msgid "No items yet"
 msgstr "עדיין אין פריטים"
@@ -9691,7 +9691,7 @@ msgid "No relations yet."
 msgstr "עדיין אין קשרים."
 
 #: packages/admin/src/components/PortableTextEditor.tsx:2530
-#: packages/admin/src/components/RepeaterField.tsx:398
+#: packages/admin/src/components/RepeaterField.tsx:401
 msgid "No results"
 msgstr "אין תוצאות"
 
@@ -11178,7 +11178,7 @@ msgstr "להסיר תמונה?"
 
 #. placeholder {0}: index + 1
 #: packages/admin/src/components/PortableTextEditor.tsx:3137
-#: packages/admin/src/components/RepeaterField.tsx:283
+#: packages/admin/src/components/RepeaterField.tsx:286
 msgid "Remove item {0}"
 msgstr "הסרת פריט {0}"
 
@@ -12523,7 +12523,7 @@ msgstr "בחרו אילו סוגי תוכן לייבא."
 
 #: packages/admin/src/components/BlockKitFieldWidget.tsx:108
 #: packages/admin/src/components/PortableTextEditor.tsx:3235
-#: packages/admin/src/components/RepeaterField.tsx:396
+#: packages/admin/src/components/RepeaterField.tsx:399
 msgid "Select..."
 msgstr "בחירה..."
 

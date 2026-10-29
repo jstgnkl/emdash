@@ -75,7 +75,7 @@ msgstr "（版本过高）"
 #. placeholder {0}: items.length
 #. placeholder {0}: orphan.rowCount
 #: packages/admin/src/components/ContentTypeList.tsx:169
-#: packages/admin/src/components/RepeaterField.tsx:154
+#: packages/admin/src/components/RepeaterField.tsx:157
 msgid "{0, plural, one {(# item)} other {(# items)}}"
 msgstr "{0, plural, one {(# 个项目)} other {(# 个项目)}}"
 
@@ -1358,7 +1358,7 @@ msgstr "添加字段以定义您的内容结构"
 msgid "Add First Field"
 msgstr "添加第一个字段"
 
-#: packages/admin/src/components/RepeaterField.tsx:176
+#: packages/admin/src/components/RepeaterField.tsx:179
 msgid "Add First Item"
 msgstr "添加第一个项目"
 
@@ -1374,7 +1374,7 @@ msgstr "向画廊添加图片"
 msgid "Add item"
 msgstr "添加项目"
 
-#: packages/admin/src/components/RepeaterField.tsx:160
+#: packages/admin/src/components/RepeaterField.tsx:163
 msgid "Add Item"
 msgstr "添加项目"
 
@@ -7857,7 +7857,7 @@ msgstr "斜体"
 
 #. placeholder {0}: index + 1
 #: packages/admin/src/components/PortableTextEditor.tsx:3098
-#: packages/admin/src/components/RepeaterField.tsx:247
+#: packages/admin/src/components/RepeaterField.tsx:250
 msgid "Item {0}"
 msgstr "项目 {0}"
 
@@ -9543,7 +9543,7 @@ msgid "No invite token provided"
 msgstr "未提供邀请令牌"
 
 #: packages/admin/src/components/PortableTextEditor.tsx:3021
-#: packages/admin/src/components/RepeaterField.tsx:167
+#: packages/admin/src/components/RepeaterField.tsx:170
 #: packages/admin/src/components/settings/BackupSettings.tsx:298
 msgid "No items yet"
 msgstr "暂无项目"
@@ -9690,7 +9690,7 @@ msgid "No relations yet."
 msgstr "暂无关联。"
 
 #: packages/admin/src/components/PortableTextEditor.tsx:2530
-#: packages/admin/src/components/RepeaterField.tsx:398
+#: packages/admin/src/components/RepeaterField.tsx:401
 msgid "No results"
 msgstr "无结果"
 
@@ -11177,7 +11177,7 @@ msgstr "要移除图片吗？"
 
 #. placeholder {0}: index + 1
 #: packages/admin/src/components/PortableTextEditor.tsx:3137
-#: packages/admin/src/components/RepeaterField.tsx:283
+#: packages/admin/src/components/RepeaterField.tsx:286
 msgid "Remove item {0}"
 msgstr "移除项目 {0}"
 
@@ -12522,7 +12522,7 @@ msgstr "选择要导入的内容类型。"
 
 #: packages/admin/src/components/BlockKitFieldWidget.tsx:108
 #: packages/admin/src/components/PortableTextEditor.tsx:3235
-#: packages/admin/src/components/RepeaterField.tsx:396
+#: packages/admin/src/components/RepeaterField.tsx:399
 msgid "Select..."
 msgstr "选择..."
 

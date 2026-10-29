@@ -75,7 +75,7 @@ msgstr "(demasiado recente)"
 #. placeholder {0}: items.length
 #. placeholder {0}: orphan.rowCount
 #: packages/admin/src/components/ContentTypeList.tsx:169
-#: packages/admin/src/components/RepeaterField.tsx:154
+#: packages/admin/src/components/RepeaterField.tsx:157
 msgid "{0, plural, one {(# item)} other {(# items)}}"
 msgstr "{0, plural, one {(# item)} other {(# itens)}}"
 
@@ -1358,7 +1358,7 @@ msgstr "Adicione campos para definir a estrutura do conteúdo"
 msgid "Add First Field"
 msgstr "Adicionar primeiro campo"
 
-#: packages/admin/src/components/RepeaterField.tsx:176
+#: packages/admin/src/components/RepeaterField.tsx:179
 msgid "Add First Item"
 msgstr "Adicionar primeiro item"
 
@@ -1374,7 +1374,7 @@ msgstr "Adicionar imagens à galeria"
 msgid "Add item"
 msgstr "Adicionar item"
 
-#: packages/admin/src/components/RepeaterField.tsx:160
+#: packages/admin/src/components/RepeaterField.tsx:163
 msgid "Add Item"
 msgstr "Adicionar item"
 
@@ -7857,7 +7857,7 @@ msgstr "Itálico"
 
 #. placeholder {0}: index + 1
 #: packages/admin/src/components/PortableTextEditor.tsx:3098
-#: packages/admin/src/components/RepeaterField.tsx:247
+#: packages/admin/src/components/RepeaterField.tsx:250
 msgid "Item {0}"
 msgstr "Item {0}"
 
@@ -9543,7 +9543,7 @@ msgid "No invite token provided"
 msgstr "Nenhum token de convite fornecido"
 
 #: packages/admin/src/components/PortableTextEditor.tsx:3021
-#: packages/admin/src/components/RepeaterField.tsx:167
+#: packages/admin/src/components/RepeaterField.tsx:170
 #: packages/admin/src/components/settings/BackupSettings.tsx:298
 msgid "No items yet"
 msgstr "Ainda não há itens"
@@ -9690,7 +9690,7 @@ msgid "No relations yet."
 msgstr "Ainda não há relações."
 
 #: packages/admin/src/components/PortableTextEditor.tsx:2530
-#: packages/admin/src/components/RepeaterField.tsx:398
+#: packages/admin/src/components/RepeaterField.tsx:401
 msgid "No results"
 msgstr "Sem resultados"
 
@@ -11177,7 +11177,7 @@ msgstr "Remover imagem?"
 
 #. placeholder {0}: index + 1
 #: packages/admin/src/components/PortableTextEditor.tsx:3137
-#: packages/admin/src/components/RepeaterField.tsx:283
+#: packages/admin/src/components/RepeaterField.tsx:286
 msgid "Remove item {0}"
 msgstr "Remover item {0}"
 
@@ -12522,7 +12522,7 @@ msgstr "Selecione os tipos de conteúdo a importar."
 
 #: packages/admin/src/components/BlockKitFieldWidget.tsx:108
 #: packages/admin/src/components/PortableTextEditor.tsx:3235
-#: packages/admin/src/components/RepeaterField.tsx:396
+#: packages/admin/src/components/RepeaterField.tsx:399
 msgid "Select..."
 msgstr "Selecionar..."
 
