@@ -576,6 +576,37 @@ describe("ContentList", () => {
 			await expect.element(trigger).toHaveFocus();
 		});
 
+		it("moves focus to the next row's menu button when the trashed row leaves with its dialog", async () => {
+			function TrashableList() {
+				const [items, setItems] = React.useState(
+					[1, 2, 3].map((n) => makeItem({ id: `item_${n}`, data: { title: `Post ${n}` } })),
+				);
+				return (
+					<ContentList
+						{...defaultProps}
+						items={items}
+						onDelete={(id) => setItems((current) => current.filter((item) => item.id !== id))}
+					/>
+				);
+			}
+			const screen = await render(<TrashableList />);
+			const actions = (title: string) =>
+				screen.getByRole("button", { name: `Actions for ${title}`, exact: true });
+			await userEvent.hover(document.body);
+			actions("Post 2").element().focus();
+			await userEvent.keyboard("{Enter}");
+			await expect.element(screen.getByRole("menuitem").first()).toHaveFocus();
+			await userEvent.keyboard("{End}{Enter}");
+			const dialog = screen.getByRole("dialog", { name: "Move to Trash?" });
+			await expect.element(dialog).toBeVisible();
+			dialog.getByRole("button", { name: "Move to Trash" }).element().focus();
+
+			await userEvent.keyboard("{Enter}");
+
+			await expect.element(actions("Post 2")).not.toBeInTheDocument();
+			await expect.element(actions("Post 3")).toHaveFocus();
+		});
+
 		it("closes the dialog when the user confirms", async () => {
 			const onDelete = vi.fn();
 			const items = [makeItem({ id: "item_1", data: { title: "Post" } })];
@@ -655,6 +686,91 @@ describe("ContentList", () => {
 			await expect
 				.element(screen.getByRole("dialog", { name: "Delete Permanently?" }))
 				.not.toBeInTheDocument();
+		});
+	});
+
+	describe("confirmations wait for their request", () => {
+		function heldRequest() {
+			let finish = () => {};
+			const request = vi.fn(
+				() =>
+					new Promise<void>((resolve) => {
+						finish = resolve;
+					}),
+			);
+			return { request, finish: () => finish() };
+		}
+
+		it("keeps Move to Trash? open, showing progress, until the request lands", async () => {
+			const { request, finish } = heldRequest();
+			const items = [makeItem({ id: "item_1", data: { title: "Post" } })];
+			const screen = await render(
+				<ContentList {...defaultProps} items={items} onDelete={request} />,
+			);
+
+			await screen.getByRole("button", { name: "Actions for Post" }).click();
+			await screen.getByRole("menuitem", { name: "Move to trash" }).click();
+			const dialog = screen.getByRole("dialog", { name: "Move to Trash?" });
+			await expect.element(dialog).toBeVisible();
+			dialog.getByRole("button", { name: "Move to Trash" }).element().click();
+
+			await expect
+				.element(dialog.getByRole("button", { name: "Moving to trash..." }))
+				.toBeDisabled();
+			await expect.element(dialog.getByRole("button", { name: "Cancel" })).toBeDisabled();
+			finish();
+			await expect.element(dialog).not.toBeInTheDocument();
+			expect(request).toHaveBeenCalledOnce();
+		});
+
+		it("shows a request that throws at once in Move to Trash?, and lets it close", async () => {
+			const request = vi.fn(() => {
+				throw new Error("Trash is unavailable");
+			});
+			const items = [makeItem({ id: "item_1", data: { title: "Post" } })];
+			const screen = await render(
+				<ContentList {...defaultProps} items={items} onDelete={request} />,
+			);
+
+			await screen.getByRole("button", { name: "Actions for Post" }).click();
+			await screen.getByRole("menuitem", { name: "Move to trash" }).click();
+			const dialog = screen.getByRole("dialog", { name: "Move to Trash?" });
+			await expect.element(dialog).toBeVisible();
+			dialog.getByRole("button", { name: "Move to Trash" }).element().click();
+
+			await expect.element(dialog.getByText("Trash is unavailable")).toBeVisible();
+			const cancel = dialog.getByRole("button", { name: "Cancel" });
+			await expect.element(cancel).toBeEnabled();
+			cancel.element().click();
+			await expect.element(dialog).not.toBeInTheDocument();
+		});
+
+		it("keeps Delete Permanently? open, showing progress, until the request lands", async () => {
+			const { request, finish } = heldRequest();
+			const trashed = [makeTrashedItem({ id: "t1", data: { title: "Old Post" } })];
+			const screen = await render(
+				<ContentList
+					{...defaultProps}
+					items={[]}
+					trashedItems={trashed}
+					onPermanentDelete={request}
+				/>,
+			);
+
+			await screen.getByText("Trash").click();
+			await screen.getByRole("button", { name: "Actions for Old Post" }).click();
+			await screen.getByRole("menuitem", { name: "Delete permanently" }).click();
+			const dialog = screen.getByRole("dialog", { name: "Delete Permanently?" });
+			await expect.element(dialog).toBeVisible();
+			dialog.getByRole("button", { name: "Delete Permanently" }).element().click();
+
+			await expect.element(dialog.getByRole("button", { name: "Deleting..." })).toBeDisabled();
+			await expect.element(dialog.getByRole("button", { name: "Cancel" })).toBeDisabled();
+			await userEvent.keyboard("{Escape}");
+			await expect.element(dialog).toBeVisible();
+			finish();
+			await expect.element(dialog).not.toBeInTheDocument();
+			expect(request).toHaveBeenCalledOnce();
 		});
 	});
 
